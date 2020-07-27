@@ -12,6 +12,8 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardSysadminComponent } from './board-sysadmin/board-sysadmin.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 
+import { authInterceptorProviders } from './_helpper/auth.interceptor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +30,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
