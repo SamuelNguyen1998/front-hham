@@ -5,11 +5,11 @@
       <li class="nav-item">
         <a href="/home" class="nav-link" routerLink="home">Home </a>
       </li>
-      <li class="nav-item" *ngIf="showSysAdminBoard">
-        <a href="/admin" class="nav-link" routerLink="admin">SysAdmin Board</a>
-      </li>
       <li class="nav-item" *ngIf="showAdminBoard">
-        <a href="/mod" class="nav-link" routerLink="mod">Admin Board</a>
+        <a href="/admin" class="nav-link" routerLink="admin">Admin Board</a>
+      </li>
+      <li class="nav-item" *ngIf="showSysAdminBoard">
+        <a href="/sysadmin" class="nav-link" routerLink="sysadmin">System Admin Board</a>
       </li>
       <li class="nav-item">
         <a href="/user" class="nav-link" *ngIf="isLoggedIn" routerLink="user">User</a>
