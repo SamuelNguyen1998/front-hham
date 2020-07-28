@@ -13,6 +13,9 @@ import { BoardSysadminComponent } from './board-sysadmin/board-sysadmin.componen
 import { BoardUserComponent } from './board-user/board-user.component';
 
 import { authInterceptorProviders } from './_helpper/auth.interceptor';
+import { AddProjectComponent } from './projects/add-project/add-project.component';
+import { ProjectDetailsComponent } from './projects/project-details/project-details.component';
+import { ProjectListComponent } from './projects/project-list/project-list.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { authInterceptorProviders } from './_helpper/auth.interceptor';
     ProfileComponent,
     BoardAdminComponent,
     BoardSysadminComponent,
-    BoardUserComponent
+    BoardUserComponent,
+    AddProjectComponent,
+    ProjectDetailsComponent,
+    ProjectListComponent
   ],
   imports: [
     BrowserModule,

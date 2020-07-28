@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -17,13 +18,21 @@ export class LoginComponent implements OnInit {
     errorMessage = '';
     roles: string[] = [];
   
-    constructor(private authService: AuthService, private tokenStorage: TokenStorageService) { }
+    constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private router: Router) { }
   
     ngOnInit(): void {
       if (this.tokenStorage.getToken()) {
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
       }
+      if(this.isLoggedIn == true )
+      {  
+          this.router.navigate(["home"]); 
+      }  
+      else  
+      {  
+          this.router.navigate(["login"]);  
+      }  
     }
   
     onSubmit(): void {
@@ -41,7 +50,10 @@ export class LoginComponent implements OnInit {
           this.errorMessage = err.error.message;
           this.isLoginFailed = true;
         }
+        
       );
+      
+      
     }
   
     reloadPage(): void {

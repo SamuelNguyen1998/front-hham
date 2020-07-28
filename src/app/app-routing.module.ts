@@ -6,6 +6,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardSysadminComponent } from './board-sysadmin/board-sysadmin.component';
+import { ProjectListComponent } from './projects/project-list/project-list.component';
+import { ProjectDetailsComponent } from './projects/project-details/project-details.component';
+import { AddProjectComponent } from './projects/add-project/add-project.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -14,6 +17,11 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'admin', component: BoardAdminComponent },
   { path: 'sysadmin', component: BoardSysadminComponent },
+
+  { path: 'projects', component: ProjectListComponent },
+  { path: 'projects/:id', component: ProjectDetailsComponent },
+  { path: 'projects/add', component: AddProjectComponent },
+
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 
