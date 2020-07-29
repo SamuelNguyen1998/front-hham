@@ -16,6 +16,8 @@ import { authInterceptorProviders } from './_helpper/auth.interceptor';
 import { AddProjectComponent } from './projects/add-project/add-project.component';
 import { ProjectDetailsComponent } from './projects/project-details/project-details.component';
 import { ProjectListComponent } from './projects/project-list/project-list.component';
+import { AddActivityComponent } from './activities/add-activity/add-activity.component';
+import { ActivityDetailsComponent } from './activities/activity-details/activity-details.component';
 
 @NgModule({
   declarations: [
@@ -26,15 +28,20 @@ import { ProjectListComponent } from './projects/project-list/project-list.compo
     BoardAdminComponent,
     BoardSysadminComponent,
     BoardUserComponent,
+
     AddProjectComponent,
     ProjectDetailsComponent,
-    ProjectListComponent
+    ProjectListComponent,
+
+    AddActivityComponent,
+    ActivityDetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   providers: [authInterceptorProviders],
   bootstrap: [AppComponent]

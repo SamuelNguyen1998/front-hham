@@ -11,6 +11,8 @@ export class AddProjectComponent implements OnInit {
   project = {
     title: '',
     description: '',
+    fund: 0,
+    projectadmin: '',
     published: false
   };
   submitted = false;
@@ -23,7 +25,8 @@ export class AddProjectComponent implements OnInit {
   saveProject(): void {
     const data = {
       title: this.project.title,
-      description: this.project.description
+      description: this.project.description,
+      projectadmin: this.project.projectadmin,
     };
 
     this.projectService.create(data)
@@ -42,6 +45,8 @@ export class AddProjectComponent implements OnInit {
     this.project = {
       title: '',
       description: '',
+      fund: 0,
+      projectadmin: '',
       published: false
     };
   }

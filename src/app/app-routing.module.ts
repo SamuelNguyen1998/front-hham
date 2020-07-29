@@ -9,6 +9,8 @@ import { BoardSysadminComponent } from './board-sysadmin/board-sysadmin.componen
 import { ProjectListComponent } from './projects/project-list/project-list.component';
 import { ProjectDetailsComponent } from './projects/project-details/project-details.component';
 import { AddProjectComponent } from './projects/add-project/add-project.component';
+import { ActivityDetailsComponent } from './activities/activity-details/activity-details.component';
+import { AddActivityComponent } from './activities/add-activity/add-activity.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -20,7 +22,10 @@ const routes: Routes = [
 
   { path: 'projects', component: ProjectListComponent },
   { path: 'projects/:id', component: ProjectDetailsComponent },
-  { path: 'projects/add', component: AddProjectComponent },
+  { path: 'project/add', component: AddProjectComponent },
+
+  { path: 'activities/:id', component: ActivityDetailsComponent },
+  { path: 'activity/add', component: AddActivityComponent },
 
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
