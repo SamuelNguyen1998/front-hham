@@ -18,6 +18,8 @@ import { ProjectDetailsComponent } from './projects/project-details/project-deta
 import { ProjectListComponent } from './projects/project-list/project-list.component';
 import { AddActivityComponent } from './activities/add-activity/add-activity.component';
 import { ActivityDetailsComponent } from './activities/activity-details/activity-details.component';
+import { AddUserComponent } from './users/add-user/add-user.component';
+import { UserDetailsComponent } from './users/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { ActivityDetailsComponent } from './activities/activity-details/activity
     ProjectListComponent,
 
     AddActivityComponent,
-    ActivityDetailsComponent
+    ActivityDetailsComponent,
+    AddUserComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -38,4 +38,8 @@ export class ActivityService {
   findByTitle(title): Observable<any> {
     return this.http.get(`${baseUrl}?title=${title}`);
   }
+
+  vote(ActivityId: string, selectedOption: number): Observable<any> {
+    return this.http.post('api/polls/' + ActivityId + '/vote/' + selectedOption, {});
+  }
 }
