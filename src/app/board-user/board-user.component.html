@@ -1,8 +1,13 @@
+<div class="container">
+  <header class="jumbotron">
+    <p>{{ content }}</p>
+  </header>
+</div>
 <div class="icon-block">
   <h2 class="center light-blue-text">
     <i class="material-icons">insert_chart</i>
   </h2>
-  <h5 class="center">{{activity.title}}</h5>
+  <h5 class="center">{{activity.name}}</h5>
   <form *ngIf="!votingEnded">
     <div *ngFor="let option of activity.options,  let i = index"
          class="left-align">

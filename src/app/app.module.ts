@@ -20,6 +20,7 @@ import { AddActivityComponent } from './activities/add-activity/add-activity.com
 import { ActivityDetailsComponent } from './activities/activity-details/activity-details.component';
 import { AddUserComponent } from './users/add-user/add-user.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
+import { FlashMessagesModule } from 'angular2-flash-messages';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { UserDetailsComponent } from './users/user-details/user-details.componen
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FlashMessagesModule.forRoot(),
     FormsModule,
     ReactiveFormsModule
   ],

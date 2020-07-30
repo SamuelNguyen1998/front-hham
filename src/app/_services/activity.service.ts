@@ -39,7 +39,7 @@ export class ActivityService {
     return this.http.get(`${baseUrl}?title=${title}`);
   }
 
-  vote(ActivityId: string, selectedOption: number): Observable<any> {
+  vote(ActivityId: Number, selectedOption: number): Observable<any> {
     return this.http.post('api/polls/' + ActivityId + '/vote/' + selectedOption, {});
   }
 }

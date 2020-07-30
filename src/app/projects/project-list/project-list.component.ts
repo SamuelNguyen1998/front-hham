@@ -37,8 +37,8 @@ export class ProjectListComponent implements OnInit {
     this.currentIndex = -1;
   }
 
-  setActiveProject(tutorial, index): void {
-    this.currentProject = tutorial;
+  setActiveProject(project, index): void {
+    this.currentProject = project;
     this.currentIndex = index;
   }
 
