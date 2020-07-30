@@ -21,6 +21,7 @@ import { ActivityDetailsComponent } from './activities/activity-details/activity
 import { AddUserComponent } from './users/add-user/add-user.component';
 import { UserDetailsComponent } from './users/user-details/user-details.component';
 import { FlashMessagesModule } from 'angular2-flash-messages';
+import { FundComponent } from './fund/fund.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
     AddActivityComponent,
     ActivityDetailsComponent,
     AddUserComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    FundComponent
   ],
   imports: [
     BrowserModule,
