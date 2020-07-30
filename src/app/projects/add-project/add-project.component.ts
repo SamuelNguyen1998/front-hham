@@ -1,53 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from 'src/app/_services/project.service';
+import { ProjectService } from "../../_services/project.service";
 
 @Component({
   selector: 'app-add-project',
   templateUrl: './add-project.component.html',
-  styleUrls: ['./add-project.component.scss']
+  styleUrls: [ './add-project.component.scss' ]
 })
 export class AddProjectComponent implements OnInit {
-
-  project = {
-    title: '',
-    description: '',
-    fund: 0,
-    projectadmin: '',
-    published: false
+  project: {
+    fund: number;
+    name: string;
+    description: string;
   };
-  submitted = false;
+  submitted: boolean = false;
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService) {
+  }
 
   ngOnInit(): void {
   }
 
   saveProject(): void {
-    const data = {
-      title: this.project.title,
-      description: this.project.description,
-      projectadmin: this.project.projectadmin,
-    };
-
-    this.projectService.create(data)
-      .subscribe(
-        response => {
-          console.log(response);
-          this.submitted = true;
-        },
-        error => {
-          console.log(error);
-        });
+    const { name, description } = this.project;
+    this.projectService.create({ name, description }).subscribe(
+      response => {
+        this.submitted = true;
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+      });
   }
 
   newProject(): void {
     this.submitted = false;
     this.project = {
-      title: '',
+      name: '',
       description: '',
       fund: 0,
-      projectadmin: '',
-      published: false
     };
   }
 
