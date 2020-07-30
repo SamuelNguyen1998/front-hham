@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from "../../_services/project.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { Activity } from "../../_models/Activity";
+import { ActivityService } from "../../_services/activity.service";
 
 @Component({
   selector: 'app-detailed-project',
@@ -14,50 +17,36 @@ export class DetailedProjectComponent implements OnInit {
     description: string;
     fund: number;
   };
-  message: string = "";
+  message = "";
 
   constructor(private projectService: ProjectService,
+              private activityService: ActivityService,
               private route: ActivatedRoute,
               private router: Router) {
   }
 
   ngOnInit(): void {
     this.message = '';
-    this.getProject(this.route.snapshot.paramMap.get('id'));
-  }
-
-  getProject(id): void {
-    this.projectService.get(id).subscribe(
-      data => {
-        this.currentProject = data;
-        console.log(data);
-      },
-      error => {
-        console.log(error);
-      }
+    this.projectService.get(this.route.snapshot.paramMap.get('id')).subscribe(
+      data => this.currentProject = data,
+      error => console.log(error)
     );
   }
 
   updateProject(): void {
     this.projectService.update(this.currentProject.id, this.currentProject).subscribe(
-      response => {
-        console.log(response);
-        this.message = 'The project was updated successfully!';
-      },
-      error => {
-        console.log(error);
-      });
+      response => this.message = 'The project was updated successfully!',
+      error => console.log(error)
+    );
   }
 
   deleteProject(): void {
     this.projectService.delete(this.currentProject.id).subscribe(
-      response => {
-        console.log(response);
-        this.router.navigate([ '/projects' ]);
-      },
-      error => {
-        console.log(error);
-      });
+      response => this.router.navigate([ '/projects' ]),
+      error => console.log(error));
   }
 
+  getActivities(): Observable<Activity[]> {
+    return this.activityService.findAllInProject(this.currentProject.id);
+  }
 }

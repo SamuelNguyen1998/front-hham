@@ -33,10 +33,9 @@ import { DashboardUserComponent } from './dashboard-user/dashboard-user.componen
   declarations: [
     AppComponent,
     LoginComponent,
+    MenubarComponent,
     HomeComponent,
     ProfileComponent,
-
-    MenubarComponent,
 
     ProjectsComponent,
     AddProjectComponent,

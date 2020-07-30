@@ -8,7 +8,8 @@ import { AuthService } from "../_services/auth.service";
 })
 export class MenubarComponent implements OnInit {
 
-  constructor(public auth: AuthService) { }
+  constructor(public auth: AuthService) {
+  }
 
   ngOnInit(): void {
   }

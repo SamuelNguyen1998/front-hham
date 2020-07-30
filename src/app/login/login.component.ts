@@ -10,12 +10,14 @@ import { AuthService } from '../_services/auth.service';
 export class LoginComponent implements OnInit {
   form: any = {};
   error: string;
+  keepSignedIn: boolean;
 
   constructor(private auth: AuthService,
               private router: Router) {
   }
 
   ngOnInit(): void {
+    console.log(this.auth.currentUser);
     if (this.auth.loggedIn) {
       this.router.navigate([ "dashboard" ]);
     }
@@ -23,7 +25,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     this.auth.login(this.form)
-      .then(window.location.reload)
+      .then(() => {
+        this.router.navigate([ 'dashboard' ])
+      })
       .catch((err: Error) => {
         this.error = err.message;
       });

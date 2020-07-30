@@ -1,15 +1,20 @@
 <div class="login-container">
-  <form class="form-login" name="form" novalidate #f="ngForm"
-        (ngSubmit)="f.form.valid && onSubmit()">
+  <form #f="ngForm"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        class="form-login"
+        name="form"
+        novalidate>
     <div>
       <h2 class="login-header">Log in</h2>
     </div>
     <label for="login-input-user" class="login__label">Username</label>
-    <input id="login-input-user" class="login__input" type="text"
+    <input #username="ngModel"
+           [(ngModel)]="form.username"
+           class="login__input"
+           id="login-input-user"
            name="username"
            required
-           [(ngModel)]="form.username"
-           #username="ngModel"/>
+           type="text"/>
     <div
       *ngIf="f.submitted && username.invalid"
       class="alert alert-warning"
@@ -24,7 +29,6 @@
            name="password"
            [(ngModel)]="form.password"
            required
-           minlength="6"
            #password="ngModel"/>
     <div
       class="alert alert-warning"
@@ -37,7 +41,11 @@
       </div>
     </div>
     <label for="login-sign-up" class="login__label--checkbox">
-      <input id="login-sign-up" type="checkbox" class="login__input--checkbox"/>
+      <input [(ngModel)]="keepSignedIn"
+             class="login__input--checkbox"
+             id="login-sign-up"
+             name="keepSignedIn"
+             type="checkbox">
       Keep me Signed in
     </label>
     <button class="login__submit">Sign in</button>

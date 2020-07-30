@@ -18,8 +18,8 @@ export class AuthService {
   };
 
   constructor(private http: HttpClient) {
-    const lastAccess = localStorage.getItem("lastAccess");
-    const elapsedTimeInMs = new Date().getTime() - new Date(lastAccess).getTime();
+    const lastAccess = +localStorage.getItem("lastAccess");
+    const elapsedTimeInMs = Date.now() - lastAccess;
     const threshold = 60 * 60 * 1000; // 60 minutes
     if (lastAccess && elapsedTimeInMs < threshold) {
       this._loggedIn = true;
@@ -32,11 +32,17 @@ export class AuthService {
     return this._loggedIn;
   }
 
-  get token() {
+  get token(): string {
     return this._token;
   }
 
-  get currentUser() {
+  get currentUser(): {
+    id: number,
+    username: string,
+    displayName: string,
+    email: string,
+    isAdmin: boolean,
+  } {
     return this._currentUser;
   }
 
@@ -49,8 +55,8 @@ export class AuthService {
     }
     this._loggedIn = true;
     this._token = response.token;
-    const { id, username, displayName, email, isAdmin } = response;
-    this._currentUser = { id, username, displayName, email, isAdmin }
+    const { id, username, displayName, email, admin } = response;
+    this._currentUser = { id, username, displayName, email, isAdmin: admin }
     localStorage.setItem("token", response.token);
     localStorage.setItem("userInfo", JSON.stringify(this.currentUser));
     localStorage.setItem("lastAccess", Date.now().toString());

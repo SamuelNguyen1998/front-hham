@@ -20,19 +20,11 @@ export class DashboardUserComponent implements OnInit {
               private flashMessagesService: FlashMessagesService) { }
 
   ngOnInit(): void {
-    this.userService.getUserBoard().subscribe(
-      data => {
-        this.content = data;
-      },
-      err => {
-        this.content = JSON.parse(err.error).message;
-      }
-    );
     this.votingEnded = new Date(this.activity.lockedOn).getTime() < new Date().getTime();
   }
 
   vote() {
-    this.activityService.vote(this.activity.id, this.selected).subscribe(success => {
+    this.activityService.vote(this.selected).subscribe(success => {
       this.activity.lockedOn = new Date();
       this.flashMessagesService.show("Vote submitted!", {
         cssClass: 'card-panel green lighten-4',

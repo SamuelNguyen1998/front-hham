@@ -11,7 +11,6 @@ import { ProjectService } from "../_services/project.service";
 export class ProjectsComponent implements OnInit {
   projects: Project[];
   name: string;
-  currentProject: Project;
 
   constructor(public auth: AuthService,
               private projectService: ProjectService) {
@@ -23,36 +22,15 @@ export class ProjectsComponent implements OnInit {
 
   retrieveProjects(): void {
     this.projectService.getAll().subscribe(
-      data => {
-        this.projects = data;
-        console.log(data);
-      },
-      error => {
-        console.log(error);
-      }
+      data => this.projects = data,
+      error => console.log(error)
     );
   }
 
-  searchByName() {
-    this.projectService.findByTitle(this.name).subscribe(
-      data => {
-        this.projects = data;
-        console.log(data);
-      },
-      error => {
-        console.log(error);
-      }
+  searchByName(): void {
+    this.projectService.findByName(this.name).subscribe(
+      data => this.projects = data,
+      error => console.log(error)
     );
   }
-
-  refreshList(): void {
-    this.retrieveProjects();
-    this.currentProject = null;
-    // this.currentIndex = -1;
-  }
-
-  // setActiveProject(project, index): void {
-  //   this.currentProject = project;
-  //   this.currentIndex = index;
-  // }
 }

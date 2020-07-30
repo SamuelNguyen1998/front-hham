@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MenubarComponent } from './menubar.component';
 
-describe('HhamMenubarComponent', () => {
+describe('MenubarComponent', () => {
   let component: MenubarComponent;
   let fixture: ComponentFixture<MenubarComponent>;
 

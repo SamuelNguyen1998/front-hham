@@ -75,12 +75,12 @@
               <thead>
               <tr>
                 <th scope="col">Name</th>
-                <th scope="col">Decription</th>
+                <th scope="col">Description</th>
                 <th scope="col">Status</th>
               </tr>
               </thead>
               <tfoot>
-              <tr>
+              <tr *ngFor="let activity in getActivities()">
                 <td colspan="3">Data is updated every 15 minutes.</td>
               </tr>
               </tfoot>
