@@ -1,0 +1,176 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:100,200,300,400);
+
+$primary-color : #223366;
+
+@mixin button( $primary-color ){
+
+    $whited-color: mix( white, $primary-color, 20% );
+    $blacked-color: mix( black, $primary-color, 20% );
+
+    color: $whited-color;
+    border: 1px solid $whited-color;
+    transition: all .1s linear;
+
+    &:hover{
+      cursor: pointer;
+      color: white;
+      border: 1px solid $blacked-color;
+      background: $whited-color;
+    }
+}
+
+@mixin breakpoint($point) {
+  @if $point == papa-bear {
+    @media (min-width: 1201px) { @content; }
+  }
+  @else if $point == mama-bear {
+    @media (max-width: 1200px) { @content; }
+  }
+  @else if $point == colBreakpoint2 {
+    @media (min-width: 600px) { @content; }
+  }
+  @else if $point == colBreakpoint3 {
+    @media (min-width: 800px) { @content; }
+  }
+  @else if $point == colBreakpoint4 {
+    @media (min-width: 1000px) { @content; }
+  }
+  @else if $point == colBreakpoint5 {
+    @media (min-width: 1200px) { @content; }
+  }
+  @else if $point == colBreakpoint6 {
+    @media (min-width: 1400px) { @content; }
+  }
+  @else if $point == colBreakpoint7 {
+    @media (min-width: 1600px) { @content; }
+  }
+  @else if $point == colBreakpoint8 {
+    @media (min-width: 1800px) { @content; }
+  }
+  @else if $point == colBreakpoint9 {
+    @media (min-width: 2000px) { @content; }
+  }
+}
+
+body{
+  margin:0;
+  padding:0;
+  font-family: 'Lato';
+  font-weight: 200;
+}
+h1{
+  margin: .25em;
+}
+section {
+  position: relative;
+  padding-top: 37px;
+  width: 95%;
+  margin: 0 auto;
+  background: #669;
+}
+.table-container {
+  overflow-y: auto;
+  overflow-x: auto;
+  height: auto;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  width: 100%;
+}
+td, th {
+  border: 0;
+  border-left: 1px solid #eee;
+  background: #e5e5e5;
+  padding: 10px 25px;
+}
+td:first-child,
+th:first-child{
+  border: 0;
+}
+tbody tr:nth-child(even) td{
+  background: #f7f7f7;
+}
+th {
+  height: 0;
+  line-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: transparent;
+  border: none;
+  white-space: nowrap;
+}
+th div{
+  position: absolute;
+  background: transparent;
+  color: #fff;
+  padding: 9px 25px;
+  top: 0;
+  margin-left: -25px;
+  line-height: normal;
+  border-left: 1px solid #eee;
+}
+th:first-child div{
+  border: none;
+}
+.actions{
+  white-space: nowrap;
+  font-size: 0;
+}
+
+.btn{
+    text-transform: uppercase;
+    color: white;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 100;
+    padding: 0 1em 0 2em;
+    text-decoration: none;
+    margin: 0 .25em;
+    position: relative;
+    line-height: 2em;
+    min-height: 2em;
+    @include button( $primary-color );
+    svg{
+        position: absolute;
+        top: .5em;
+        left: .5em;
+        height: 1em;
+        fill: currentColor;
+    }
+
+
+    // CUSTOM
+    &.btn-save,
+    &.btn-query,
+    &.btn-run{
+        @include button( #070 );
+    }
+    &.btn-revert{
+        @include button( #700 );
+    }  
+}
+
+  tbody tr td:last-child{
+    white-space: nowrap;
+    font-size: 0;
+    position: relative;
+    @include breakpoint( mama-bear ){
+        .btn {
+            padding: 0 1em;
+            border: 0;
+            background: transparent;
+            svg{
+                top: .25em;
+                left: .25em;
+                height: 1.5em;
+            }
+            span {
+                display: none;
+            }
+            &:hover{
+                border: 0;
+            }
+        }
+    }
+  }

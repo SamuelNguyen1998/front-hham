@@ -1,0 +1,63 @@
+<div class="login-container">
+  <form action="" class="form-login" 
+  name="form"
+  (ngSubmit)="f.form.valid && onSubmit()"
+  #f="ngForm"
+  novalidate>
+		<div>
+      <h2 class="login-header">Log in</h2>
+    </div>
+		<label for="login-input-user" class="login__label">
+			Username
+		</label>
+    <input id="login-input-user" class="login__input" type="text"
+      name="username" 
+      [(ngModel)]="form.username"
+      required
+      #username="ngModel"/>
+    <div
+      class="alert alert-warning"
+      role="alert"
+      style="top :10px"
+      *ngIf="f.submitted && username.invalid"
+      >
+      Username is required!
+    </div>
+		<label for="login-input-password" class="login__label">
+			Password
+		</label>
+    <input id="login-input-password" class="login__input" type="password"
+      name="password" 
+      [(ngModel)]="form.password"
+      required
+      minlength="6"
+      #password="ngModel"/>
+    <div
+      class="alert alert-warning"
+      role="alert"
+      style="top :10px"
+      *ngIf="f.submitted && password.invalid"
+    >
+      <div *ngIf="password.errors.required">Password is required</div>
+      <div *ngIf="password.errors.minlength">
+        Password must be at least 6 characters
+      </div>
+    </div>
+		<label for="login-sign-up" class="login__label--checkbox">
+			<input id="login-sign-up" type="checkbox" class="login__input--checkbox" />
+			Keep me Signed in
+		</label>
+    <button class="login__submit">Sign in</button>
+    <div class="form-group">
+      <div
+        class="alert alert-danger"
+        role="alert"
+        style="top :10px"
+        *ngIf="f.submitted && isLoginFailed"
+      >
+        Login failed: {{ errorMessage }}
+      </div>
+    </div>
+  </form>
+  <a href="#" class="login__forgot">Forgot Password?</a>
+</div>
