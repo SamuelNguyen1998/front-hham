@@ -1,45 +1,56 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+
+import { FlashMessagesModule } from 'angular2-flash-messages';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
-import { BoardAdminComponent } from './board-admin/board-admin.component';
-import { BoardSysadminComponent } from './board-sysadmin/board-sysadmin.component';
-import { BoardUserComponent } from './board-user/board-user.component';
+import { MenubarComponent } from './menubar/menubar.component';
 
-import { authInterceptorProviders } from './_helpper/auth.interceptor';
+import { ProjectsComponent } from './projects/projects.component';
 import { AddProjectComponent } from './projects/add-project/add-project.component';
-import { ProjectDetailsComponent } from './projects/project-details/project-details.component';
-import { ProjectListComponent } from './projects/project-list/project-list.component';
+import { DetailedProjectComponent } from './projects/detailed-project/detailed-project.component';
+
+import { ActivitiesComponent } from './activities/activities.component';
 import { AddActivityComponent } from './activities/add-activity/add-activity.component';
-import { ActivityDetailsComponent } from './activities/activity-details/activity-details.component';
+import { DetailedActivityComponent } from './activities/detailed-activity/detailed-activity.component';
+
+import { UsersComponent } from './users/users.component';
 import { AddUserComponent } from './users/add-user/add-user.component';
-import { UserDetailsComponent } from './users/user-details/user-details.component';
-import { FlashMessagesModule } from 'angular2-flash-messages';
+import { DetailedUserComponent } from './users/detailed-user/detailed-user.component';
+
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
+import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    MenubarComponent,
     HomeComponent,
     ProfileComponent,
-    BoardAdminComponent,
-    BoardSysadminComponent,
-    BoardUserComponent,
 
+    ProjectsComponent,
     AddProjectComponent,
-    ProjectDetailsComponent,
-    ProjectListComponent,
+    DetailedProjectComponent,
 
+    ActivitiesComponent,
     AddActivityComponent,
-    ActivityDetailsComponent,
+    DetailedActivityComponent,
+
+    UsersComponent,
     AddUserComponent,
-    UserDetailsComponent
+    DetailedUserComponent,
+
+    DashboardComponent,
+    DashboardAdminComponent,
+    DashboardUserComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +60,8 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [authInterceptorProviders],
-  bootstrap: [AppComponent]
+  providers: [ /*authInterceptorProviders*/ ],
+  bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+}

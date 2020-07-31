@@ -1,41 +1,47 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
-import { BoardUserComponent } from './board-user/board-user.component';
-import { BoardAdminComponent } from './board-admin/board-admin.component';
-import { BoardSysadminComponent } from './board-sysadmin/board-sysadmin.component';
-import { ProjectListComponent } from './projects/project-list/project-list.component';
-import { ProjectDetailsComponent } from './projects/project-details/project-details.component';
+import { DashboardComponent } from "./dashboard/dashboard.component";
+
+import { ProjectsComponent } from "./projects/projects.component";
 import { AddProjectComponent } from './projects/add-project/add-project.component';
-import { ActivityDetailsComponent } from './activities/activity-details/activity-details.component';
+import { DetailedProjectComponent } from "./projects/detailed-project/detailed-project.component";
+
+import { ActivitiesComponent } from "./activities/activities.component";
 import { AddActivityComponent } from './activities/add-activity/add-activity.component';
+import { DetailedActivityComponent } from "./activities/detailed-activity/detailed-activity.component";
+
+import { UsersComponent } from "./users/users.component";
 import { AddUserComponent } from './users/add-user/add-user.component';
-import { UserDetailsComponent } from './users/user-details/user-details.component';
+import { DetailedUserComponent } from "./users/detailed-user/detailed-user.component";
+import { AuthGuard } from "./_services/auth-guard.service";
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'user', component: BoardUserComponent },
-  { path: 'admin', component: BoardAdminComponent },
-  { path: 'sysadmin', component: BoardSysadminComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [ AuthGuard ] },
+  { path: 'profile', component: ProfileComponent, canActivate: [ AuthGuard ] },
 
-  { path: 'projects', component: ProjectListComponent },
-  { path: 'projects/:id', component: ProjectDetailsComponent },
-  { path: 'project/add', component: AddProjectComponent },
+  { path: 'projects', component: ProjectsComponent, canActivate: [ AuthGuard ] },
+  { path: 'projects/add', component: AddProjectComponent, canActivate: [ AuthGuard ] },
+  { path: 'project/:id', component: DetailedProjectComponent, canActivate: [ AuthGuard ] },
 
-  { path: 'activities/:id', component: ActivityDetailsComponent },
-  { path: 'activity/add', component: AddActivityComponent },
-  { path: 'users/:id', component: UserDetailsComponent },
-  { path: 'user/add', component: AddUserComponent },
+  { path: 'activities', component: ActivitiesComponent, canActivate: [ AuthGuard ] },
+  { path: 'activities/add', component: AddActivityComponent, canActivate: [ AuthGuard ] },
+  { path: 'activity/:id', component: DetailedActivityComponent, canActivate: [ AuthGuard ] },
 
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  { path: 'users', component: UsersComponent, canActivate: [ AuthGuard ] },
+  { path: 'users/add', component: AddUserComponent, canActivate: [ AuthGuard ] },
+  { path: 'user/:id', component: DetailedUserComponent, canActivate: [ AuthGuard ] },
+
+  { path: '*', redirectTo: 'login' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [ RouterModule.forRoot(routes) ],
+  exports: [ RouterModule ]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

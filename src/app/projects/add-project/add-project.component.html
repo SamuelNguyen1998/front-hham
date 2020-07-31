@@ -4,18 +4,21 @@
       <div *ngIf="!submitted">
         <div class="form-group">
           <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" required [(ngModel)]="project.title" name="title" />
+          <input type="text" class="form-control" id="title" required [(ngModel)]="project.name"
+                 name="title">
         </div>
 
         <div class="form-group">
           <label for="description">Description</label>
-          <input class="form-control" id="description" required [(ngModel)]="project.description" name="description" />
+          <input class="form-control" id="description" required [(ngModel)]="project.description"
+                 name="description">
         </div>
 
-        <div class="form-group">
-          <label for="projectadmin">Project Admin</label>
-          <input class="form-control" id="projectadmin" required [(ngModel)]="project.projectadmin" name="projectadmin" />
-        </div>
+        <!--<div class="form-group">-->
+        <!--  <label for="projectAdmin">Project Admin</label>-->
+        <!--  <input class="form-control" id="projectAdmin" required [(ngModel)]="project.projectadmin"-->
+        <!--         name="projectadmin">-->
+        <!--</div>-->
 
         <div class="input-group mb-3">
           <select class="custom-select" id="inputGroupSelect02">
