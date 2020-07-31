@@ -72,40 +72,16 @@
               Add
             </a>
             <table>
-              <thead>
               <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Description</th>
                 <th scope="col">Status</th>
               </tr>
-              </thead>
-              <tfoot>
-              <tr *ngFor="let activity in getActivities()">
-                <td colspan="3">Data is updated every 15 minutes.</td>
+              <tr *ngFor="let activity of getActivities() | async">
+                <td>{{ activity.name }}</td>
+                <td>{{ activity.description }}</td>
+                <td>{{ activity.lockedOn !== null ? 'Locked' : 'Open' }}</td>
               </tr>
-              </tfoot>
-              <tbody>
-              <tr>
-                <th scope="row">Happy Hour</th>
-                <td>This is happy hour</td>
-                <td>Web Designer</td>
-              </tr>
-              <tr>
-                <th scope="row">Andrew Chalkley</th>
-                <td>andrew@example.com</td>
-                <td>Front-End Developer</td>
-              </tr>
-              <tr>
-                <th scope="row">Dave McFarland</th>
-                <td>dave@example.com</td>
-                <td>Front-End Developer</td>
-              </tr>
-              <tr>
-                <th scope="row">Guil Hernandez</th>
-                <td>guil@example.com</td>
-                <td>Web Designer</td>
-              </tr>
-              </tbody>
             </table>
           </div>
         </section>

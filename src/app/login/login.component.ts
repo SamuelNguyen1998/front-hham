@@ -17,7 +17,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.auth.currentUser);
     if (this.auth.loggedIn) {
       this.router.navigate([ "dashboard" ]);
     }
@@ -25,11 +24,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     this.auth.login(this.form)
-      .then(() => {
-        this.router.navigate([ 'dashboard' ])
-      })
-      .catch((err: Error) => {
-        this.error = err.message;
-      });
+      .then(() => this.router.navigate([ 'dashboard' ]))
+      .catch((err: Error) => this.error = err.message);
   }
 }
