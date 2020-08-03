@@ -29,6 +29,7 @@ import { DetailedUserComponent } from './users/detailed-user/detailed-user.compo
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
+import { authInterceptorProviders } from "./_helper/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -65,7 +66,7 @@ import { DashboardUserComponent } from './dashboard-user/dashboard-user.componen
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ /*authInterceptorProviders*/ ],
+  providers: [ authInterceptorProviders ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {
