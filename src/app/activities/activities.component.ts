@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Activity } from '../_models/Activity';
+import { ActivityService } from '../_services/activity.service';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-activities',
@@ -7,9 +10,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ActivitiesComponent implements OnInit {
 
-  constructor() { }
+  activitys: Activity[];
+  name: string;
 
-  ngOnInit(): void {
+  constructor(public auth: AuthService, private activityService: ActivityService) {
   }
 
+  ngOnInit(): void {
+    this.retrieveProjects();
+  }
+
+  retrieveProjects(): void {
+    this.activityService.getAll().subscribe(
+      data => this.activitys = data,
+      error => console.log(error)
+    );
+  }
+
+  searchByName(): void {
+    this.activityService.findByName(this.name).subscribe(
+      data => this.activitys = data,
+      error => console.log(error)
+    );
+  }
 }
