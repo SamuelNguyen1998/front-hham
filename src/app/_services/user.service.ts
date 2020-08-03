@@ -31,4 +31,8 @@ export class UserService {
   delete(id): Observable<any> {
     return this.http.delete(`${Constants.API_BASE}/user/${id}`);
   }
+  
+  findByName(name): Observable<any> {
+    return this.http.get(`${Constants.API_BASE}/projects?name=${name}`);
+  }
 }

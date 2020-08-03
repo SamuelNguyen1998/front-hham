@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from "../_models/User";
+import { AuthService } from '../_services/auth.service';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-users',
@@ -7,9 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersComponent implements OnInit {
 
-  constructor() { }
+  users: User[];
+  name: string;
+
+  constructor(public auth: AuthService,
+              private userService: UserService) {
+  }
 
   ngOnInit(): void {
+    this.retrieveProjects();
+  }
+
+  retrieveProjects(): void {
+    this.userService.getAll().subscribe(
+      data => this.users = data,
+      error => console.log(error)
+    );
+  }
+
+  searchByName(): void {
+    this.userService.findByName(this.name).subscribe(
+      data => this.users = data,
+      error => console.log(error)
+    );
   }
 
 }
