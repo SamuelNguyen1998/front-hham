@@ -1,32 +1,72 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
-const AUTH_API = 'http://localhost:8080/api/auth/';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+import { Constants } from "../Constants";
+import { LoginRequest } from "../_models/LoginRequest";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private _loggedIn: boolean = false;
+  private _token: string = '';
+  private _currentUser: {
+    id: number,
+    username: string,
+    displayName: string,
+    email: string,
+    isAdmin: boolean,
+  };
 
-  constructor(private http: HttpClient) { }
-
-  login(credentials): Observable<any> {
-    return this.http.post(AUTH_API + 'signin', {
-      username: credentials.username,
-      password: credentials.password
-    }, httpOptions);
+  constructor(private http: HttpClient) {
+    const lastAccess = +localStorage.getItem("lastAccess");
+    const elapsedTimeInMs = Date.now() - lastAccess;
+    const threshold = 60 * 60 * 1000; // 60 minutes
+    if (lastAccess && elapsedTimeInMs < threshold) {
+      this._loggedIn = true;
+      this._token = localStorage.getItem("token");
+      this._currentUser = JSON.parse(localStorage.getItem("userInfo"));
+    }
   }
 
-  register(user): Observable<any> {
-    return this.http.post(AUTH_API + 'signup', {
-      username: user.username,
-      email: user.email,
-      password: user.password
-    }, httpOptions);
+  get loggedIn(): boolean {
+    return this._loggedIn;
+  }
+
+  get token(): string {
+    return this._token;
+  }
+
+  get currentUser(): {
+    id: number,
+    username: string,
+    displayName: string,
+    email: string,
+    isAdmin: boolean,
+  } {
+    return this._currentUser;
+  }
+
+  async login(loginRequest: LoginRequest): Promise<void> {
+    const response: any = await this.http.post(Constants.API_BASE + '/login',
+      loginRequest,
+      Constants.DEFAULT_HTTP_OPTIONS).toPromise();
+    if (response.code > 0) {
+      throw new Error(response.message);
+    }
+    this._loggedIn = true;
+    this._token = response.token;
+    const { id, username, displayName, email, admin } = response;
+    this._currentUser = { id, username, displayName, email, isAdmin: admin }
+    localStorage.setItem("token", response.token);
+    localStorage.setItem("userInfo", JSON.stringify(this.currentUser));
+    localStorage.setItem("lastAccess", Date.now().toString());
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this._loggedIn = false;
+    this._token = '';
+    this._currentUser = undefined;
   }
 }

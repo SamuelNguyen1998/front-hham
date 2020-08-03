@@ -1,0 +1,106 @@
+<div class="container">
+  <div class="edit-form">
+    <h4>Project</h4>
+    <form>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" [(ngModel)]="currentProject.name"
+               name="title"/>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description"
+               [(ngModel)]="currentProject.description"
+               name="description"/>
+      </div>
+      <div class="form-group">
+        <label for="fund">Fund</label>
+        <input type="text" class="form-control" id="fund" [(ngModel)]="currentProject.fund"
+               name="fund" disabled/>
+      </div>
+
+      <div class="accordion arrows">
+        <input type="radio" name="accordion" id="cb1"/>
+        <section class="box">
+          <label class="box-title" for="cb1">Member</label>
+          <label class="box-close" for="acc-close"></label>
+          <div class="box-content">
+            <table>
+              <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Job role</th>
+              </tr>
+              </thead>
+              <tfoot>
+              <tr>
+                <td colspan="3">Data is updated every 15 minutes.</td>
+              </tr>
+              </tfoot>
+              <tbody>
+              <tr>
+                <th scope="row">Nick Pettit</th>
+                <td>nick@example.com</td>
+                <td>Web Designer</td>
+              </tr>
+              <tr>
+                <th scope="row">Andrew Chalkley</th>
+                <td>andrew@example.com</td>
+                <td>Front-End Developer</td>
+              </tr>
+              <tr>
+                <th scope="row">Dave McFarland</th>
+                <td>dave@example.com</td>
+                <td>Front-End Developer</td>
+              </tr>
+              <tr>
+                <th scope="row">Guil Hernandez</th>
+                <td>guil@example.com</td>
+                <td>Web Designer</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <input type="radio" name="accordion" id="cb2"/>
+        <section class="box">
+          <label class="box-title" for="cb2">Activities</label>
+          <label class="box-close" for="acc-close"></label>
+          <div class="box-content">
+            <a class="btn btn-info" routerLink="/activity/add">
+              Add
+            </a>
+            <table>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+              </tr>
+              <tr *ngFor="let activity of getActivities() | async">
+                <td>{{ activity.name }}</td>
+                <td>{{ activity.description }}</td>
+                <td>{{ activity.lockedOn !== null ? 'Locked' : 'Open' }}</td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        <input type="radio" name="accordion" id="acc-close"/>
+      </div>
+    </form>
+
+    <button type="submit" class="badge badge-success mr-5" (click)="updateProject()">
+      Update
+    </button>
+
+    <button class="badge badge-danger mr-2" (click)="deleteProject()">
+      Delete
+    </button>
+    <p>{{ message }}</p>
+  </div>
+
+  <div *ngIf="!currentProject">
+    <br/>
+    <p>Cannot access this project...</p>
+  </div>
+</div>

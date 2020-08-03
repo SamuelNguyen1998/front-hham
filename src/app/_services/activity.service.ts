@@ -2,44 +2,45 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const baseUrl = 'http://localhost:8080/api/activity/';
+import { Constants } from "../Constants";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActivityService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getAll(): Observable<any> {
-    return this.http.get(baseUrl);
+    return this.http.get(`${Constants.API_BASE}/activities`);
   }
 
   get(id): Observable<any> {
-    return this.http.get(`${baseUrl}/${id}`);
+    return this.http.get(`${Constants.API_BASE}/activity/${id}`);
   }
 
   create(data): Observable<any> {
-    return this.http.post(baseUrl, data);
+    return this.http.post(`${Constants.API_BASE}/activities`, data);
   }
 
   update(id, data): Observable<any> {
-    return this.http.put(`${baseUrl}/${id}`, data);
+    return this.http.put(`${Constants.API_BASE}/activity/${id}`, data);
   }
 
   delete(id): Observable<any> {
-    return this.http.delete(`${baseUrl}/${id}`);
+    return this.http.delete(`${Constants.API_BASE}/activity/${id}`);
   }
 
-  deleteAll(): Observable<any> {
-    return this.http.delete(baseUrl);
+  findByName(name): Observable<any> {
+    return this.http.get(`${Constants.API_BASE}/activities/?name=${name}`);
   }
 
-  findByTitle(title): Observable<any> {
-    return this.http.get(`${baseUrl}?title=${title}`);
+  vote(optionId: number): Observable<any> {
+    return this.http.post(`${Constants.API_BASE}/option/${optionId}/vote`, {});
   }
 
-  vote(ActivityId: Number, selectedOption: number): Observable<any> {
-    return this.http.post('api/polls/' + ActivityId + '/vote/' + selectedOption, {});
+  findAllInProject(id: number): Observable<any> {
+    return this.http.get(`${Constants.API_BASE}/project/${id}/activities`);
   }
 }
