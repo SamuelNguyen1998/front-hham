@@ -4,9 +4,9 @@
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Search by title" [(ngModel)]="title" />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" (click)="searchTitle()">
+            <!-- <button class="btn btn-outline-secondary" type="button" (click)="searchTitle()">
               Search
-            </button>
+            </button> -->
           </div>
         </div>
       </div>
@@ -22,9 +22,6 @@
           </li>
         </ul>
   
-        <button class="m-3 btn btn-sm btn-danger" (click)="removeAllProject()">
-          Remove All
-        </button>
       </div>
       <div class="col-md-6">
         <div *ngIf="currentProject">

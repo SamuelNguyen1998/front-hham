@@ -21,18 +21,13 @@ import { DetailedActivityComponent } from './activities/detailed-activity/detail
 
 import { UsersComponent } from './users/users.component';
 import { AddUserComponent } from './users/add-user/add-user.component';
-<<<<<<< HEAD
 import { UserDetailsComponent } from './users/user-details/user-details.component';
-import { FlashMessagesModule } from 'angular2-flash-messages';
 import { FundComponent } from './fund/fund.component';
-=======
 import { DetailedUserComponent } from './users/detailed-user/detailed-user.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
-
->>>>>>> master
 
 @NgModule({
   declarations: [
@@ -52,16 +47,13 @@ import { DashboardUserComponent } from './dashboard-user/dashboard-user.componen
 
     UsersComponent,
     AddUserComponent,
-<<<<<<< HEAD
     UserDetailsComponent,
-    FundComponent
-=======
+    FundComponent,
     DetailedUserComponent,
 
     DashboardComponent,
     DashboardAdminComponent,
     DashboardUserComponent,
->>>>>>> master
   ],
   imports: [
     BrowserModule,
