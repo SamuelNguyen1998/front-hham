@@ -43,27 +43,5 @@ export class FundComponent implements OnInit {
     this.currentIndex = index;
   }
 
-  removeAllProject(): void {
-    this.projectService.deleteAll()
-      .subscribe(
-        response => {
-          console.log(response);
-          this.retrieveProjects();
-        },
-        error => {
-          console.log(error);
-        });
-  }
-
-  searchTitle(): void {
-    this.projectService.findByTitle(this.title)
-      .subscribe(
-        data => {
-          this.projects = data;
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
-  }
+  
 }
