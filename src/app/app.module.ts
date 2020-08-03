@@ -29,6 +29,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
 
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,6 +55,8 @@ import { DashboardUserComponent } from './dashboard-user/dashboard-user.componen
     DashboardComponent,
     DashboardAdminComponent,
     DashboardUserComponent,
+
+    FooterComponent
   ],
   imports: [
     BrowserModule,
