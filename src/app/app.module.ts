@@ -21,12 +21,13 @@ import { DetailedActivityComponent } from './activities/detailed-activity/detail
 
 import { UsersComponent } from './users/users.component';
 import { AddUserComponent } from './users/add-user/add-user.component';
+import { UserDetailsComponent } from './users/user-details/user-details.component';
+import { FundComponent } from './fund/fund.component';
 import { DetailedUserComponent } from './users/detailed-user/detailed-user.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
-
 
 @NgModule({
   declarations: [
@@ -46,6 +47,8 @@ import { DashboardUserComponent } from './dashboard-user/dashboard-user.componen
 
     UsersComponent,
     AddUserComponent,
+    UserDetailsComponent,
+    FundComponent,
     DetailedUserComponent,
 
     DashboardComponent,
