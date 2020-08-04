@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddJobComponent implements OnInit {
 
-    project: {
+    job: {
       id: number;
       name: string;
       amount_money: number;
