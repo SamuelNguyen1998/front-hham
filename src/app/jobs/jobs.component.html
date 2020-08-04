@@ -1,14 +1,40 @@
 
-
  <!-- using button to search -->
-<div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="name">
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button">
-      Search
-    </button>
-  </div>
-</div>
+ <div class="container-xl">
+   <div class="list row">
+     <div class="col-md-8">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="name">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button">
+            Search
+          </button>
+        </div>
+      </div>
+     </div>
+     <div class="col-md-8">
+      <a href="/jobs/add" class="btn btn-info" routerLink="/jobs/add">Add</a>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Job tile</th>
+            <th scope="col">Amount to pay</th>
+          </tr>
+        </thead>
+        <tfoot>
+        </tfoot>
+        <tbody *ngFor="let job of jobs">
+          <tr>
+            <th scope="row">{{job.id}}</th>
+            <td>{{job.name}}</td>
+            <td>{{job.amountMoney}} VND</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+   </div>
+ </div>
 
 <!-- using suggesstion to search -->
 <!--  -->
@@ -23,28 +49,7 @@
   <!-- </ul> -->
 
 
+  
 
-<table>
-  <thead>
-    <tr>
-      <th scope="col">No</th>
-      <th scope="col">Job tile</th>
-      <th scope="col">Amount to pay</th>
-    </tr>
-  </thead>
-  <tfoot>
-  </tfoot>
-  <tbody *ngFor="let job of jobs">
-    <tr>
-      <th scope="row">{{job.id}}</th>
-      <td>{{job.name}}</td>
-      <td>{{job.amountMoney}} VND</td>
-    </tr>
-  </tbody>
-</table>
-<div class="col-md-6">
-  <h2>Create new title job
-  <a href="/jobs/add" class="btn btn-info" routerLink="/jobs/add">Add</a>
-  </h2>
-</div>
+
 
