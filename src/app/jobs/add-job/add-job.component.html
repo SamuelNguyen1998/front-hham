@@ -17,8 +17,7 @@
           <input class="form-control" id="amountMoney" required [(ngModel)]="job.amountMoney"
                  name="amountMoney">
         </div>
-
-        <button  class="btn btn-success">Submit</button>
+        <button (click)="saveJob()" class="btn btn-success">Submit</button>
      <!--   check for submitted __   do and check it later -->
       </div>
       <div *ngIf="submitted">
