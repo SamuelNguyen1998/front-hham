@@ -31,6 +31,10 @@ import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.compo
 import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
 import { authInterceptorProviders } from "./_helper/auth.interceptor";
 
+// for jobs
+import {JobsComponent } from './jobs/jobs.component';
+import {AddJobComponent } from './jobs/add-job/add-job.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +60,9 @@ import { authInterceptorProviders } from "./_helper/auth.interceptor";
     DashboardAdminComponent,
     DashboardUserComponent,
 
-    FooterComponent
+    FooterComponent,
+    JobsComponent, 
+    AddJobComponent
   ],
   imports: [
     BrowserModule,
