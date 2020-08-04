@@ -27,7 +27,7 @@ export class DetailedProjectComponent implements OnInit {
       .get(this.route.snapshot.params.projectId)
       .subscribe((project) => this.currentProject = project);
     this.projectService.get(this.route.snapshot.paramMap.get('id')).subscribe(
-      data => this.currentProject = data.project,
+      response => this.currentProject = response.data,
       error => console.log(error)
     );
   }
