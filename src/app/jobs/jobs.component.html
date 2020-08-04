@@ -1,3 +1,6 @@
+
+
+ <!-- using button to search -->
 <div class="input-group mb-3">
   <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="name">
   <div class="input-group-append">
@@ -6,6 +9,21 @@
     </button>
   </div>
 </div>
+
+<!-- using suggesstion to search -->
+<!--  -->
+<!-- <input #searchBox id="search-box" (keyup)="search(searchBox.value)" /> -->
+<!--  -->
+  <!-- <ul class="search-result"> -->
+    <!-- <li *ngFor="let job of jobs | async" > -->
+      <!--  -->
+        <!-- {{job.name}}  -->
+<!--  -->
+    <!-- </li> -->
+  <!-- </ul> -->
+
+
+
 <table>
   <thead>
     <tr>
@@ -16,26 +34,11 @@
   </thead>
   <tfoot>
   </tfoot>
-  <tbody>
+  <tbody *ngFor="let job of jobs">
     <tr>
-      <th scope="row">1</th>
-      <td>Senior Manager</td>
-      <td>300000 VND</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Manager</td>
-      <td>250000 VND</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Senior Developer</td>
-      <td>200000 VND</td>
-    </tr>
-    <tr>
-      <th scope="row">4</th>
-      <td>Developer</td>
-      <td>150000 VND</td>
+      <th scope="row">{{job.id}}</th>
+      <td>{{job.name}}</td>
+      <td>{{job.amountMoney}} VND</td>
     </tr>
   </tbody>
 </table>
@@ -44,3 +47,4 @@
   <a href="/jobs/add" class="btn btn-info" routerLink="/jobs/add">Add</a>
   </h2>
 </div>
+

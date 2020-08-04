@@ -3,3 +3,4 @@ export interface Job{
     name: string;
     amountMoney: number;
 }
+

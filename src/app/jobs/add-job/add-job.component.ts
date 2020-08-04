@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { JobService } from "../../_services/job.service";
 
 @Component({
   selector: 'app-add-job',
@@ -10,13 +11,28 @@ export class AddJobComponent implements OnInit {
     job: {
       id: number;
       name: string;
-      amount_money: number;
+      amountMoney: number;
     };
     submitted = false;
 
-  constructor() { }
+  constructor(private jobService: JobService) { }
 
   ngOnInit(): void {
+  }
+  saveJob(): void {
+    const { name, amountMoney } = this.job;
+    this.jobService.create({ name, amountMoney}).subscribe(
+      response => this.submitted = true,
+      error => console.log(error));
+  }
+
+  newJob(): void {
+    this.submitted = false;
+    this.job = {
+      id: 0,
+      name: '',
+      amountMoney: 0
+    };
   }
 
 }

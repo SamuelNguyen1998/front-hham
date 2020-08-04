@@ -32,8 +32,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
 
-import { JobsComponent } from './jobs/jobs.component';
-import { AddJobComponent } from './jobs/add-job/add-job.component';
+import {JobsComponent } from './jobs/jobs.component';
+import {AddJobComponent } from './jobs/add-job/add-job.component';
+
 
 @NgModule({
   declarations: [
