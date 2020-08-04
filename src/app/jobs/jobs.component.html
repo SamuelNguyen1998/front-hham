@@ -1,4 +1,6 @@
 
+
+ <!-- using button to search -->
 <div class="input-group mb-3">
   <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="name">
   <div class="input-group-append">
@@ -7,6 +9,20 @@
     </button>
   </div>
 </div>
+
+<!-- using suggesstion to search -->
+<!--  -->
+<!-- <input #searchBox id="search-box" (keyup)="search(searchBox.value)" /> -->
+<!--  -->
+  <!-- <ul class="search-result"> -->
+    <!-- <li *ngFor="let job of jobs | async" > -->
+      <!--  -->
+        <!-- {{job.name}}  -->
+<!--  -->
+    <!-- </li> -->
+  <!-- </ul> -->
+
+
 
 <table>
   <thead>
