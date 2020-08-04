@@ -8,6 +8,12 @@ import { AuthService } from '../_services/auth.service';
 import { JOBS} from '../jobs/fakedata_jobs';
 
 
+// for search
+import {
+  debounceTime, distinctUntilChanged, switchMap
+} from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-jobs',
@@ -18,8 +24,13 @@ import { JOBS} from '../jobs/fakedata_jobs';
 
 export class JobsComponent implements OnInit {
   jobs = JOBS;
-  
   name: string;
+
+  
+
+  //
+  jobs$: Observable<Job[]>;
+  private searchTerms = new Subject<string>();
 
   constructor(public auth: AuthService, 
               private jobService: JobService) { }
@@ -27,11 +38,18 @@ export class JobsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // using sugesstion
+  search(term: string): void{
+    this.searchTerms.next(term);
+  }
+
+  // using button to search
   searchByName(): void {
     this.jobService.findByName(this.name).subscribe(
       response => this.jobs = response.data,
       error => console.log(error)
     );
   }
+
 
 }
