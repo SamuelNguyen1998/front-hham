@@ -34,6 +34,7 @@ import { DashboardUserComponent } from './dashboard-user/dashboard-user.componen
 
 import {JobsComponent } from './jobs/jobs.component';
 import {AddJobComponent } from './jobs/add-job/add-job.component';
+import { JobDetailComponent } from './jobs/job-detail/job-detail.component';
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import {AddJobComponent } from './jobs/add-job/add-job.component';
     DashboardUserComponent,
 
     JobsComponent,
-    AddJobComponent
+    AddJobComponent,
+    JobDetailComponent
   ],
   imports: [
     BrowserModule,
