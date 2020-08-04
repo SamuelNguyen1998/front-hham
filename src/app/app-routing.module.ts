@@ -40,8 +40,6 @@ const routes: Routes = [
   { path: 'users/add', component: AddUserComponent, canActivate: [ AuthGuard ] },
   { path: 'user/:id', component: DetailedUserComponent, canActivate: [ AuthGuard ] },
 
-  // for jobs
-  
   { path: 'jobs', component: JobsComponent, canActivate: [ AuthGuard ] },
   { path: 'jobs/add', component: AddJobComponent, canActivate: [ AuthGuard ] },
 

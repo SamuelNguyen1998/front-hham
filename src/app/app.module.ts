@@ -2,11 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { FlashMessagesModule } from 'angular2-flash-messages';
+
+import { authInterceptorProviders } from "./_helper/auth.interceptor";
+import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MenubarComponent } from './menubar/menubar.component';
@@ -29,17 +31,16 @@ import { DetailedUserComponent } from './users/detailed-user/detailed-user.compo
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
-import { authInterceptorProviders } from "./_helper/auth.interceptor";
 
-// for jobs
-import {JobsComponent } from './jobs/jobs.component';
-import {AddJobComponent } from './jobs/add-job/add-job.component';
+import { JobsComponent } from './jobs/jobs.component';
+import { AddJobComponent } from './jobs/add-job/add-job.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MenubarComponent,
+    FooterComponent,
     HomeComponent,
     ProfileComponent,
 
@@ -60,8 +61,7 @@ import {AddJobComponent } from './jobs/add-job/add-job.component';
     DashboardAdminComponent,
     DashboardUserComponent,
 
-    FooterComponent,
-    JobsComponent, 
+    JobsComponent,
     AddJobComponent
   ],
   imports: [
