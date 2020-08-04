@@ -20,6 +20,7 @@ import { AuthGuard } from "./_services/auth-guard.service";
 
 import { JobsComponent } from "./jobs/jobs.component";
 import { AddJobComponent } from './jobs/add-job/add-job.component';
+import { JobDetailComponent } from './jobs/job-detail/job-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -41,7 +42,7 @@ const routes: Routes = [
 
   { path: 'jobs', component: JobsComponent, canActivate: [ AuthGuard ] },
   { path: 'jobs/add', component: AddJobComponent, canActivate: [ AuthGuard ] },
-
+  { path: 'jobs/:id', component: JobDetailComponent , canActivate: [ AuthGuard ] },
   { path: '*', redirectTo: 'login' },
 ];
 
