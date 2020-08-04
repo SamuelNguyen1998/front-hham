@@ -16,7 +16,6 @@ export class DetailedUserComponent implements OnInit {
     username: '',
     displayName: '',
     email: '',
-    password: '',
   });
 
   constructor(private formBuilder: FormBuilder,

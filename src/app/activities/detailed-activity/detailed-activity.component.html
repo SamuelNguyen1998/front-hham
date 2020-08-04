@@ -19,16 +19,11 @@
 
       <p>
         <label for="name">Activity Name:</label>
-        <input type="text" id="name" name="name" formControlName="name" class="form-control">
+        <input type="text" id="name" name="name" formControlName="name" class="form-control" [(ngModel)]="currentActivity.name">
       </p>
       <p>
         <label for="description">Description:</label>
-        <input type="text" id="description" name="description" formControlName="description"
-               class="form-control">
-      </p>
-      <p>
-        <label for="URL">URL:</label>
-        <input type="text" id="URL" name="URL" formControlName="URL" class="form-control">
+        <input type="text" id="description" name="description" formControlName="description" class="form-control" [(ngModel)]="currentActivity.description">
       </p>
 
       <table class="table table-bordered" formArrayName="options">
@@ -50,6 +45,23 @@
           <td>
             price:
             <input type="text" formControlName="price" class="form-control">
+          </td>
+          <td>
+            <button (click)="removeOption(i)" class="btn btn-danger">Remove</button>
+          </td>
+        </tr>
+        <tr *ngFor="let option of options().controls; let i=index" [formGroupName]="i">
+          <td>
+            name :
+            <input type="text" formControlName="nameOption" class="form-control" [(ngModel)]="option.nameOption">
+          </td>
+          <td>
+            image:
+            <input type="text" formControlName="image" class="form-control" [(ngModel)]="option.image">
+          </td>
+          <td>
+            price:
+            <input type="text" formControlName="price" class="form-control" [(ngModel)]="option.price">
           </td>
           <td>
             <button (click)="removeOption(i)" class="btn btn-danger">Remove</button>

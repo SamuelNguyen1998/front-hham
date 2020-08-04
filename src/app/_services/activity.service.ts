@@ -43,4 +43,8 @@ export class ActivityService {
   findAllInProject(id: number): Observable<any> {
     return this.http.get(`${Constants.API_BASE}/activities?projectId=${id}`);
   }
+
+  findOptions(id: number): Observable<any> {
+    return this.http.get(`${Constants.API_BASE}/options?activityId=${id}`);
+  }
 }

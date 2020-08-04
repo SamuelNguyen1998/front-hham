@@ -14,9 +14,8 @@ export class DetailedActivityComponent implements OnInit {
   activityForm: FormGroup = this.formBuilder.group({
     name: '',
     description: '',
-    URL: '',
-    options: this.formBuilder.array([]),
   });
+  optionss: { optionname: string; image: string ; price: string}; //this.formBuilder.array([]);
 
   constructor(private formBuilder: FormBuilder,
               private activityService: ActivityService,
@@ -26,17 +25,14 @@ export class DetailedActivityComponent implements OnInit {
   ngOnInit(): void {
     this.message = '';
     this.getActivity(this.route.snapshot.paramMap.get('id'));
+    this.getOptions();
   }
 
   getActivity(id): void {
     this.activityService.get(id).subscribe(
-      data => {
-        this.currentActivity = data;
-        console.log(data);
-      },
-      error => {
-        console.log(error);
-      });
+      response => this.currentActivity = response.data,
+      error => console.log(error)
+    );
   }
 
   onSubmit() {
@@ -73,6 +69,21 @@ export class DetailedActivityComponent implements OnInit {
         console.log(error);
       }
     );
+    const data = {
+      optionname: this.optionss.optionname,
+      image: this.optionss.image,
+      price: this.optionss.price
+    };
+
+    // this.activityService.create(data).subscribe(
+    //   response => {
+    //     console.log(response);
+    //     this.submitted = true;
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
   }
 
   deleteActivity(): void {
@@ -84,6 +95,13 @@ export class DetailedActivityComponent implements OnInit {
       error => {
         console.log(error);
       }
+    );
+  }
+
+  getOptions(): void {
+    this.activityService.findOptions(this.currentActivity.id).subscribe(
+      response => this.options = response.data,
+      error => console.log(error)
     );
   }
 }

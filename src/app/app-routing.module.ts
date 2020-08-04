@@ -30,7 +30,7 @@ const routes: Routes = [
 
   { path: 'activities', component: ActivitiesComponent, canActivate: [ AuthGuard ] },
   { path: 'activities/add', component: AddActivityComponent, canActivate: [ AuthGuard ] },
-  { path: 'activity/:id', component: DetailedActivityComponent, canActivate: [ AuthGuard ] },
+  { path: 'activities/:id', component: DetailedActivityComponent, canActivate: [ AuthGuard ] },
 
   { path: 'users', component: UsersComponent, canActivate: [ AuthGuard ] },
   { path: 'users/add', component: AddUserComponent, canActivate: [ AuthGuard ] },

@@ -18,9 +18,10 @@
           <table>
             <thead>
               <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Id</th>
-                <th scope="col">Description</th>
+                <th>Name</th>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tfoot>
@@ -29,10 +30,13 @@
               </tr>
             </tfoot>
             <tbody>
-              <tr *ngFor="let activity of activitys">
-                <th scope="row">{{activity.name}}</th>
+              <tr *ngFor="let activity of activities">
+                <th>{{activity.name}}</th>
                 <td>{{activity.id}}</td>
                 <td>{{activity.lockon}}</td>
+                <td>
+                  <button href="/activities/{{ activity.id }}" routerLink="/activities/{{ activity.id }}" class="btn btn-primary">Edit</button>
+                </td>
               </tr>
             </tbody>
           </table>
