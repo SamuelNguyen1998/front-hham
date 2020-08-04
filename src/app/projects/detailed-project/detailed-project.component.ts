@@ -13,8 +13,8 @@ import { Project } from "../../_models/Project";
 })
 export class DetailedProjectComponent implements OnInit {
   currentProject: Project;
-  message = "";
   activities: Activity[];
+  message = "";
 
   constructor(private projectService: ProjectService,
               private activityService: ActivityService,
@@ -24,14 +24,13 @@ export class DetailedProjectComponent implements OnInit {
 
   ngOnInit(): void {
     this.message = '';
-    this.projectService
-      .get(this.route.snapshot.params.projectId)
-      .subscribe((project) => this.currentProject = project);
-    this.projectService.get(this.route.snapshot.paramMap.get('id')).subscribe(
-      response => this.currentProject = response.data,
+    this.projectService.get(this.route.snapshot.params.id).subscribe(
+      response => {
+        this.currentProject = response.data;
+        this.loadActivities();
+      },
       error => console.log(error)
     );
-    this.getActivities();
   }
 
   updateProject(): void {
@@ -46,11 +45,9 @@ export class DetailedProjectComponent implements OnInit {
       response => this.router.navigate([ '/projects' ]),
       error => console.log(error));
   }
-
-  getActivities(): void {
-    this.activityService.findAllInProject(this.currentProject.id).subscribe(
-      response => this.activities = response.data,
-      error => console.log(error)
-    );
+  loadActivities(): void {
+    this.activityService
+      .findAllInProject(this.currentProject.id)
+      .subscribe(response => this.activities = response.data);
   }
 }
