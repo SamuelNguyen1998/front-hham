@@ -4,14 +4,21 @@ import { Job} from '../_models/Job';
 import { JobService} from '../_services/job.service';
 import { AuthService } from '../_services/auth.service';
 
+// fake for view
+import { JOBS} from '../jobs/fakedata_jobs';
+
+
 
 @Component({
   selector: 'app-jobs',
   templateUrl: './jobs.component.html',
   styleUrls: ['./jobs.component.scss']
 })
+
+
 export class JobsComponent implements OnInit {
-  jobs: Job[];
+  jobs = JOBS;
+  
   name: string;
 
   constructor(public auth: AuthService, 
