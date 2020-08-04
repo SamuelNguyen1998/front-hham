@@ -48,7 +48,8 @@ export class AuthService {
   }
 
   async login(loginRequest: LoginRequest): Promise<void> {
-    const response: any = await this.http.post(Constants.API_BASE + '/auth/login',
+
+    const response: any = await this.http.post(`${Constants.DOC_BASE}/auth/login`,
       loginRequest,
       Constants.DEFAULT_HTTP_OPTIONS).toPromise();
     if (response.code > 0) {
@@ -56,8 +57,8 @@ export class AuthService {
     }
     this._loggedIn = true;
     this._token = response.token;
-    const { id, username, displayName, email, admin } = response;
-    this._currentUser = { id, username, displayName, email, isAdmin: admin }
+    const { id, username, displayName, email, admin } = response.user;
+    this._currentUser = { id, username, displayName, email, isAdmin: admin };
     localStorage.setItem("token", response.token);
     localStorage.setItem("userInfo", JSON.stringify(this.currentUser));
     localStorage.setItem("lastAccess", Date.now().toString());

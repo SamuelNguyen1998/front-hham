@@ -22,14 +22,14 @@ export class ProjectsComponent implements OnInit {
 
   retrieveProjects(): void {
     this.projectService.getAll().subscribe(
-      data => this.projects = data,
+      data => this.projects = data.projects,
       error => console.log(error)
     );
   }
 
   searchByName(): void {
     this.projectService.findByName(this.name).subscribe(
-      data => this.projects = data,
+      data => this.projects = data.projects,
       error => console.log(error)
     );
   }

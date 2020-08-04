@@ -17,7 +17,7 @@ export class UserService {
   }
 
   get(id): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/user/${id}`);
+    return this.http.get(`${Constants.API_BASE}/users/${id}`);
   }
 
   create(data): Observable<any> {
@@ -25,14 +25,14 @@ export class UserService {
   }
 
   update(id, data): Observable<any> {
-    return this.http.put(`${Constants.API_BASE}/user/${id}`, data);
+    return this.http.put(`${Constants.API_BASE}/users/${id}`, data);
   }
 
   delete(id): Observable<any> {
-    return this.http.delete(`${Constants.API_BASE}/user/${id}`);
+    return this.http.delete(`${Constants.API_BASE}/users/${id}`);
   }
-  
+
   findByName(name): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/projects?name=${name}`);
+    return this.http.get(`${Constants.API_BASE}/users?name=${name}`);
   }
 }
