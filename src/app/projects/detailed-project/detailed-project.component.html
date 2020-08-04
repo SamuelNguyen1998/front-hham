@@ -77,7 +77,7 @@
                 <th scope="col">Description</th>
                 <th scope="col">Status</th>
               </tr>
-              <tr *ngFor="let activity of getActivities() | async">
+              <tr *ngFor="let activity of activities">
                 <td>{{ activity.name }}</td>
                 <td>{{ activity.description }}</td>
                 <td>{{ activity.lockedOn !== null ? 'Locked' : 'Open' }}</td>
