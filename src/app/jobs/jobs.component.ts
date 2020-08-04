@@ -30,7 +30,6 @@ export class JobsComponent implements OnInit {
                 
               }
   
-
   ngOnInit(): void {
   }
 
@@ -46,6 +45,4 @@ export class JobsComponent implements OnInit {
       error => console.log(error)
     );
   }
-
-
 }
