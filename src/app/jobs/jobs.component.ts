@@ -31,14 +31,13 @@ export class JobsComponent implements OnInit {
               }
   
 
-
   ngOnInit(): void {
   }
 
   // using sugesstion
-  search(term: string): void{
-    this.searchTerms.next(term);
-  }
+  // search(term: string): void{
+  //   this.searchTerms.next(term);
+  // }
 
   // using button to search
   searchByName(): void {
