@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ActivityService } from "../../_services/activity.service";
+import {Option} from "../../_models/Option";
 
 @Component({
   selector: 'app-detailed-activity',
@@ -11,11 +12,14 @@ import { ActivityService } from "../../_services/activity.service";
 export class DetailedActivityComponent implements OnInit {
   currentActivity = null;
   message = '';
+  id: any;
+  Optionss: any;
+  private staticOptions: Object[] = [];
   activityForm: FormGroup = this.formBuilder.group({
     name: '',
     description: '',
+    options: this.formBuilder.array([])
   });
-  optionss: { optionname: string; image: string ; price: string}; //this.formBuilder.array([]);
 
   constructor(private formBuilder: FormBuilder,
               private activityService: ActivityService,
@@ -25,6 +29,7 @@ export class DetailedActivityComponent implements OnInit {
   ngOnInit(): void {
     this.message = '';
     this.getActivity(this.route.snapshot.paramMap.get('id'));
+    this.id = this.route.snapshot.paramMap.get('id');
     this.loadOption();
   }
 
@@ -40,6 +45,7 @@ export class DetailedActivityComponent implements OnInit {
   }
 
   addOption() {
+    const control = <FormArray>this.activityForm.controls['options'];
     this.options().push(this.newOption());
   }
 
@@ -69,11 +75,6 @@ export class DetailedActivityComponent implements OnInit {
         console.log(error);
       }
     );
-    const data = {
-      optionname: this.optionss.optionname,
-      image: this.optionss.image,
-      price: this.optionss.price
-    };
 
   }
 
@@ -81,7 +82,7 @@ export class DetailedActivityComponent implements OnInit {
     this.activityService.delete(this.currentActivity.id).subscribe(
       response => {
         console.log(response);
-        this.router.navigate([ '/activity' ]);
+        this.router.navigate([ '/activities' ]);
       },
       error => {
         console.log(error);
@@ -91,7 +92,16 @@ export class DetailedActivityComponent implements OnInit {
 
   loadOption(): void {
     this.activityService
-      .findOptions(this.currentActivity.id)
-      .subscribe(response => this.options = response.data);
+      .findOptions(this.id)
+      .subscribe(response => {
+        this.Optionss = response.data
+        for (let opt of this.Optionss) {
+          this.options().push(this.formBuilder.group({
+            nameOption: opt.name,
+            image: opt.image,
+            price: opt.price
+          }))
+        }
+      });
   }
 }
