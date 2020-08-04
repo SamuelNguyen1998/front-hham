@@ -18,7 +18,6 @@ import { AddUserComponent } from './users/add-user/add-user.component';
 import { DetailedUserComponent } from "./users/detailed-user/detailed-user.component";
 import { AuthGuard } from "./_services/auth-guard.service";
 
-// for  jobs
 import { JobsComponent } from "./jobs/jobs.component";
 import { AddJobComponent } from './jobs/add-job/add-job.component';
 
@@ -30,7 +29,7 @@ const routes: Routes = [
 
   { path: 'projects', component: ProjectsComponent, canActivate: [ AuthGuard ] },
   { path: 'projects/add', component: AddProjectComponent, canActivate: [ AuthGuard ] },
-  { path: 'project/:id', component: DetailedProjectComponent, canActivate: [ AuthGuard ] },
+  { path: 'projects/:id', component: DetailedProjectComponent, canActivate: [ AuthGuard ] },
 
   { path: 'activities', component: ActivitiesComponent, canActivate: [ AuthGuard ] },
   { path: 'activities/add', component: AddActivityComponent, canActivate: [ AuthGuard ] },
