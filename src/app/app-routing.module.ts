@@ -18,7 +18,6 @@ import { AddUserComponent } from './users/add-user/add-user.component';
 import { DetailedUserComponent } from "./users/detailed-user/detailed-user.component";
 import { AuthGuard } from "./_services/auth-guard.service";
 
-// for  jobs
 import { JobsComponent } from "./jobs/jobs.component";
 import { AddJobComponent } from './jobs/add-job/add-job.component';
 

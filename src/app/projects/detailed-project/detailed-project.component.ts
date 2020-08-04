@@ -15,7 +15,6 @@ export class DetailedProjectComponent implements OnInit {
   currentProject: Project;
   activities: Activity[];
   message = "";
-  activities: Activity[];
 
   constructor(private projectService: ProjectService,
               private activityService: ActivityService,
