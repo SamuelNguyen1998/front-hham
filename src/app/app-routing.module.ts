@@ -29,11 +29,11 @@ const routes: Routes = [
 
   { path: 'projects', component: ProjectsComponent, canActivate: [ AuthGuard ] },
   { path: 'projects/add', component: AddProjectComponent, canActivate: [ AuthGuard ] },
-  { path: 'project/:id', component: DetailedProjectComponent, canActivate: [ AuthGuard ] },
+  { path: 'projects/:id', component: DetailedProjectComponent, canActivate: [ AuthGuard ] },
 
   { path: 'activities', component: ActivitiesComponent, canActivate: [ AuthGuard ] },
   { path: 'activities/add', component: AddActivityComponent, canActivate: [ AuthGuard ] },
-  { path: 'activity/:id', component: DetailedActivityComponent, canActivate: [ AuthGuard ] },
+  { path: 'activities/:id', component: DetailedActivityComponent, canActivate: [ AuthGuard ] },
 
   { path: 'users', component: UsersComponent, canActivate: [ AuthGuard ] },
   { path: 'users/add', component: AddUserComponent, canActivate: [ AuthGuard ] },

@@ -1,43 +1,33 @@
 <div class="container-xl">
-    <div class="list row">
-      <div class="col-md-8">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="name">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" (click)="searchByName()">
-              Search
-            </button>
-          </div>
+  <div class="list row">
+    <div class="col-md-8">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="name">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" (click)="searchByName()">
+            Search
+          </button>
         </div>
       </div>
-      <div class="col-md-6">
-        <h4>Activitys List</h4>
-        <ul class="list-group">
-          <!-- <li class="list-group-item" *ngFor="let activity of activitys">
-          </li> -->
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Id</th>
-                <th scope="col">Description</th>
-              </tr>
-            </thead>
-            <tfoot>
-              <tr>
-                <td colspan="3">Data is updated every 15 minutes.</td>
-              </tr>
-            </tfoot>
-            <tbody>
-              <tr *ngFor="let activity of activitys">
-                <th scope="row">{{activity.name}}</th>
-                <td>{{activity.id}}</td>
-                <td>{{activity.lockon}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </ul>
-      </div>
+    </div>
+    <div class="col-md-6">
+      <h4>Activities List</h4>
+      <ul class="list-group">
+        <table>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Id</th>
+            <th scope="col">Description</th>
+          </tr>
+          <tr *ngFor="let activity of activities">
+            <td>
+              <a href="/activities/{{activity.id}}" routerLink="/activities/{{activity.id}}">{{activity.name}}</a>
+            </td>
+            <td>{{activity.id}}</td>
+            <td>{{activity.lockedOn}}</td>
+          </tr>
+        </table>
+      </ul>
     </div>
   </div>
-  
+</div>

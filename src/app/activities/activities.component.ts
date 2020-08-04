@@ -10,7 +10,7 @@ import { AuthService } from '../_services/auth.service';
 })
 export class ActivitiesComponent implements OnInit {
 
-  activitys: Activity[];
+  activities: Activity[];
   name: string;
 
   constructor(public auth: AuthService, private activityService: ActivityService) {
@@ -22,14 +22,14 @@ export class ActivitiesComponent implements OnInit {
 
   retrieveProjects(): void {
     this.activityService.getAll().subscribe(
-      response => this.activitys = response.data,
+      response => this.activities = response.data,
       error => console.log(error)
     );
   }
 
   searchByName(): void {
     this.activityService.findByName(this.name).subscribe(
-      data => this.activitys = data,
+      data => this.activities = data,
       error => console.log(error)
     );
   }

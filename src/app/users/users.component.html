@@ -29,7 +29,7 @@
               <th>Actions</th>
             </tr>
             <tr *ngFor="let user of users">
-              <td><a href="/user/{{ user.id }}" routerLink="/user/{{ user.id }}">{{ user.username }}</a></td>
+              <td><a href="/users/{{ user.id }}" routerLink="/users/{{ user.id }}">{{ user.username }}</a></td>
               <td>{{user.displayName}}</td>
               <td>{{user.email}}</td>
               <td>{{user.jobTitleId}}</td>
@@ -42,4 +42,3 @@
       </div>
     </div>
   </div>
-  
