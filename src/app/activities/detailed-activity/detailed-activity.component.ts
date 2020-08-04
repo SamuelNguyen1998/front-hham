@@ -25,7 +25,7 @@ export class DetailedActivityComponent implements OnInit {
   ngOnInit(): void {
     this.message = '';
     this.getActivity(this.route.snapshot.paramMap.get('id'));
-    this.getOptions();
+    this.loadOption();
   }
 
   getActivity(id): void {
@@ -75,15 +75,6 @@ export class DetailedActivityComponent implements OnInit {
       price: this.optionss.price
     };
 
-    // this.activityService.create(data).subscribe(
-    //   response => {
-    //     console.log(response);
-    //     this.submitted = true;
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   }
-    // );
   }
 
   deleteActivity(): void {
@@ -98,10 +89,9 @@ export class DetailedActivityComponent implements OnInit {
     );
   }
 
-  getOptions(): void {
-    this.activityService.findOptions(this.currentActivity.id).subscribe(
-      response => this.options = response.data,
-      error => console.log(error)
-    );
+  loadOption(): void {
+    this.activityService
+      .findOptions(this.currentActivity.id)
+      .subscribe(response => this.options = response.data);
   }
 }

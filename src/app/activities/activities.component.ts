@@ -17,10 +17,10 @@ export class ActivitiesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.retrieveProjects();
+    this.retrieveActivities();
   }
 
-  retrieveProjects(): void {
+  retrieveActivities(): void {
     this.activityService.getAll().subscribe(
       response => this.activities = response.data,
       error => console.log(error)

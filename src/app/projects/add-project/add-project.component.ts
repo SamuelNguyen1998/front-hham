@@ -9,9 +9,9 @@ import { ProjectService } from "../../_services/project.service";
 })
 export class AddProjectComponent implements OnInit {
   project: {
-    fund: number;
     name: string;
     description: string;
+    fund: number;
   };
   submitted = false;
 
@@ -19,6 +19,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.newProject();
   }
 
   saveProject(): void {
