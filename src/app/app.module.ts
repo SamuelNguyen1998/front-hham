@@ -10,6 +10,9 @@ import { FlashMessagesModule } from 'angular2-flash-messages';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MenubarComponent } from './menubar/menubar.component';
+import { FooterComponent } from './footer/footer.component';
+
+import { FundComponent } from './fund/fund.component';
 
 import { ProjectsComponent } from './projects/projects.component';
 import { AddProjectComponent } from './projects/add-project/add-project.component';
@@ -21,13 +24,12 @@ import { DetailedActivityComponent } from './activities/detailed-activity/detail
 
 import { UsersComponent } from './users/users.component';
 import { AddUserComponent } from './users/add-user/add-user.component';
-import { UserDetailsComponent } from './users/user-details/user-details.component';
-import { FundComponent } from './fund/fund.component';
 import { DetailedUserComponent } from './users/detailed-user/detailed-user.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
+import { authInterceptorProviders } from "./_helper/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -47,13 +49,14 @@ import { DashboardUserComponent } from './dashboard-user/dashboard-user.componen
 
     UsersComponent,
     AddUserComponent,
-    UserDetailsComponent,
     FundComponent,
     DetailedUserComponent,
 
     DashboardComponent,
     DashboardAdminComponent,
     DashboardUserComponent,
+
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,7 @@ import { DashboardUserComponent } from './dashboard-user/dashboard-user.componen
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ /*authInterceptorProviders*/ ],
+  providers: [ authInterceptorProviders ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule {

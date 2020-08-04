@@ -17,7 +17,7 @@ export class ProjectService {
   }
 
   get(id): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/project/${id}`);
+    return this.http.get(`${Constants.API_BASE}/projects/${id}`);
   }
 
   create(data): Observable<any> {
@@ -25,11 +25,11 @@ export class ProjectService {
   }
 
   update(id, data): Observable<any> {
-    return this.http.put(`${Constants.API_BASE}/project/${id}`, data);
+    return this.http.put(`${Constants.API_BASE}/projects/${id}`, data);
   }
 
   delete(id): Observable<any> {
-    return this.http.delete(`${Constants.API_BASE}/project/${id}`);
+    return this.http.delete(`${Constants.API_BASE}/projects/${id}`);
   }
 
   findByName(name): Observable<any> {

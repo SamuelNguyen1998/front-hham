@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { Activity } from "../../_models/Activity";
 import { ActivityService } from "../../_services/activity.service";
+import { Project } from "../../_models/Project";
 
 @Component({
   selector: 'app-detailed-project',
@@ -11,12 +12,7 @@ import { ActivityService } from "../../_services/activity.service";
   styleUrls: [ './detailed-project.component.scss' ]
 })
 export class DetailedProjectComponent implements OnInit {
-  currentProject: {
-    id: number;
-    name: string;
-    description: string;
-    fund: number;
-  };
+  currentProject: Project;
   message = "";
 
   constructor(private projectService: ProjectService,
@@ -27,8 +23,11 @@ export class DetailedProjectComponent implements OnInit {
 
   ngOnInit(): void {
     this.message = '';
+    this.projectService
+      .get(this.route.snapshot.params.projectId)
+      .subscribe((project) => this.currentProject = project);
     this.projectService.get(this.route.snapshot.paramMap.get('id')).subscribe(
-      data => this.currentProject = data,
+      data => this.currentProject = data.project,
       error => console.log(error)
     );
   }
