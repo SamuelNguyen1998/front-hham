@@ -1,37 +1,46 @@
-
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">No</th>
-              <th scope="col">Job tile</th>
-              <th scope="col">Amount to pay</th>
-            </tr>
-          </thead>
-          <tfoot>
-            <tr>
-              <td colspan="3">Data is updated every 15 minutes.</td>
-            </tr>
-          </tfoot>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Senior Manager</td>
-              <td>300000 VND</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Manager</td>
-              <td>250000 VND</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Senior Developer</td>
-              <td>200000 VND</td>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-              <td>Developer</td>
-              <td>150000 VND</td>
-            </tr>
-          </tbody>
-        </table>
+<div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="name">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button">
+      Search
+    </button>
+  </div>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Job tile</th>
+      <th scope="col">Amount to pay</th>
+    </tr>
+  </thead>
+  <tfoot>
+  </tfoot>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Senior Manager</td>
+      <td>300000 VND</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Manager</td>
+      <td>250000 VND</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Senior Developer</td>
+      <td>200000 VND</td>
+    </tr>
+    <tr>
+      <th scope="row">4</th>
+      <td>Developer</td>
+      <td>150000 VND</td>
+    </tr>
+  </tbody>
+</table>
+<div class="col-md-6">
+  <h2>Create new title job
+  <a href="/jobs/add" class="btn btn-info" routerLink="/jobs/add">Add</a>
+  </h2>
+</div>

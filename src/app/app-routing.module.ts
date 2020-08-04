@@ -18,6 +18,10 @@ import { AddUserComponent } from './users/add-user/add-user.component';
 import { DetailedUserComponent } from "./users/detailed-user/detailed-user.component";
 import { AuthGuard } from "./_services/auth-guard.service";
 
+// for  jobs
+import { JobsComponent } from "./jobs/jobs.component";
+import { AddJobComponent } from './jobs/add-job/add-job.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -35,6 +39,9 @@ const routes: Routes = [
   { path: 'users', component: UsersComponent, canActivate: [ AuthGuard ] },
   { path: 'users/add', component: AddUserComponent, canActivate: [ AuthGuard ] },
   { path: 'users/:id', component: DetailedUserComponent, canActivate: [ AuthGuard ] },
+
+  { path: 'jobs', component: JobsComponent, canActivate: [ AuthGuard ] },
+  { path: 'jobs/add', component: AddJobComponent, canActivate: [ AuthGuard ] },
 
   { path: '*', redirectTo: 'login' },
 ];

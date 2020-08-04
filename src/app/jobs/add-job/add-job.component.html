@@ -1,0 +1,32 @@
+<div class="container">
+  <div style="width: 400px; margin: auto;">
+    <div class="submit-form">
+      <div >  <!--  check submitted here -->
+        <div class="form-group">
+          <label for="id">ID</label>
+          <input type="text" class="form-control" id="id" required [(ngModel)]="job.name"
+                 name="id">
+        </div>
+        <div class="form-group">
+          <label for="name">Job title</label>
+          <input class="form-control" id="name" required [(ngModel)]="job.name"
+                 name="name">
+        </div>
+        <div class="form-group">
+          <label for="amount_money">Amount to pay</label>
+          <input class="form-control" id="amount_money" required [(ngModel)]="job.amount_money"
+                 name="amount_money">
+        </div>
+
+
+        <button  class="btn btn-success">Submit</button>
+     <!--   check for submitted __   do and check it later -->
+      </div>
+      <div *ngIf="submitted">
+        <h4>You submitted successfully!</h4>
+        <button class="btn btn-success" (click)="newProject()">Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -48,6 +48,7 @@ export class AuthService {
   }
 
   async login(loginRequest: LoginRequest): Promise<void> {
+
     const response: any = await this.http.post(`${Constants.DOC_BASE}/auth/login`,
       loginRequest,
       Constants.DEFAULT_HTTP_OPTIONS).toPromise();
