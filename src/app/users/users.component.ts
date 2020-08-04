@@ -23,7 +23,7 @@ export class UsersComponent implements OnInit {
 
   retrieveProjects(): void {
     this.userService.getAll().subscribe(
-      data => this.users = data,
+      response => this.users = response.data,
       error => console.log(error)
     );
   }

@@ -14,6 +14,7 @@ import { Project } from "../../_models/Project";
 export class DetailedProjectComponent implements OnInit {
   currentProject: Project;
   message = "";
+  activities: Activity[];
 
   constructor(private projectService: ProjectService,
               private activityService: ActivityService,
@@ -27,9 +28,10 @@ export class DetailedProjectComponent implements OnInit {
       .get(this.route.snapshot.params.projectId)
       .subscribe((project) => this.currentProject = project);
     this.projectService.get(this.route.snapshot.paramMap.get('id')).subscribe(
-      data => this.currentProject = data.project,
+      response => this.currentProject = response.data,
       error => console.log(error)
     );
+    this.getActivities();
   }
 
   updateProject(): void {
@@ -45,7 +47,10 @@ export class DetailedProjectComponent implements OnInit {
       error => console.log(error));
   }
 
-  getActivities(): Observable<Activity[]> {
-    return this.activityService.findAllInProject(this.currentProject.id);
+  getActivities(): void {
+    this.activityService.findAllInProject(this.currentProject.id).subscribe(
+      response => this.activities = response.data,
+      error => console.log(error)
+    );
   }
 }

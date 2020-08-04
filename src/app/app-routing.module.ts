@@ -34,7 +34,7 @@ const routes: Routes = [
 
   { path: 'users', component: UsersComponent, canActivate: [ AuthGuard ] },
   { path: 'users/add', component: AddUserComponent, canActivate: [ AuthGuard ] },
-  { path: 'user/:id', component: DetailedUserComponent, canActivate: [ AuthGuard ] },
+  { path: 'users/:id', component: DetailedUserComponent, canActivate: [ AuthGuard ] },
 
   { path: '*', redirectTo: 'login' },
 ];

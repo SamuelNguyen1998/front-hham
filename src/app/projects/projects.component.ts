@@ -22,7 +22,7 @@ export class ProjectsComponent implements OnInit {
 
   retrieveProjects(): void {
     this.projectService.getAll().subscribe(
-      data => this.projects = data.projects,
+      response => this.projects = response.data,
       error => console.log(error)
     );
   }

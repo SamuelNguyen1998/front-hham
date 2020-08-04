@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/_services/user.service';
 
 @Component({
   selector: 'app-detailed-user',
@@ -7,10 +10,62 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailedUserComponent implements OnInit {
 
-  constructor() {
-  }
+  currentUser = null;
+  message = '';
+  userForm: FormGroup = this.formBuilder.group({
+    username: '',
+    displayName: '',
+    email: '',
+    password: '',
+  });
+
+  constructor(private formBuilder: FormBuilder,
+              private userService: UserService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
+    this.message = '';
+    this.getUser(this.route.snapshot.paramMap.get('id'));
+  }
+
+  getUser(id): void {
+    this.userService.get(id).subscribe(
+      response => {
+        this.currentUser = response.data;
+        console.log(response.data);
+      },
+      error => {
+        console.log(error);
+      });
+  }
+
+  onSubmit() {
+    console.log(this.userForm.value);
+  }
+
+  updateUser(): void {
+    this.userService.update(this.currentUser.id, this.currentUser).subscribe(
+      response => {
+        console.log(response);
+        this.message = 'The user was updated successfully!';
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  deleteUser(): void {
+    this.userService.delete(this.currentUser.id).subscribe(
+      response => {
+        console.log(response);
+        this.router.navigate([ '/users' ]);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 }
