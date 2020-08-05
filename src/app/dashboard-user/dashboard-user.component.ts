@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Activity } from "../_models/Activity";
 import { FlashMessagesService } from "angular2-flash-messages";
-import { ActivityService } from "../_services/activity.service";
+import { OptionService } from "../_services/option.service";
 import { UserService } from "../_services/user.service";
-import { OptionService } from '../_services/option.service';
+import { ActivityService } from '../_services/activity.service';
+
 
 @Component({
   selector: 'app-dashboard-user',
