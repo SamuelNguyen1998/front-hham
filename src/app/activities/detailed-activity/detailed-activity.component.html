@@ -10,7 +10,8 @@
         <label for="description">Description:</label>
         <input type="text" id="description" name="description" formControlName="description" class="form-control" [(ngModel)]="currentActivity.description">
       </p>
-
+    </form>
+    <form [formGroup]="optionForm" (ngSubmit)="onSubmit()">
       <table class="table table-bordered" formArrayName="options">
         <tr>
           <th colspan="3">Add Multiple Option:</th>
@@ -41,11 +42,6 @@
           </div>
         </tr>
       </table>
-
-      <!-- <div class="form-group">
-          <label><strong>Status:</strong></label>
-          {{ currentActivity.published ? "Published" : "Pending" }}
-      </div> -->
     </form>
 
     <!-- <button class="badge badge-primary mr-2" *ngIf="currentActivity.published" (click)="updatePublished(false)">

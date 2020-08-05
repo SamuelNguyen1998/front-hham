@@ -32,7 +32,7 @@ export class DetailedUserComponent implements OnInit {
     this.userService.get(id).subscribe(
       response => {
         this.currentUser = response.data;
-        console.log(response.data);
+        //console.log(response.data);
       },
       error => {
         console.log(error);
@@ -58,7 +58,7 @@ export class DetailedUserComponent implements OnInit {
   deleteUser(): void {
     this.userService.delete(this.currentUser.id).subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.router.navigate([ '/users' ]);
       },
       error => {

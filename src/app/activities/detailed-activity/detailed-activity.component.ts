@@ -17,6 +17,10 @@ export class DetailedActivityComponent implements OnInit {
   activityForm: FormGroup = this.formBuilder.group({
     name: '',
     description: '',
+    //options: this.formBuilder.array([])
+  });
+
+  optionForm: FormGroup = this.formBuilder.group({
     options: this.formBuilder.array([])
   });
 
@@ -35,35 +39,47 @@ export class DetailedActivityComponent implements OnInit {
 
   getActivity(id): void {
     this.activityService.get(id).subscribe(
-      response => this.currentActivity = response.data,
+      response => {
+      this.currentActivity = response.data,
       error => console.log(error)
+      }
     );
   }
 
   onSubmit() {
     console.log(this.activityForm.value);
+    console.log(this.optionForm.value);
   }
 
   addOption() {
-    const control = <FormArray>this.activityForm.controls['options'];
     this.options().push(this.newOption());
   }
 
   options(): FormArray {
-    return this.activityForm.get("options") as FormArray
+    return this.optionForm.get("options") as FormArray
   }
 
   newOption(): FormGroup {
     return this.formBuilder.group({
-      id: 0,
+      id: this.options().length+1,
       nameOption: '',
       image: '',
-      price: ''
+      price: '',
+      activityId: this.id
     })
   }
 
   removeOption(index: number) {
     this.options().removeAt(index);
+    this.optionService.delete(this.options().at(index).value.id).subscribe(
+      response => {
+        //console.log(response);
+        this.message = 'The Option was delete successfully!';
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   updateActivity(): void {
@@ -76,13 +92,25 @@ export class DetailedActivityComponent implements OnInit {
         console.log(error);
       }
     );
+    for (let opt of this.options().value) {
+      this.optionService.create(opt).subscribe(
+        response => {
+          console.log(response);
+          this.message = 'The Option was create successfully!';
+        },
+        error => {
+          console.log(error);
+        }
+      );
+      }
+    
 
   }
 
   deleteActivity(): void {
     this.activityService.delete(this.currentActivity.id).subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.router.navigate([ '/activities' ]);
       },
       error => {
@@ -95,13 +123,15 @@ export class DetailedActivityComponent implements OnInit {
     this.optionService
       .findOptions(this.id)
       .subscribe(response => {
+        console.log(response.data);
         this.Optionss = response.data
         for (let opt of this.Optionss) {
           this.options().push(this.formBuilder.group({
             id: opt.id,
             nameOption: opt.name,
             image: opt.image,
-            price: opt.price
+            price: opt.price,
+            activityId: opt.activityId
           }))
         }
       });
@@ -111,7 +141,7 @@ export class DetailedActivityComponent implements OnInit {
     //console.log(this.options().at(index).value.id);
     this.optionService.vote(this.options().at(index).value.id).subscribe(
       response => {
-        console.log(response);
+        //console.log(response);
         this.message = 'The Option was voted successfully!';
       },
       error => {
