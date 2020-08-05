@@ -15,7 +15,7 @@
       <table class="table table-bordered" formArrayName="options">
         <tr>
           <th colspan="3">Add Multiple Option:</th>
-          <th width="150px">
+          <th width="150px" *ngIf="auth.loggedIn && auth.currentUser.isAdmin">
             <button type="button" (click)="addOption()" class="btn btn-primary">Add More</button>
           </th>
         </tr>
@@ -34,7 +34,7 @@
               <input type="text" class="form-control" formControlName="price" value="{{option.price}}">
             </td>
             <td>
-              <button (click)="removeOption(i)" class="btn btn-danger">Remove</button>
+              <button (click)="removeOption(i)" class="btn btn-danger" *ngIf="auth.loggedIn && auth.currentUser.isAdmin">Remove</button>
             </td>
             <td>
               <button (click)="voteOption(i)" class="btn btn-info">Vote</button>
@@ -51,11 +51,11 @@
         Publish
     </button> -->
 
-    <button type="submit" class="btn btn-success mr-5" (click)="updateActivity()">
+    <button type="submit" class="btn btn-success mr-5" (click)="updateActivity()" *ngIf="auth.loggedIn && auth.currentUser.isAdmin">
       Update
     </button>
 
-    <button class="btn btn-danger mr-0" (click)="deleteActivity()">
+    <button class="btn btn-danger mr-0" (click)="deleteActivity()" *ngIf="auth.loggedIn && auth.currentUser.isAdmin">
       Delete
     </button>
     <p>{{ message }}</p>

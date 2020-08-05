@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ActivityService } from "../../_services/activity.service";
 import { OptionService } from "../../_services/option.service";
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-detailed-activity',
@@ -24,7 +25,8 @@ export class DetailedActivityComponent implements OnInit {
     options: this.formBuilder.array([])
   });
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(public auth: AuthService,
+              private formBuilder: FormBuilder,
               private activityService: ActivityService,
               private optionService: OptionService,
               private route: ActivatedRoute,
