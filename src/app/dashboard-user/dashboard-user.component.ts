@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Activity } from "../_models/Activity";
 import { FlashMessagesService } from "angular2-flash-messages";
-import { ActivityService } from "../_services/activity.service";
+import { OptionService } from "../_services/option.service";
 import { UserService } from "../_services/user.service";
+
 
 @Component({
   selector: 'app-dashboard-user',
@@ -16,7 +17,7 @@ export class DashboardUserComponent implements OnInit {
   votingEnded: boolean = false;
 
   constructor(private userService: UserService,
-              private activityService: ActivityService,
+              private optionService: OptionService,
               private flashMessagesService: FlashMessagesService) { }
 
   ngOnInit(): void {
@@ -24,7 +25,7 @@ export class DashboardUserComponent implements OnInit {
   }
 
   vote() {
-    this.activityService.vote(this.selected).subscribe(success => {
+    this.optionService.vote(this.selected).subscribe(success => {
       this.activity.lockedOn = new Date();
       this.flashMessagesService.show("Vote submitted!", {
         cssClass: 'card-panel green lighten-4',
