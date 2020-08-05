@@ -36,15 +36,15 @@ export class ActivityService {
     return this.http.get(`${Constants.API_BASE}/activities?name=${name}`);
   }
 
-  vote(id: number): Observable<any> {
-    return this.http.post(`${Constants.API_BASE}/options/${id}/vote`, {});
-  }
+  // vote(id: number): Observable<any> {
+  //   return this.http.post(`${Constants.API_BASE}/options/${id}/vote`, {});
+  // }
 
   findAllInProject(id: number): Observable<any> {
     return this.http.get(`${Constants.API_BASE}/activities?projectId=${id}`);
   }
 
-  findOptions(id: number): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/options?activityId=${id}`);
-  }
+  // findOptions(id: number): Observable<any> {
+  //   return this.http.get(`${Constants.API_BASE}/options?activityId=${id}`);
+  // }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ActivityService } from "../../_services/activity.service";
-import {Option} from "../../_models/Option";
+import { OptionService } from "../../_services/option.service";
 
 @Component({
   selector: 'app-detailed-activity',
@@ -14,7 +14,6 @@ export class DetailedActivityComponent implements OnInit {
   message = '';
   id: any;
   Optionss: any;
-  private staticOptions: Object[] = [];
   activityForm: FormGroup = this.formBuilder.group({
     name: '',
     description: '',
@@ -23,6 +22,7 @@ export class DetailedActivityComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private activityService: ActivityService,
+              private optionService: OptionService,
               private route: ActivatedRoute,
               private router: Router) { }
 
@@ -55,6 +55,7 @@ export class DetailedActivityComponent implements OnInit {
 
   newOption(): FormGroup {
     return this.formBuilder.group({
+      id: 0,
       nameOption: '',
       image: '',
       price: ''
@@ -91,17 +92,31 @@ export class DetailedActivityComponent implements OnInit {
   }
 
   loadOption(): void {
-    this.activityService
+    this.optionService
       .findOptions(this.id)
       .subscribe(response => {
         this.Optionss = response.data
         for (let opt of this.Optionss) {
           this.options().push(this.formBuilder.group({
+            id: opt.id,
             nameOption: opt.name,
             image: opt.image,
             price: opt.price
           }))
         }
       });
+  }
+
+  voteOption(index: number): void{
+    //console.log(this.options().at(index).value.id);
+    this.optionService.vote(this.options().at(index).value.id).subscribe(
+      response => {
+        console.log(response);
+        this.message = 'The Option was voted successfully!';
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }

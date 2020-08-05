@@ -35,6 +35,9 @@
             <td>
               <button (click)="removeOption(i)" class="btn btn-danger">Remove</button>
             </td>
+            <td>
+              <button (click)="voteOption(i)" class="btn btn-info">Vote</button>
+            </td>
           </div>
         </tr>
       </table>
@@ -64,6 +67,6 @@
 
   <div *ngIf="!currentActivity">
     <br/>
-    <p>Cannot access this project...</p>
+    <p>Cannot access this activity...</p>
   </div>
 </div>
