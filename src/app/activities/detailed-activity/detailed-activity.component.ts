@@ -53,6 +53,16 @@ export class DetailedActivityComponent implements OnInit {
 
   addOption() {
     this.options().push(this.newOption());
+    console.log(this.newOption().value);
+    this.optionService.create(this.newOption().value).subscribe(
+      response => {
+        console.log(response);
+        this.message = 'The Option was create successfully!';
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   options(): FormArray {
@@ -61,11 +71,10 @@ export class DetailedActivityComponent implements OnInit {
 
   newOption(): FormGroup {
     return this.formBuilder.group({
-      id: this.options().length+1,
-      nameOption: '',
-      image: '',
-      price: '',
-      activityId: this.id
+      name: '...',
+      image: null,
+      price: 1,
+      activityId: Number(this.id)
     })
   }
 
@@ -73,7 +82,7 @@ export class DetailedActivityComponent implements OnInit {
     this.options().removeAt(index);
     this.optionService.delete(this.options().at(index).value.id).subscribe(
       response => {
-        //console.log(response);
+        console.log(response);
         this.message = 'The Option was delete successfully!';
       },
       error => {
@@ -93,10 +102,10 @@ export class DetailedActivityComponent implements OnInit {
       }
     );
     for (let opt of this.options().value) {
-      this.optionService.create(opt).subscribe(
+      this.optionService.update(opt.id,opt).subscribe(
         response => {
           console.log(response);
-          this.message = 'The Option was create successfully!';
+          this.message = 'The Option was update successfully!';
         },
         error => {
           console.log(error);
@@ -123,15 +132,13 @@ export class DetailedActivityComponent implements OnInit {
     this.optionService
       .findOptions(this.id)
       .subscribe(response => {
-        console.log(response.data);
+        console.log(response.data)
         this.Optionss = response.data
         for (let opt of this.Optionss) {
           this.options().push(this.formBuilder.group({
-            id: opt.id,
-            nameOption: opt.name,
+            name: opt.name,
             image: opt.image,
             price: opt.price,
-            activityId: opt.activityId
           }))
         }
       });
