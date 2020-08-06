@@ -12,13 +12,11 @@ import { JobService } from 'src/app/_services/job.service';
 export class JobDetailComponent implements OnInit {
   currentJob = null;
 
- 
-
   message = '';
   jobForm: FormGroup= this.formBuilder.group({
     id: 'handle backend',
     name: 'handle backend', 
-    amountMoney: 'handle backend',
+    monthlyAmount: 'handle backend',
   });
 
   constructor(private formBuilder: FormBuilder,
@@ -27,24 +25,36 @@ export class JobDetailComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+    this.message = '';
+    this.getJob(this.route.snapshot.paramMap.get('id'));
 
   }
   getJob(id): void{
-    return this.currentJob;
-
-    // DO THIS LATER
+    
     this.jobService.get(id).subscribe(
       response => {
         this.currentJob = response.data;
-
-      }
-    )
+      });
   }
   updateJob(): void{
+    this.jobService.update(this.currentJob.id, this.currentJob).subscribe(
+      response => {
+        this.message = 'Job title was updated sucessfully!'
+      }
+    )
     
   }
   onSubmit(){
     console.log(this.jobForm.value);
+  }
+
+  // delete title job
+  deleteJob(): void{
+    this.jobService.delete(this.currentJob.id).subscribe(
+      response => {
+      this.router.navigate(['./jobs']);
+      }
+    );
   }
 
 }
