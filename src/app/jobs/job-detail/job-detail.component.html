@@ -15,11 +15,16 @@
 
             <p>
                 <label for="id">Amount to pay:</label>
-                <input type="text" id="amountMoney" name="id" formControlName="id" class="form-control" [(ngModel)]="currentJob.id">
+                <input type="text" id="amountMoney" name="monthlyAmount" formControlName="monthlyAmount" class="form-control" [(ngModel)]="currentJob.monthlyAmount">
             </p>
         </form>
-        <button type="submit" class="btn btn-success mr-5" (click)="updateJob()">
-            Update
+        
+        <button
+            type="submit" class="btn btn-success mr-5" (click)="updateJob()">
+           Update
         </button>
+        <p> {{message}}</p>
+    
+
     </div>
 </div>
