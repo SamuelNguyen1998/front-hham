@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { ActivityService } from "../../_services/activity.service";
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-activity',
@@ -8,18 +9,23 @@ import { ActivityService } from "../../_services/activity.service";
   styleUrls: [ './add-activity.component.scss' ]
 })
 export class AddActivityComponent implements OnInit {
-  activity: { name: string; description: string };
+  activity: { name: string; description: string ; projectId: any};
   submitted: boolean = false;
+  idProject: any;
 
-  constructor(private activityService: ActivityService) { }
+  constructor(private activityService: ActivityService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.newActivity();
+    this.idProject = this.route.snapshot.paramMap.get('id');
   }
 
   saveActivity(): void {
+    const { name, description } = this.activity;
     const data = {
-      title: this.activity.name,
-      description: this.activity.description
+      name: name,
+      description: description,
+      projectId: this.idProject
     };
 
     this.activityService.create(data).subscribe(
@@ -31,6 +37,7 @@ export class AddActivityComponent implements OnInit {
         console.log(error);
       }
     );
+    this.router.navigate(["activities"]);
   }
 
   newActivity(): void {
@@ -38,6 +45,7 @@ export class AddActivityComponent implements OnInit {
     this.activity = {
       name: '',
       description: '',
+      projectId: this.idProject
     };
   }
 }

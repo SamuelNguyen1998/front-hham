@@ -35,4 +35,8 @@ export class ProjectService {
   findByName(name): Observable<any> {
     return this.http.get(`${Constants.API_BASE}/projects?name=${name}`);
   }
+
+  getMember(id): Observable<any> {
+    return this.http.get(`${Constants.API_BASE}/projects/${id}/members`);
+  }
 }

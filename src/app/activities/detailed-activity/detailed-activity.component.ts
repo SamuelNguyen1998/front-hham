@@ -25,7 +25,8 @@ export class DetailedActivityComponent implements OnInit {
     options: this.formBuilder.array([])
   });
 
-  constructor(public auth: AuthService,
+  constructor(
+              public auth: AuthService,
               private formBuilder: FormBuilder,
               private activityService: ActivityService,
               private optionService: OptionService,
@@ -134,7 +135,6 @@ export class DetailedActivityComponent implements OnInit {
     this.optionService
       .findOptions(this.id)
       .subscribe(response => {
-        console.log(response.data)
         this.Optionss = response.data
         for (let opt of this.Optionss) {
           this.options().push(this.formBuilder.group({

@@ -10,6 +10,7 @@ import { FundService } from '../_services/fund.service';
 export class FundComponent implements OnInit {
 
   projects: any;
+  members: any;
   currentProject = null;
   currentIndex = -1;
   title = '';
@@ -23,9 +24,8 @@ export class FundComponent implements OnInit {
   retrieveProjects(): void {
     this.projectService.getAll()
       .subscribe(
-        data => {
-          this.projects = data;
-          console.log(data);
+        response => {
+          this.projects = response.data;
         },
         error => {
           console.log(error);
@@ -41,7 +41,13 @@ export class FundComponent implements OnInit {
   setActiveProject(project, index): void {
     this.currentProject = project;
     this.currentIndex = index;
+    this.projectService.getMember(this.currentProject.id)
+      .subscribe(
+        response => {
+          console.log(response.data);
+          this.members = response.data;
+        },
+        error => console.log(error),       
+      );
   }
-
-  
 }
