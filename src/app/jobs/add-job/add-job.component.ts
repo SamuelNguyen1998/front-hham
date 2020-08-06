@@ -7,31 +7,39 @@ import { JobService } from "../../_services/job.service";
   styleUrls: ['./add-job.component.scss']
 })
 export class AddJobComponent implements OnInit {
-
     job: {
       id: number;
       name: string;
-      amountMoney: number;
+      monthlyAmount: number;
     };
-    submitted = false;
+    submitted: boolean;
 
   constructor(private jobService: JobService) { }
 
   ngOnInit(): void {
+    this.newJob();
   }
   saveJob(): void {
-    const { name, amountMoney } = this.job;
-    this.jobService.create({ name, amountMoney}).subscribe(
-      response => this.submitted = true,
-      error => console.log(error));
+    const { id, name, monthlyAmount } = this.job;
+    const data = {
+      id: id,
+      name: name, 
+      monthlyAmount: monthlyAmount,
+    };
+    this.jobService.create(data).subscribe(
+      response => {
+        console.log(response);
+        this.submitted = true;
+      }
+    );
   }
 
   newJob(): void {
     this.submitted = false;
     this.job = {
-      id: 0,
+      id: null,
       name: '',
-      amountMoney: 0
+      monthlyAmount: null
     };
   }
 

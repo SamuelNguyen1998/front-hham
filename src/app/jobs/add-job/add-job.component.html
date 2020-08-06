@@ -1,10 +1,10 @@
 <div class="container">
   <div style="width: 400px; margin: auto;">
     <div class="submit-form">
-      <div >  <!--  check submitted here -->
+      <div *ngIf="!submitted" >  <!--  check submitted here -->
         <div class="form-group">
           <label for="id">ID</label>
-          <input type="text" class="form-control" id="id" required [(ngModel)]="job.name"
+          <input type="text" class="form-control" id="id" required [(ngModel)]="job.id"
                  name="id">
         </div>
         <div class="form-group">
@@ -14,8 +14,8 @@
         </div>
         <div class="form-group">
           <label for="amount_money">Amount to pay</label>
-          <input class="form-control" id="amountMoney" required [(ngModel)]="job.amountMoney"
-                 name="amountMoney">
+          <input class="form-control" id="monthlyAmount" required [(ngModel)]="job.monthlyAmount"
+                 name="monthlyAmount">
         </div>
         <button (click)="saveJob()" class="btn btn-success">Submit</button>
      <!--   check for submitted __   do and check it later -->
