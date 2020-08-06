@@ -49,7 +49,6 @@ export class JobsComponent implements OnInit {
   searchByName(): void {
     this.jobService.findByName(this.name).subscribe(
       response => this.jobs = response.data,
-      error => console.log(error)
     );
   }
 }
