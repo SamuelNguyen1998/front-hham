@@ -45,10 +45,10 @@ export class AddUserComponent implements OnInit {
   newUser(): void {
     this.submitted = false;
     this.user = {
-      username: '',
-      password: '',
-      displayName: '',
-      email: '',
+      username: null,
+      password: null,
+      displayName: null,
+      email: null,
     };
   }
 }

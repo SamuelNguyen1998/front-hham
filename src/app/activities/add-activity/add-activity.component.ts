@@ -13,7 +13,10 @@ export class AddActivityComponent implements OnInit {
   submitted: boolean = false;
   idProject: any;
 
-  constructor(private activityService: ActivityService, private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private activityService: ActivityService, 
+    private router: Router, 
+    private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.newActivity();
@@ -23,19 +26,14 @@ export class AddActivityComponent implements OnInit {
   saveActivity(): void {
     const { name, description } = this.activity;
     const data = {
-      name: name,
-      description: description,
+      name,
+      description,
       projectId: this.idProject
     };
 
     this.activityService.create(data).subscribe(
-      response => {
-        console.log(response);
-        this.submitted = true;
-      },
-      error => {
-        console.log(error);
-      }
+      response => this.submitted = true,
+      error => console.log(error)
     );
     this.router.navigate(["activities"]);
   }

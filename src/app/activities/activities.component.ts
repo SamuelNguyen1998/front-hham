@@ -13,7 +13,9 @@ export class ActivitiesComponent implements OnInit {
   activities: Activity[];
   name: string;
 
-  constructor(public auth: AuthService, private activityService: ActivityService) {
+  constructor(
+    public auth: AuthService, 
+    private activityService: ActivityService) {
   }
 
   ngOnInit(): void {
