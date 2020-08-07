@@ -15,25 +15,14 @@ export class FundComponent implements OnInit {
   currentProject = null;
   currentIndex = -1;
   title = '';
-  fundForm: FormGroup;
 
-  
+
   constructor(
-    private formBuilder: FormBuilder,
-    private projectService: ProjectService, 
-    private fundService: FundService) { 
-      this.fundForm = this.formBuilder.group({
-        fund: this.formBuilder.array([])
-      });
-    
-    }
+    private projectService: ProjectService,
+    private fundService: FundService) { }
 
   ngOnInit(): void {
     this.retrieveProjects();
-  }
-
-  funds(): FormArray {
-    return this.fundForm.get("fund") as FormArray
   }
 
   retrieveProjects(): void {
@@ -59,24 +48,35 @@ export class FundComponent implements OnInit {
     this.projectService.getMember(this.currentProject.id)
       .subscribe(
         response => {
+          console.log(response.data);
           this.members = response.data;
-          for (let fund of this.members) {
-            this.funds().push(this.formBuilder.group({
-              displayName: fund.displayName,
-              email: fund.email,
-              jobTitle: fund.jobTitle.name,
-              monthlyAmount: fund.jobTitle.monthlyAmount
-            }))
-            console.log(fund)
-          }
         },
-        error => console.log(error),       
+        error => console.log(error),
       );
   }
   completeFund(): void {
-    const selectedOrderIds = this.fundForm.value.orders
-      .map((checked, i) => checked ? this.funds[i].id : null)
-      .filter(v => v !== null);
-    console.log(selectedOrderIds);
+    // const selectedOrderIds = this.fundForm.value.orders
+    //   .map((checked, i) => checked ? this.funds[i].id : null)
+    //   .filter(v => v !== null);
+    // console.log(selectedOrderIds);
+    var inputElems = document.getElementsByTagName("input"),
+    for (var i = 0; i < inputElems.length; i++) {
+      if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
+        const data = {
+          userId: Number(inputElems[i].getAttribute("id")),
+          projectId: this.currentProject.id,
+          amount: Number(inputElems[i].getAttribute("value")),
+          typeId: 1
+        };
+        this.fundService.create(data).subscribe(
+          response => {
+            console.log(response);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
+    }
   }
 }

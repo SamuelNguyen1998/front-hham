@@ -26,10 +26,10 @@ export class AddUserComponent implements OnInit {
   saveUser(): void {
     const { password, displayName, email, username } = this.user;
     const data = {
-      username: username,
-      password: password,
-      displayName: displayName,
-      email: email,
+      username,
+      password,
+      displayName,
+      email,
     };
     this.userService.create(data).subscribe(
       response => {
