@@ -45,7 +45,7 @@ const routes: Routes = [
   { path: 'jobs/add', component: AddJobComponent, canActivate: [ AuthGuard ] },
   { path: 'jobs/:id', component: JobDetailComponent , canActivate: [ AuthGuard ] },
 
-  { path: 'fund', component: FundComponent, canActivate: [ AuthGuard ] },
+  { path: 'funds', component: FundComponent, canActivate: [ AuthGuard ] },
   
   { path: '*', redirectTo: 'login' },
 ];

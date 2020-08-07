@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../_services/project.service';
 import { FundService } from '../_services/fund.service';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-fund',
@@ -55,10 +54,6 @@ export class FundComponent implements OnInit {
       );
   }
   completeFund(): void {
-    // const selectedOrderIds = this.fundForm.value.orders
-    //   .map((checked, i) => checked ? this.funds[i].id : null)
-    //   .filter(v => v !== null);
-    // console.log(selectedOrderIds);
     var inputElems = document.getElementsByTagName("input"),
     for (var i = 0; i < inputElems.length; i++) {
       if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
