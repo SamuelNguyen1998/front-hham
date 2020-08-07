@@ -54,7 +54,7 @@ export class FundComponent implements OnInit {
       );
   }
   completeFund(): void {
-    var inputElems = document.getElementsByTagName("input"),
+    var inputElems = document.getElementsByTagName("input");
     for (var i = 0; i < inputElems.length; i++) {
       if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
         const data = {
