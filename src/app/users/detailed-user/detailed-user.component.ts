@@ -17,6 +17,7 @@ export class DetailedUserComponent implements OnInit {
     displayName: '',
     email: '',
   });
+  submitted: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
@@ -32,7 +33,7 @@ export class DetailedUserComponent implements OnInit {
     this.userService.get(id).subscribe(
       response => {
         this.currentUser = response.data;
-        //console.log(response.data);
+        console.log(response.data);
       },
       error => {
         console.log(error);
@@ -47,7 +48,9 @@ export class DetailedUserComponent implements OnInit {
     this.userService.update(this.currentUser.id, this.currentUser).subscribe(
       response => {
         console.log(response);
+        this.submitted = true;
         this.message = 'The user was updated successfully!';
+        this.router.navigate(["users"]);
       },
       error => {
         console.log(error);

@@ -22,11 +22,11 @@
           Password must be at least 6 characters
         </div>
       </div>
-      <label for="login-sign-up" class="login__label--checkbox">
+      <!-- <label for="login-sign-up" class="login__label--checkbox">
         <input [(ngModel)]="keepSignedIn" class="login__input--checkbox" id="login-sign-up" name="keepSignedIn"
           type="checkbox">
         Keep me Signed in
-      </label>
+      </label> -->
       <button class="login__submit">Sign in</button>
       <div class="form-group">
         <div *ngIf="f.submitted && error !== ''" class="alert alert-danger" role="alert" style="top :10px">
