@@ -1,28 +1,40 @@
 <div class="container">
   <div style="width: 400px; margin: auto;">
-    <div class="submit-form">
+    <form #f="ngForm" (ngSubmit)="f.form.valid" class="submit-form" name="form" novalidate>
       <div *ngIf="!submitted">
         <div class="form-group">
           <label for="user">Username</label>
-          <input type="text" class="form-control" id="user" required [(ngModel)]="user.username"
-                 name="user"/>
+          <input type="text" class="form-control" id="user" required [(ngModel)]="user.username" name="user" />
+          <div *ngIf="user.invalid" class="alert alert-warning" role="alert" style="top :10px">
+            Username is required!
+          </div>
         </div>
 
         <div class="form-group">
           <label for="password">Password</label>
-          <input class="form-control" id="password" required [(ngModel)]="user.password"
-                 name="password"/>
+          <input class="form-control" id="password" required [(ngModel)]="user.password" name="password" />
+          <div class="alert alert-warning" role="alert" style="top :10px" *ngIf="password.invalid">
+            <div *ngIf="password.errors.required">Password is required</div>
+            <div *ngIf="password.errors.minlength">
+              Password must be at least 6 characters
+            </div>
+          </div>
         </div>
 
         <div class="form-group">
           <label for="displays_name">Display name</label>
-          <input class="form-control" id="displays_name" required [(ngModel)]="user.displayName"
-                 name="displays_name"/>
+          <input class="form-control" id="displays_name" required [(ngModel)]="user.displayName" name="displays_name" />
+          <div *ngIf="displays_name.invalid" class="alert alert-warning" role="alert" style="top :10px">
+            Displays name is required!
+          </div>
         </div>
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input class="form-control" id="email" required [(ngModel)]="user.email" name="email"/>
+          <input class="form-control" id="email" required [(ngModel)]="user.email" name="email" />
+          <div *ngIf="email.invalid" class="alert alert-warning" role="alert" style="top :10px">
+            Displays name is required!
+          </div>
         </div>
 
         <button (click)="saveUser()" class="btn btn-success">Submit</button>
@@ -32,6 +44,6 @@
         <h4>You submitted successfully!</h4>
         <button class="btn btn-success" (click)="newUser()">Add</button>
       </div>
-    </div>
+    </form>
   </div>
 </div>

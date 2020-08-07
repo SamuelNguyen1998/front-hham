@@ -30,7 +30,10 @@ export class UsersComponent implements OnInit {
 
   searchByName(): void {
     this.userService.findByName(this.name).subscribe(
-      data => this.users = data,
+      response => 
+      {this.users = response.data;
+        console.log(this.users);
+      },
       error => console.log(error)
     );
   }
