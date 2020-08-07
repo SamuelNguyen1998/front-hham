@@ -18,10 +18,10 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.retrieveProjects();
+    this.retrieveUser();
   }
 
-  retrieveProjects(): void {
+  retrieveUser(): void {
     this.userService.getAll().subscribe(
       response => this.users = response.data,
       error => console.log(error)
