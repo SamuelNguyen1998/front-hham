@@ -33,6 +33,6 @@ export class UserService {
   }
 
   findByName(name): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/users?name=${name}`);
+    return this.http.get(`${Constants.API_BASE}/users?username=${name}`);
   }
 }
