@@ -1,60 +1,35 @@
-<div style="background: url(https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260); height: 800px">
+<div
+  style="background: url(https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260); height: 800px">
   <div class="login-container">
-    <form #f="ngForm"
-          (ngSubmit)="f.form.valid && onSubmit()"
-          class="form-login"
-          name="form"
-          novalidate>
+    <form #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" class="form-login" name="form" novalidate>
       <div>
         <h2 class="login-header">Log in</h2>
       </div>
       <label for="login-input-user" class="login__label">Username</label>
-      <input #username="ngModel"
-             [(ngModel)]="form.username"
-             class="login__input"
-             id="login-input-user"
-             name="username"
-             required
-             type="text"/>
-      <div
-        *ngIf="f.submitted && username.invalid"
-        class="alert alert-warning"
-        role="alert"
-        style="top :10px">
+      <input #username="ngModel" [(ngModel)]="form.username" class="login__input" id="login-input-user" name="username"
+        required type="text" />
+      <div *ngIf="f.submitted && username.invalid" class="alert alert-warning" role="alert" style="top :10px">
         Username is required!
       </div>
       <label for="login-input-password" class="login__label">
         Password
       </label>
-      <input id="login-input-password" class="login__input" type="password"
-             name="password"
-             [(ngModel)]="form.password"
-             required
-             #password="ngModel"/>
-      <div
-        class="alert alert-warning"
-        role="alert"
-        style="top :10px"
-        *ngIf="f.submitted && password.invalid">
+      <input id="login-input-password" class="login__input" type="password" name="password" [(ngModel)]="form.password"
+        required #password="ngModel" />
+      <div class="alert alert-warning" role="alert" style="top :10px" *ngIf="f.submitted && password.invalid">
         <div *ngIf="password.errors.required">Password is required</div>
         <div *ngIf="password.errors.minlength">
           Password must be at least 6 characters
         </div>
       </div>
-      <label for="login-sign-up" class="login__label--checkbox">
-        <input [(ngModel)]="keepSignedIn"
-               class="login__input--checkbox"
-               id="login-sign-up"
-               name="keepSignedIn"
-               type="checkbox">
+      <!-- <label for="login-sign-up" class="login__label--checkbox">
+        <input [(ngModel)]="keepSignedIn" class="login__input--checkbox" id="login-sign-up" name="keepSignedIn"
+          type="checkbox">
         Keep me Signed in
-      </label>
+      </label> -->
       <button class="login__submit">Sign in</button>
       <div class="form-group">
-        <div *ngIf="f.submitted && error !== ''"
-             class="alert alert-danger"
-             role="alert"
-             style="top :10px">
+        <div *ngIf="f.submitted && error !== ''" class="alert alert-danger" role="alert" style="top :10px">
           Login failed: {{ error }}
         </div>
       </div>

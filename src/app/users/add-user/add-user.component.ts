@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { UserService } from "../../_services/user.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-user',
@@ -16,7 +17,9 @@ export class AddUserComponent implements OnInit {
   };
   submitted: boolean;
 
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -35,6 +38,7 @@ export class AddUserComponent implements OnInit {
       response => {
         console.log(response);
         this.submitted = true;
+        this.router.navigate(["users"]);
       },
       error => {
         console.log(error);

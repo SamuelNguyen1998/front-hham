@@ -5,6 +5,7 @@ export class User {
   email: string;
   isAdmin: boolean;
   jobTitleId: number;
+  jobTitle: string
   createdOn: Date;
   deletedOn: Date;
 }
