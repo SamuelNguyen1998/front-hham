@@ -14,6 +14,7 @@ import { Project } from "../../_models/Project";
 export class DetailedProjectComponent implements OnInit {
   currentProject: Project;
   activities: Activity[];
+  members: any;
   message = "";
 
   constructor(private projectService: ProjectService,
@@ -28,6 +29,7 @@ export class DetailedProjectComponent implements OnInit {
       response => {
         this.currentProject = response.data;
         this.loadActivities();
+        this.loadMembers();
       },
       error => console.log(error)
     );
@@ -49,5 +51,15 @@ export class DetailedProjectComponent implements OnInit {
     this.activityService
       .findAllInProject(this.currentProject.id)
       .subscribe(response => this.activities = response.data);
+  }
+  loadMembers(): void {
+    this.projectService.getMember(this.currentProject.id)
+      .subscribe(
+        response => {
+          console.log(response.data);
+          this.members = response.data;
+        },
+        error => console.log(error),
+      );
   }
 }

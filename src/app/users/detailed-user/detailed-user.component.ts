@@ -13,9 +13,9 @@ export class DetailedUserComponent implements OnInit {
   currentUser = null;
   message = '';
   userForm: FormGroup = this.formBuilder.group({
-    username: '',
-    displayName: '',
-    email: '',
+    username: null,
+    displayName: null,
+    email: null,
   });
   submitted: boolean;
 
@@ -50,12 +50,12 @@ export class DetailedUserComponent implements OnInit {
         console.log(response);
         this.submitted = true;
         this.message = 'The user was updated successfully!';
-        this.router.navigate(["users"]);
       },
       error => {
         console.log(error);
       }
     );
+    this.router.navigate(["users"]);
   }
 
   deleteUser(): void {
