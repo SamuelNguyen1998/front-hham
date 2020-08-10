@@ -3,11 +3,7 @@
     <div class="edit-form">
         <h4> Job Title</h4>
         <form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
-            <p>
-                <label for="id">ID:</label>
-                <input type="text" id="id" name="id" formControlName="id" class="form-control" [(ngModel)]="currentJob.id">
-            </p>
-
+            
             <p>
                 <label for="id">Job title:</label>
                 <input type="text" id="name" name="name" formControlName="name" class="form-control" [(ngModel)]="currentJob.name">

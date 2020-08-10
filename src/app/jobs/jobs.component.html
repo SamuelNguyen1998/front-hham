@@ -14,45 +14,31 @@
      </div>
      <div class="col-md-8">
       <a href="/jobs/add" class="btn btn-info" routerLink="/jobs/add">Add</a>
-      <table>
+      <table mdbTable class="z-depth-1">
         <thead>
           <tr>
-            <th scope="col">No</th>
-            <th scope="col">Job tile</th>
-            <th scope="col">Amount to pay</th>
+            <th [mdbTableSort]="jobs" sortBy="id"> ID</th>
+            <th [mdbTableSort]="jobs" sortBy="name">Job tile</th>
+            <th [mdbTableSort]="jobs" sortBy="monthlyAmount">Amount to pay</th>
             <th></th>
 
           </tr>
         </thead>
-        <tfoot>
-        </tfoot>
-        <tbody *ngFor="let job of jobs">
-          <tr>
-            <th scope="row">{{job.id}}</th>
+
+        
+          <tr *ngFor="let job of jobs">
+            <th>{{job.id}}</th>
             <td>{{job.name}}</td>
             <td>{{job.monthlyAmount}} VND</td>
             <td>
               <button href="/jobs/{{ job.id }}" routerLink="/jobs/{{ job.id }}" class="btn btn-primary">Edit</button>
             </td>
           </tr>
-        </tbody>
+        
       </table>
     </div>
    </div>
  </div>
-
-<!-- using suggesstion to search -->
-<!--  -->
-<!-- <input #searchBox id="search-box" (keyup)="search(searchBox.value)" /> -->
-<!--  -->
-  <!-- <ul class="search-result"> -->
-    <!-- <li *ngFor="let job of jobs | async" > -->
-      <!--  -->
-        <!-- {{job.name}}  -->
-<!--  -->
-    <!-- </li> -->
-  <!-- </ul> -->
-
 
   
 

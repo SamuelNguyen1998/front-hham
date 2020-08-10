@@ -32,10 +32,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component';
 import { DashboardUserComponent } from './dashboard-user/dashboard-user.component';
 
-import {JobsComponent } from './jobs/jobs.component';
-import {AddJobComponent } from './jobs/add-job/add-job.component';
+import { JobsComponent } from './jobs/jobs.component';
+import { AddJobComponent } from './jobs/add-job/add-job.component';
 import { JobDetailComponent } from './jobs/job-detail/job-detail.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 @NgModule({
   declarations: [
@@ -66,6 +68,7 @@ import { JobDetailComponent } from './jobs/job-detail/job-detail.component';
     JobsComponent,
     AddJobComponent,
     JobDetailComponent
+
   ],
   imports: [
     BrowserModule,
@@ -73,7 +76,9 @@ import { JobDetailComponent } from './jobs/job-detail/job-detail.component';
     HttpClientModule,
     FlashMessagesModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule, 
+    MDBBootstrapModule
   ],
   providers: [ authInterceptorProviders ],
   bootstrap: [ AppComponent ]

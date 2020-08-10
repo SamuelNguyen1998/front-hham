@@ -1,30 +1,37 @@
+
 <div class="container">
   <div style="width: 400px; margin: auto;">
-    <div class="submit-form">
-      <div *ngIf="!submitted" >  <!--  check submitted here -->
-        <div class="form-group">
-          <label for="id">ID</label>
-          <input type="text" class="form-control" id="id" required [(ngModel)]="job.id"
-                 name="id">
-        </div>
+    <form #f="ngForm" (ngSubmit)="f.form.valid" class="submit-form" name="job" novalidate>
+
+
+
         <div class="form-group">
           <label for="name">Job title</label>
-          <input class="form-control" id="name" required [(ngModel)]="job.name"
-                 name="name">
+          <input #name="ngModel" type="text" class="form-control" id="name" required [(ngModel)]="job.name" name="name" />
+          <div *ngIf="f.submitted && name.invalid" class="alert alert-warning" role="alert" style="top :10px">
+            Job title is required!
+          </div>
         </div>
+
         <div class="form-group">
-          <label for="amount_money">Amount to pay</label>
-          <input class="form-control" id="monthlyAmount" required [(ngModel)]="job.monthlyAmount"
-                 name="monthlyAmount">
+          <label for="monthlyAmount">Amount to pay</label>
+          <input #monthlyAmount="ngModel" type="text" class="form-control" id="monthlyAmount" required [(ngModel)]="job.monthlyAmount" name="monthlyAmount" />
+          <div *ngIf="f.submitted && monthlyAmount.invalid" class="alert alert-warning" role="alert" style="top :10px">
+            Amount to pay is required!
+          </div>
         </div>
-        <button (click)="saveJob()" class="btn btn-success">Submit</button>
-     <!--   check for submitted __   do and check it later -->
-      </div>
-      <div *ngIf="submitted">
-        <h4>You submitted successfully!</h4>
-        <button class="btn btn-success" (click)="newJob()">Add</button>
-      </div>
-    </div>
+
+
+        <button (click)="saveJob()" class="btn btn-success">
+          <a href="http://localhost:4200/jobs" >Submit</a>
+          </button>
+
+<!--  -->
+      <!-- <div *ngIf="submitted"> -->
+        <!-- <h4>You submitted successfully!</h4> -->
+        <!-- <button class="btn btn-success" (click)="newJob()">Add</button> -->
+      <!-- </div> -->
+
+    </form>
   </div>
 </div>
-
