@@ -3,9 +3,9 @@
     <form #f="ngForm" (ngSubmit)="f.form.valid" class="submit-form" name="user" novalidate>
       <div *ngIf="!submitted">
         <div class="form-group">
-          <label for="user">Username</label>
-          <input #user="ngModel" type="text" class="form-control" id="user" required [(ngModel)]="user.username" name="user" />
-          <div *ngIf="f.submitted && user.invalid" class="alert alert-warning" role="alert" style="top :10px">
+          <label for="username">Username</label>
+          <input #username="ngModel" type="text" class="form-control" id="username" required [(ngModel)]="user.username" name="username" />
+          <div *ngIf="f.submitted && username.invalid" class="alert alert-warning" role="alert" style="top :10px">
             Username is required!
           </div>
         </div>
