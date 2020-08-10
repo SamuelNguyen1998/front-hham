@@ -3,8 +3,6 @@
   <div style="width: 400px; margin: auto;">
     <form #f="ngForm" (ngSubmit)="f.form.valid" class="submit-form" name="job" novalidate>
 
-
-
         <div class="form-group">
           <label for="name">Job title</label>
           <input #name="ngModel" type="text" class="form-control" id="name" required [(ngModel)]="job.name" name="name" />
@@ -21,16 +19,10 @@
           </div>
         </div>
 
-
         <button (click)="saveJob()" class="btn btn-success">
-          <a href="http://localhost:4200/jobs" >Submit</a>
+          <!-- <a routerLink="/jobs" >Submit</a> -->
+          Button
           </button>
-
-<!--  -->
-      <!-- <div *ngIf="submitted"> -->
-        <!-- <h4>You submitted successfully!</h4> -->
-        <!-- <button class="btn btn-success" (click)="newJob()">Add</button> -->
-      <!-- </div> -->
 
     </form>
   </div>

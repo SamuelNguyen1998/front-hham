@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JobService } from "../../_services/job.service";
 import {Job} from '../../_models/Job';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-job',
   templateUrl: './add-job.component.html',
@@ -10,24 +11,20 @@ export class AddJobComponent implements OnInit {
     job: Job;
      
 
-  constructor(private jobService: JobService) { }
+  constructor(private jobService: JobService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.newJob();
   }
   saveJob(): void {
-    const { id, name, monthlyAmount } = this.job;
-    const data = {
-      id: id,
-      name: name, 
-      monthlyAmount: monthlyAmount,
-    };
-    this.jobService.create(data).subscribe(
+    this.jobService.create(this.job).subscribe(
       response => {
+        this.router.navigate(["jobs"]);
         console.log(response);
       }
     );
-    window.alert("You submitted successfully!")
+   // window.alert("You submitted successfully!")
   }
 
   newJob(): void {

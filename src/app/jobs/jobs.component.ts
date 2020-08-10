@@ -24,7 +24,6 @@ export class JobsComponent implements OnInit {
   jobs: Job[];
   name: string;
 
-
   constructor(public auth: AuthService,
               private jobService: JobService) {
                 
@@ -39,11 +38,6 @@ export class JobsComponent implements OnInit {
       response => this.jobs = response.data
     );
   }
-
-  // using sugesstion
-  // search(term: string): void{
-  //   this.searchTerms.next(term);
-  // }
 
   // using button to search
   searchByName(): void {
