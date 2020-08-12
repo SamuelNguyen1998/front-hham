@@ -7,6 +7,7 @@ import { ActivityService } from "../../_services/activity.service";
 import { Project } from "../../_models/Project";
 import { UserService } from 'src/app/_services/user.service';
 import { FormControl } from '@angular/forms';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-detailed-project',
@@ -21,7 +22,8 @@ export class DetailedProjectComponent implements OnInit {
   allMembers: any;
   selectControl = new FormControl('1');
 
-  constructor(private projectService: ProjectService,
+  constructor(public auth: AuthService,
+              private projectService: ProjectService,
               private activityService: ActivityService,
               private userService: UserService,
               private route: ActivatedRoute,

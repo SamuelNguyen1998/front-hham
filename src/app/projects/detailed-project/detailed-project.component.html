@@ -31,7 +31,7 @@
           <div class="box-content">
             <div class="dropdown">
               <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
+                aria-haspopup="true" aria-expanded="false" *ngIf="auth.loggedIn && auth.currentUser.isAdmin">
                 Add Member
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -50,7 +50,7 @@
                 <td>{{member.displayName}}</td>
                 <td>{{member.email}}</td>
                 <td>{{member.jobTitle.name}}</td>
-                <button class="btn btn-danger mt-3" (click)="removeMember(member.id)">Delete</button>
+                <button *ngIf="auth.loggedIn && auth.currentUser.isAdmin" class="btn btn-danger mt-3" (click)="removeMember(member.id)">Delete</button>
               </tr>
             </table>
           </div>
@@ -61,7 +61,7 @@
           <label class="box-close" for="acc-close"></label>
           <div class="box-content">
             <a class="btn btn-info" routerLink="/activities/add/{{currentProject.id}}"
-              href="/activities/add/{{ currentProject.id }}">
+              href="/activities/add/{{ currentProject.id }}" *ngIf="auth.loggedIn && auth.currentUser.isAdmin">
               Add
             </a>
             <table>
@@ -82,11 +82,11 @@
       </div>
     </form>
 
-    <button type="submit" class="btn btn-success mr-5 mt-5" (click)="updateProject()">
+    <button type="submit" class="btn btn-success mr-5 mt-5" (click)="updateProject()" *ngIf="auth.loggedIn && auth.currentUser.isAdmin">
       Update
     </button>
 
-    <button class="btn btn-danger mr-5 mt-5" (click)="deleteProject()">
+    <button class="btn btn-danger mr-5 mt-5" (click)="deleteProject()" *ngIf="auth.loggedIn && auth.currentUser.isAdmin">
       Delete
     </button>
     <p>{{ message }}</p>
