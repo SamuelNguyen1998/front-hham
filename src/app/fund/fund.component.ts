@@ -47,7 +47,6 @@ export class FundComponent implements OnInit {
     this.projectService.getMember(this.currentProject.id)
       .subscribe(
         response => {
-          console.log(response.data);
           this.members = response.data;
         },
         error => console.log(error),

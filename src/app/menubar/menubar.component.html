@@ -8,27 +8,27 @@
   />
   </a>
   <ul class="navbar-nav mr-auto" routerLinkActive="active">
-    <li class="nav-item">
+    <li class="nav-item" [routerLinkActive]="['active']">
       <a href="/dashboard" class="nav-link" routerLink="dashboard">Dashboard</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" [routerLinkActive]="['active']">
       <a href="/projects" class="nav-link" routerLink="projects">Projects</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" [routerLinkActive]="['active']">
       <a href="/activities" class="nav-link" routerLink="activities">Activities</a>
     </li>
 
-    <li class="nav-item" *ngIf="auth.loggedIn && auth.currentUser.isAdmin">
+    <li class="nav-item" *ngIf="auth.loggedIn && auth.currentUser.isAdmin" [routerLinkActive]="['active']">
       <a href="/funds" class="nav-link" routerLink="funds">Funds</a>
     </li>
 
-    <li class="nav-item" *ngIf="auth.loggedIn && auth.currentUser.isAdmin">
+    <li class="nav-item" *ngIf="auth.loggedIn && auth.currentUser.isAdmin" [routerLinkActive]="['active']">
       <a href="/users" class="nav-link" routerLink="users">Users</a>
     </li>
 
     <!-- need to test for JOb UI  -->
     
-    <li class="nav-item" *ngIf="auth.loggedIn && auth.currentUser.isAdmin">
+    <li class="nav-item" *ngIf="auth.loggedIn && auth.currentUser.isAdmin" [routerLinkActive]="['active']">
       <a href="/jobs" class="nav-link" routerLink="jobs">Jobs</a>
     </li>
 

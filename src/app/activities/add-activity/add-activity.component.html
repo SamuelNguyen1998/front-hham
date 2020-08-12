@@ -17,6 +17,15 @@
         </div>
       </div>
 
+      <!-- <div class="form-group">
+        <label for="fund">Fund</label>
+        <input #fund="ngModel" [(ngModel)]="activity.fund" class="form-control" id="fund" name="fund" required />
+        <div *ngIf="f.submitted && fund.invalid" class="alert alert-warning" role="alert" style="top :10px">
+          Fund is required!
+        </div>
+      </div> -->
+
+
       <button (click)="saveActivity()" class="btn btn-success">Submit</button>
     </div>
 
