@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from "@angular/router";
 
 @Component({
   selector: 'app-footer',
@@ -6,22 +7,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: [ './app-footer.component.scss' ]
 })
 export class AppFooterComponent implements OnInit {
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
-    const footer = document.getElementsByTagName("footer")[0];
-    if (!this.isAtBottom()) {
-      const { y, height } = footer.getBoundingClientRect();
-      const top = y + window.scrollY;
-      const currentContentHeight = top + height;
-      footer.style.marginTop = `${+(window.innerHeight - currentContentHeight)}px`;
-    }
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.pad();
+      }
+    });
+    this.pad();
   }
 
-  isAtBottom(): boolean {
-    const footer = document.getElementsByTagName("footer")[0];
-    const { y, height } = footer.getBoundingClientRect();
-    return y + window.scrollY < window.innerHeight - height;
+  pad(): void {
+    setTimeout(() => {
+      const docHeightWithPad = document.body.scrollHeight;
+      const padDiv = document.getElementById("emptyDivToPadBeforeFooterOnShortPage");
+      const currentPadHeight = padDiv.getBoundingClientRect().height;
+      const realDocHeight = docHeightWithPad - currentPadHeight;
+      const padHeightRequired = window.innerHeight - realDocHeight;
+      if (padHeightRequired > 0) {
+        padDiv.style.height = `${ padHeightRequired }px`;
+      }
+    }, 100);
   }
 }
