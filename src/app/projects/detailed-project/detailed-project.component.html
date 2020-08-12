@@ -4,15 +4,16 @@
     <form #f="ngForm" (ngSubmit)="f.form.valid" class="submit-form" name="project" novalidate>
       <div class="form-group">
         <label for="name">Name</label>
-        <input #name="ngModel" required type="text" class="form-control" id="name" [(ngModel)]="currentProject.name" name="name" />
+        <input #name="ngModel" required type="text" class="form-control" id="name" [(ngModel)]="currentProject.name"
+          name="name" />
         <div *ngIf="f.submitted && name.invalid" class="alert alert-warning" role="alert" style="top :10px">
           Name is required!
         </div>
       </div>
       <div class="form-group">
         <label for="description">Description</label>
-        <input #description="ngModel" required type="text" class="form-control" id="description" [(ngModel)]="currentProject.description"
-          name="description" />
+        <input #description="ngModel" required type="text" class="form-control" id="description"
+          [(ngModel)]="currentProject.description" name="description" />
         <div *ngIf="f.submitted && description.invalid" class="alert alert-warning" role="alert" style="top :10px">
           Description is required!
         </div>
@@ -28,16 +29,28 @@
           <label class="box-title" for="cb1">Member</label>
           <label class="box-close" for="acc-close"></label>
           <div class="box-content">
+            <div class="dropdown">
+              <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Add Member
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <button class="dropdown-item" *ngFor="let member of allMembers"
+                  (click)="addMember(member)">{{member.displayName}}</button>
+              </div>
+            </div>
             <table>
               <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Job Title</th>
+                <th scope="col">Delete?</th>
               </tr>
               <tr *ngFor="let member of members">
                 <td>{{member.displayName}}</td>
                 <td>{{member.email}}</td>
                 <td>{{member.jobTitle.name}}</td>
+                <button class="btn btn-danger mt-3" (click)="removeMember(member.id)">Delete</button>
               </tr>
             </table>
           </div>
@@ -69,11 +82,11 @@
       </div>
     </form>
 
-    <button type="submit" class="badge badge-success mr-5" (click)="updateProject()">
+    <button type="submit" class="btn btn-success mr-5 mt-5" (click)="updateProject()">
       Update
     </button>
 
-    <button class="badge badge-danger mr-2" (click)="deleteProject()">
+    <button class="btn btn-danger mr-5 mt-5" (click)="deleteProject()">
       Delete
     </button>
     <p>{{ message }}</p>

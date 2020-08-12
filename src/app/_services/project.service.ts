@@ -39,4 +39,12 @@ export class ProjectService {
   getMember(id): Observable<any> {
     return this.http.get(`${Constants.API_BASE}/projects/${id}/members`);
   }
+  
+  addMember(id, data): Observable<any> {
+    return this.http.post(`${Constants.API_BASE}/projects/${id}/members`, data);
+  }
+
+  removeMember(id, idMember): Observable<any> {
+    return this.http.delete(`${Constants.API_BASE}/projects/${id}/members/${idMember}`);
+  }
 }

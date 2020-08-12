@@ -5,6 +5,8 @@ import { Observable } from "rxjs";
 import { Activity } from "../../_models/Activity";
 import { ActivityService } from "../../_services/activity.service";
 import { Project } from "../../_models/Project";
+import { UserService } from 'src/app/_services/user.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-detailed-project',
@@ -16,9 +18,12 @@ export class DetailedProjectComponent implements OnInit {
   activities: Activity[];
   members: any;
   message = "";
+  allMembers: any;
+  selectControl = new FormControl('1');
 
   constructor(private projectService: ProjectService,
               private activityService: ActivityService,
+              private userService: UserService,
               private route: ActivatedRoute,
               private router: Router) {
   }
@@ -30,6 +35,7 @@ export class DetailedProjectComponent implements OnInit {
         this.currentProject = response.data;
         this.loadActivities();
         this.loadMembers();
+        this.loadAllMembers();
       },
       error => console.log(error)
     );
@@ -56,10 +62,36 @@ export class DetailedProjectComponent implements OnInit {
     this.projectService.getMember(this.currentProject.id)
       .subscribe(
         response => {
-          console.log(response.data);
           this.members = response.data;
         },
         error => console.log(error),
       );
+  }
+  loadAllMembers(): void {
+    this.userService.getAll()
+      .subscribe(
+        response => {
+          this.allMembers = response.data;
+        },
+        error => console.log(error),
+      );
+  }
+  addMember(member: any): void {
+    this.projectService.addMember(this.currentProject.id,member)
+      .subscribe(
+        response => {
+        this.message = 'The Member was added successfully!';
+        window.location.reload();
+      },
+        error => console.log(error),
+      );
+  }
+  removeMember(idMember: any): void {
+    this.projectService.removeMember(this.currentProject.id,idMember).subscribe(
+      response => {
+      this.message = 'The Member was removed successfully!';
+      window.location.reload();
+      },
+      error => console.log(error));
   }
 }
