@@ -1,3 +1,5 @@
+<!-- Don't know why both events need to be caught to keep the calculation result correct -->
+<div id="emptyDivToPadBeforeFooterOnShortPage" (window:resize)="pad()" (document:resize)="pad()"></div>
 <footer>
   <div class="text-center">&copy; 2020 ...</div>
 </footer>
