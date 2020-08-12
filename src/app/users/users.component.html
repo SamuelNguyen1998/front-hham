@@ -1,44 +1,51 @@
-<div class="container-xl" style="padding-top: 25px;">
-    <div class="list row">
-      <div class="col-md-8">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="name">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" (click)="searchByName()">
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-8">
-        <a href="/users/add" class="btn btn-info" routerLink="/users/add">Add</a>
-        <h4>User List</h4>
-        <ul class="list-group">
-          <!-- <li class="list-group-item" *ngFor="let user of users">
-            <a href="/users/{{ user.id }}" routerLink="/users/{{ user.id }}">{{ user.username }}</a>
-            <a>{{user.displayName}}</a>
-            <a>{{user.email}}</a>
-            <a>{{user.jobTitleId}}</a>
-          </li> -->
-          <table>
-            <tr>
-              <th>Username</th>
-              <th>DisplayName</th>
-              <th>Email</th>
-              <th>Job Title</th>
-              <th>Actions</th>
-            </tr>
-            <tr *ngFor="let user of users">
-              <td><a href="/users/{{ user.id }}" routerLink="/users/{{ user.id }}">{{ user.username }}</a></td>
-              <td>{{user.displayName}}</td>
-              <td>{{user.email}}</td>
-              <td>{{user.jobTitleId}}</td>
-              <td>
-                <button href="/users/{{ user.id }}" routerLink="/users/{{ user.id }}" class="btn btn-primary">Edit</button>
-              </td>
-            </tr>
-          </table>
-        </ul>
-      </div>
+<div class="container pt-5">
+  <h1 class="pb-3">User management</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <a class="btn btn-success" routerLink="/users/add">
+        <i class="fas fa-plus"></i> Create new user
+      </a>
     </div>
+    <!-- TODO: Add advanced filters here instead of a general search field -->
+    <form class="col-md-8 form-inline">
+      <div class="btn-group ml-auto searchBox">
+        <input [(ngModel)]="searchTerm"
+               class="form-control ml-auto" name="searchTerm"
+               placeholder="Search by name..." type="text">
+        <button (click)="searchByName()" class="btn btn-secondary">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </form>
   </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Display name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Job title</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user.username }}</td>
+        <td>{{ user.displayName }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.jobTitleId }}</td>
+        <td>
+          <a class="btn btn-primary m-1" routerLink="/users/{{ user.id }}">
+            <i class="fas fa-eye"></i> View
+          </a>
+          <a class="btn btn-info m-1" routerLink="/users/{{ user.id }}/edit">
+            <i class="fas fa-pen"></i> Edit
+          </a>
+          <a class="btn btn-danger m-1" routerLink="/users/{{ user.id }}/deactivate">
+            <i class="fas fa-lock"></i> Deactivate
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

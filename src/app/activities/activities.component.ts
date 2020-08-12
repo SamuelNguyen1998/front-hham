@@ -6,16 +6,14 @@ import { AuthService } from '../_services/auth.service';
 @Component({
   selector: 'app-activities',
   templateUrl: './activities.component.html',
-  styleUrls: ['./activities.component.scss']
+  styleUrls: [ './activities.component.scss' ]
 })
 export class ActivitiesComponent implements OnInit {
-
   activities: Activity[];
-  name: string;
+  searchTerm: string;
 
-  constructor(
-    public auth: AuthService, 
-    private activityService: ActivityService) {
+  constructor(public auth: AuthService,
+              private activityService: ActivityService) {
   }
 
   ngOnInit(): void {
@@ -25,14 +23,14 @@ export class ActivitiesComponent implements OnInit {
   retrieveActivities(): void {
     this.activityService.getAll().subscribe(
       response => this.activities = response.data,
-      error => console.log(error)
+      console.log
     );
   }
 
   searchByName(): void {
-    this.activityService.findByName(this.name).subscribe(
+    this.activityService.findByName(this.searchTerm).subscribe(
       data => this.activities = data,
-      error => console.log(error)
+      console.log
     );
   }
 }

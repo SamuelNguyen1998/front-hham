@@ -1,0 +1,106 @@
+<div class="container pt-5">
+  <div *ngIf="successMessage" class="alert alert-success" role="alert">
+    {{ successMessage }}
+    <button (click)="clearSuccessMessage()" aria-label="Close" class="close" data-dismiss="alert" type="button">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+    <button (click)="clearErrorMessage()" aria-label="Close" class="close" data-dismiss="alert" type="button">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+
+
+  <div class="row">
+    <h1 *ngIf="!isInEditMode" class="col-md-9">{{ project?.name }}</h1>
+    <form *ngIf="isInEditMode" class="col-md-9">
+      <input [(ngModel)]="newProject.name" class="form-control h1" id="name" name="name" type="text">
+    </form>
+
+    <div class="col-md-3 text-right btn-group">
+      <button *ngIf="!isInEditMode" (click)="enterEditMode()" class="btn btn-info height-limited-button">
+        <i class="fas fa-pen"></i> Edit
+      </button>
+      <button *ngIf="!isInEditMode" class="btn btn-danger height-limited-button" (click)="archive()">
+        <i class="fas fa-archive"></i> Archive
+      </button>
+      <button (click)="saveEdit()" *ngIf="isInEditMode" class="btn btn-primary height-limited-button">
+        <i class="fas fa-pen"></i> Save
+      </button>
+      <button (click)="cancelEdit()" *ngIf="isInEditMode" class="btn btn-secondary height-limited-button">
+        <i class="fas fa-times-circle"></i> Cancel
+      </button>
+    </div>
+  </div>
+  <p class="text-muted">Created on {{ project?.createdOn | date: 'full' }}</p>
+
+  <p class="description" *ngIf="!isInEditMode">{{ project?.description }}</p>
+  <textarea *ngIf="isInEditMode"
+            [(ngModel)]="newProject.description"
+            id="description" class="form-control" cols="80" name="description" rows="10">
+  </textarea>
+
+  <div>Current fund: {{ project?.fund }}</div>
+  <p><a routerLink="/funds">TODO: Make this a link to Fund Management page</a></p>
+
+  <div class="row">
+    <div class="members col-12">
+      <a (click)="updateMemberListState()"
+         aria-expanded="true" class="btn text-left p-3 d-block bg-light"
+         data-target="#memberList" data-toggle="collapse"
+         role="button">
+        <span [class.d-none]="isMemberListExpanded">
+          <i class="fas fa-angle-right"></i>
+        </span>
+        <span [class.d-none]="!isMemberListExpanded">
+          <i class="fas fa-angle-down"></i>
+        </span>
+        {{ 0 }} {{ false ? 'Members' : 'Member' }}
+      </a>
+      <ul class="list-group collapse" id="memberList">
+        <li class="list-group-item">
+          <a routerLink="/users">User 1</a>
+        </li>
+        <li class="list-group-item">
+          <a routerLink="/users">User 2</a>
+        </li>
+        <li class="list-group-item">
+          <a routerLink="/users">User 3</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="activities col-12">
+      <a (click)="updateActivityListState()"
+         aria-expanded="true"
+         class="btn text-left p-3 d-block bg-light"
+         data-target="#activityList" data-toggle="collapse"
+         role="button">
+      <span [class.d-none]="isActivityListExpanded">
+        <i class="fas fa-angle-right"></i>
+      </span>
+        <span [class.d-none]="!isActivityListExpanded">
+        <i class="fas fa-angle-down"></i>
+      </span>
+        {{ activities?.length }} {{ activities?.length > 1 ? 'Activities' : 'Activity' }}
+      </a>
+      <ul class="list-group collapse" id="activityList">
+        <li *ngFor="let activity of activities" class="list-group-item">
+          <h4>
+            <a routerLink="/activities/{{ activity.id }}">{{ activity.name }}</a>
+            <span [class.badge-danger]="activity.lockedOn !== null"
+                  [class.badge-success]="activity.lockedOn === null"
+                  class="badge ml-2">
+          {{ activity.lockedOn !== null ? 'Locked' : 'Open' }}
+        </span>
+          </h4>
+          <div>{{ activity.description }}</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

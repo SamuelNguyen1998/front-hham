@@ -45,5 +45,5 @@ export class JobService {
       return of([]);
     }
   }
-  
+
 }

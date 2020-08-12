@@ -16,7 +16,7 @@ export class ProjectService {
     return this.http.get(`${Constants.API_BASE}/projects`);
   }
 
-  get(id): Observable<any> {
+  get(id: number): Observable<any> {
     return this.http.get(`${Constants.API_BASE}/projects/${id}`);
   }
 
@@ -24,27 +24,27 @@ export class ProjectService {
     return this.http.post(`${Constants.API_BASE}/projects`, data);
   }
 
-  update(id, data): Observable<any> {
+  update(id: number, data): Observable<any> {
     return this.http.put(`${Constants.API_BASE}/projects/${id}`, data);
   }
 
-  delete(id): Observable<any> {
+  delete(id: number): Observable<any> {
     return this.http.delete(`${Constants.API_BASE}/projects/${id}`);
   }
 
-  findByName(name): Observable<any> {
+  findByName(name: string): Observable<any> {
     return this.http.get(`${Constants.API_BASE}/projects?name=${name}`);
   }
 
-  getMember(id): Observable<any> {
+  getMember(id: number): Observable<any> {
     return this.http.get(`${Constants.API_BASE}/projects/${id}/members`);
   }
-  
-  addMember(id, data): Observable<any> {
+
+  addMember(id: number, data): Observable<any> {
     return this.http.post(`${Constants.API_BASE}/projects/${id}/members`, data);
   }
 
-  removeMember(id, idMember): Observable<any> {
+  removeMember(id: number, idMember): Observable<any> {
     return this.http.delete(`${Constants.API_BASE}/projects/${id}/members/${idMember}`);
   }
 }

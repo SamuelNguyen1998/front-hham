@@ -1,0 +1,16 @@
+.members .list-group-item {
+  padding: 0;
+
+  a {
+    display: block;
+    padding: 1rem;
+  }
+}
+
+.description {
+  white-space: pre-wrap;
+}
+
+[name="name"] {
+  font-size: 1.25rem;
+}

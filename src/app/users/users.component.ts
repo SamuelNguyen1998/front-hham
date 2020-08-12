@@ -6,12 +6,12 @@ import { UserService } from '../_services/user.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: [ './users.component.scss' ]
 })
 export class UsersComponent implements OnInit {
 
   users: User[];
-  name: string;
+  searchTerm: string;
 
   constructor(public auth: AuthService,
               private userService: UserService) {
@@ -24,17 +24,14 @@ export class UsersComponent implements OnInit {
   retrieveUser(): void {
     this.userService.getAll().subscribe(
       response => this.users = response.data,
-      error => console.log(error)
+      console.log
     );
   }
 
   searchByName(): void {
-    this.userService.findByName(this.name).subscribe(
-      response => 
-      {this.users = response.data;
-        console.log(this.users);
-      },
-      error => console.log(error)
+    this.userService.findByName(this.searchTerm).subscribe(
+      response => this.users = response.data,
+      console.log
     );
   }
 

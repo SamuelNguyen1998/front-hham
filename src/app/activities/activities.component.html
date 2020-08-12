@@ -1,34 +1,32 @@
-<div class="container-xl" style="padding-top: 25px;">
-  <div class="list row">
-    <div class="col-md-8">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="name">
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" (click)="searchByName()">
-            Search
-          </button>
-        </div>
-      </div>
+<div class="container pt-5">
+  <h1 class="pb-3">Activity management</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <a class="btn btn-success" routerLink="/activities/add">
+        <i class="fas fa-plus"></i> Create new activity
+      </a>
     </div>
-    <div class="col-md-8">
-      <a *ngIf="auth.loggedIn && auth.currentUser.isAdmin" href="/activities/add/null" class="btn btn-info" routerLink="/activities/add/null">Add</a>
-      <h4>Activities List</h4>
-      <ul class="list-group">
-        <table>
-          <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-          </tr>
-          <tr *ngFor="let activity of activities">
-            <td>{{activity.id}}</td>
-            <td>
-              <a href="/activities/{{activity.id}}" routerLink="/activities/{{activity.id}}">{{activity.name}}</a>
-            </td>
-            <td>{{activity.description}}</td>
-          </tr>
-        </table>
-      </ul>
+
+    <!-- TODO: Add advanced filters here instead of a general search field -->
+    <form class="col-md-8 form-inline">
+      <div class="btn-group ml-auto searchBox">
+        <input [(ngModel)]="searchTerm"
+               class="form-control ml-auto" name="searchTerm"
+               placeholder="Search by name..." type="text">
+        <button class="btn btn-secondary" (click)="searchByName()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+  <div *ngFor="let activity of activities" class="col-12 card">
+    <div class="card-body">
+      <h4 class="card-title">
+        <a routerLink="/activities/{{ activity.id }}">{{ activity.name }}</a>
+      </h4>
+      <p class="card-text">{{ activity.description }}</p>
+      <p class="card-text text-muted">{{ activity.createdOn | date: 'full' }}</p>
+
     </div>
   </div>
 </div>

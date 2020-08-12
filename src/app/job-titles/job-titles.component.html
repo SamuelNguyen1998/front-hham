@@ -1,0 +1,47 @@
+<div class="container pt-5">
+  <h1 class="pb-3">Job title management</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <a class="btn btn-success" routerLink="/jobs/add">
+        <i class="fas fa-plus"></i> Create new user
+      </a>
+    </div>
+    <form class="col-md-8 form-inline">
+      <!-- TODO: Add advanced filters here instead of a general search field -->
+      <div class="btn-group ml-auto searchBox">
+        <input [(ngModel)]="searchTerm"
+               class="form-control ml-auto" name="searchTerm"
+               placeholder="Search by name..." type="text">
+        <button (click)="searchByName()" class="btn btn-secondary">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Job title</th>
+        <th scope="col">Monthly amount</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let jobTitle of jobTitles">
+        <td>{{ jobTitle.name }}</td>
+        <td>{{ jobTitle.monthlyAmount }}</td>
+        <td>
+          <a class="btn btn-primary m-1" routerLink="/jobs/{{ jobTitle.id }}">
+            <i class="fas fa-eye"></i> View (users with this title?)
+          </a>
+          <a class="btn btn-info m-1" routerLink="/jobs/{{ jobTitle.id }}/edit">
+            <i class="fas fa-pen"></i> Edit
+          </a>
+          <a class="btn btn-danger m-1" routerLink="/jobs/{{ jobTitle.id }}/archive">
+            <i class="fas fa-archive"></i> Archive
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

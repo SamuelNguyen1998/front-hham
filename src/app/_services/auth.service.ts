@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Constants } from "../Constants";
-import { LoginRequest } from "../_models/LoginRequest";
+import { Constants } from '../Constants';
+import { LoginRequest } from '../_models/LoginRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +19,13 @@ export class AuthService {
   };
 
   constructor(private http: HttpClient) {
-    const lastAccess = +localStorage.getItem("lastAccess");
+    const lastAccess = +localStorage.getItem('lastAccess');
     const elapsedTimeInMs = Date.now() - lastAccess;
     const threshold = 60 * 60 * 1000; // 60 minutes
     if (lastAccess && elapsedTimeInMs < threshold) {
       this._loggedIn = true;
-      this._token = localStorage.getItem("token");
-      this._currentUser = JSON.parse(localStorage.getItem("userInfo"));
+      this._token = localStorage.getItem('token');
+      this._currentUser = JSON.parse(localStorage.getItem('userInfo'));
     }
   }
 
@@ -59,9 +59,9 @@ export class AuthService {
     this._token = response.token;
     const { id, username, displayName, email, admin } = response.user;
     this._currentUser = { id, username, displayName, email, isAdmin: admin };
-    localStorage.setItem("token", response.token);
-    localStorage.setItem("userInfo", JSON.stringify(this.currentUser));
-    localStorage.setItem("lastAccess", Date.now().toString());
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('userInfo', JSON.stringify(this.currentUser));
+    localStorage.setItem('lastAccess', Date.now().toString());
   }
 
   logout(): void {

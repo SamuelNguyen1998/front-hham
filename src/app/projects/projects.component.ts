@@ -9,8 +9,9 @@ import { ProjectService } from "../_services/project.service";
   styleUrls: [ './projects.component.scss' ]
 })
 export class ProjectsComponent implements OnInit {
+
   projects: Project[];
-  name: string;
+  searchTerm: string;
 
   constructor(public auth: AuthService,
               private projectService: ProjectService) {
@@ -23,14 +24,15 @@ export class ProjectsComponent implements OnInit {
   retrieveProjects(): void {
     this.projectService.getAll().subscribe(
       response => this.projects = response.data,
-      error => console.log(error)
+      console.log
     );
   }
 
   searchByName(): void {
-    this.projectService.findByName(this.name).subscribe(
+    this.projectService.findByName(this.searchTerm).subscribe(
       response => this.projects = response.data,
-      error => console.log(error)
+      console.log
     );
   }
+
 }

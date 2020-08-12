@@ -1,0 +1,175 @@
+<main class="container pt-5" role="main">
+  <div class="row">
+    <h1 *ngIf="!isInActivityEditMode" class="col-md-9 pb-3">{{ activity.name }}</h1>
+    <form *ngIf="isInActivityEditMode" class="col-md-9">
+      <input [(ngModel)]="newActivity.name" class="form-control" name="name" type="text">
+    </form>
+
+    <div class="col-md-3 text-right btn-group">
+      <button (click)="enterActivityEditMode()" *ngIf="!isInActivityEditMode"
+              class="btn btn-info height-limited-button">
+        <i class="fas fa-pen"></i> Edit
+      </button>
+      <button *ngIf="!isInActivityEditMode" class="btn btn-danger height-limited-button" (click)="archive()">
+        <i class="fas fa-archive"></i> Archive
+      </button>
+      <button (click)="saveActivityEdit()" *ngIf="isInActivityEditMode" class="btn btn-primary height-limited-button">
+        <i class="fas fa-pen"></i> Save
+      </button>
+      <button (click)="cancelActivityEdit()" *ngIf="isInActivityEditMode"
+              class="btn btn-secondary height-limited-button">
+        <i class="fas fa-times-circle"></i> Cancel
+      </button>
+    </div>
+  </div>
+
+  <p class="text-muted">Created on {{ activity.createdOn | date: 'full' }}</p>
+
+  <p *ngIf="!isInActivityEditMode" class="description">{{ activity.description }}</p>
+  <textarea *ngIf="isInActivityEditMode"
+            [(ngModel)]="newActivity.description"
+            class="form-control" id="description" name="description"
+            rows="10">
+  </textarea>
+
+  <h2>Options</h2>
+  <form class="row row-cols-md-3">
+    <div *ngFor="let option of options" class="col mb-4">
+      <div class="card h-100">
+        <div class="card-header">
+          <h4 *ngIf="!isInOptionEditMode" class="card-title">{{ option.name }}</h4>
+          <input *ngIf="isInOptionEditMode"
+                 [(ngModel)]="updatedOption.name"
+                 class="form-control" name="optionName"
+                 type="text">
+          <div *ngIf="!isInOptionEditMode" class="card-text text-muted">
+            {{ option.price | number }} VND
+            <!-- TODO: Generalize currency -->
+          </div>
+          <div *ngIf="isInOptionEditMode" class="input-group">
+            <input [(ngModel)]="updatedOption.price" class="form-control" name="optionPrice" type="number">
+            <div class="input-group-append">
+              <span class="input-group-text">VND</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body h-100">
+          <img *ngIf="option.image" alt="" class="card-img-bottom" src="{{ option.image }}">
+          <!--TODO: Replace this with real vote -->
+          <p class="text-success">
+            <span *ngIf="option === options[0]">You voted this</span>
+          </p>
+          <!--TODO: Add field to choose new image, need to keep existing one if no new image is chosen -->
+        </div>
+
+        <div class="card-footer">
+          <div class="text-center">
+
+            <!-- TODO: This group is ugly on small screen, redesign needed -->
+            <div *ngIf="auth.currentUser.isAdmin">
+              <button (click)="beginEditOption(option.id)"
+                      *ngIf="!isInOptionEditMode"
+                      class="btn btn-info m-1"
+                      title="Edit">
+                <i class="fas fa-pen"></i> Edit
+              </button>
+              <button (click)="finishEditOption(option.id)"
+                      *ngIf="isInOptionEditMode"
+                      class="btn btn-success m-1"
+                      title="Save">
+                <i class="fas fa-check"></i> Save
+              </button>
+              <button (click)="captureOptionIdForDeletion(option.id)"
+                      [class.d-none]="isInOptionEditMode"
+                      class="btn btn-danger m-1"
+                      title="Delete"
+                      data-toggle="modal"
+                      data-target="#optionDeleteConfirmDialog">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+              <button (click)="cancelEditOption()"
+                      [class.d-none]="!isInOptionEditMode"
+                      class="btn btn-secondary m-1"
+                      title="Cancel">
+                <i class="fas fa-times-circle"></i> Cancel
+              </button>
+            </div>
+
+            <span *ngIf="!auth.currentUser.isAdmin"
+                  class="d-inline-block"
+                  tabindex="0"
+                  data-toggle="tooltip"
+                  title="You have already voted">
+              <!-- TODO: Use real state -->
+              <button (click)="vote(option.id)" [disabled]="true" aria-disabled="true" class="btn btn-primary">
+                Vote
+              </button>
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TODO: Use real state for this card -->
+    <!-- TODO: Add validation -->
+    <div class="col mb-4 collapse" [class.collapse]="!isAddOptionFormVisible">
+      <form *ngIf="true" class="card h-100">
+        <div class="card-header">
+          <input [(ngModel)]="newOption.name"
+                 class="form-control" name="optionName"
+                 placeholder="Name..."
+                 type="text">
+          <div class="input-group">
+            <input [(ngModel)]="newOption.price"
+                   class="form-control" name="optionPrice"
+                   min="0" type="number">
+            <div class="input-group-append">
+              <div class="input-group-text">VND</div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body"></div>
+        <div class="card-footer">
+          <div class="text-center">
+            <button (click)="finishAddOption()" class="btn btn-primary m-1">
+              <i class="fas fa-plus"></i> Create
+            </button>
+            <button (click)="cancelAddOption()" class="btn btn-secondary m-1">
+              <i class="fas fa-times-circle"></i> Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col mb-4">
+      <div class="card h-100">
+        <button (click)="showAddOptionForm()" class="button-add-option h-100" title="Add option">
+            <span class="icon-wrapper">
+              <i class="fas fa-plus"></i>
+            </span>
+        </button>
+      </div>
+    </div>
+
+  </form>
+</main>
+
+<div class="modal fade" id="optionDeleteConfirmDialog" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Delete option</div>
+      </div>
+      <div class="modal-body">
+        This operation is unrecoverable, please confirm your intention.
+      </div>
+      <div class="modal-footer">
+        <button (click)="deleteOption()" class="btn btn-danger">Delete the option</button>
+        <button class="btn btn-secondary" data-dismiss="modal">No, do not delete</button>
+      </div>
+    </div>
+  </div>
+</div>

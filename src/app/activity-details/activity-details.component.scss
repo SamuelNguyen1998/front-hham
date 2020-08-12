@@ -1,0 +1,41 @@
+.description {
+  white-space: pre-wrap;
+}
+
+[name="name"] {
+  font-size: 1.25rem;
+}
+
+[name="optionName"] {
+  font-size: 1.25rem;
+}
+
+.button-add-option {
+  align-items: center;
+  background: hsla(210, 5%, 90%, 1);
+  border: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &:hover {
+    background: hsla(210, 0%, 70%, 1);
+
+    .icon-wrapper {
+      color: white;
+    }
+  }
+
+  &:active {
+    background: hsla(210, 0%, 50%, 1);
+
+    .icon-wrapper {
+      color: white;
+    }
+  }
+
+  .icon-wrapper {
+    font-size: 5rem;
+    color: hsla(210, 0%, 30%, 1);
+  }
+}

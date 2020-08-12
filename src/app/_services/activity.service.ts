@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Constants } from "../Constants";
+import { Constants } from '../Constants';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class ActivityService {
     return this.http.put(`${Constants.API_BASE}/activities/${id}`, data);
   }
 
-  delete(id): Observable<any> {
+  archive(id): Observable<any> {
     return this.http.delete(`${Constants.API_BASE}/activities/${id}`);
   }
 

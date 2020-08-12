@@ -1,6 +1,7 @@
-export interface Job{
-    id: number;
-    name: string;
-    monthlyAmount: number;
+export interface Job {
+  name: string;
+  monthlyAmount: number;
+  validFrom: Date;
+  validTo?: Date;
 }
 
