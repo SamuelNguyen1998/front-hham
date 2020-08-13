@@ -99,50 +99,33 @@
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" style="width: 130px;"
-                                        id="inputGroup-sizing-default">Old Password:</span>
-                                </div>
-                                <input type="password" class="form-control" name="password" id="password"
-                                    title="enter your password if any." placeholder="enter password"
-                                    aria-label="password" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" style="width: 130px;"
                                         id="inputGroup-sizing-default">New Password:</span>
                                 </div>
-                                <!-- <input type="password" class="form-control" name="newpassword" id="newpassword"
-                                    title="enter new password if any." placeholder="enter new password"
-                                    aria-label="newpassword" aria-describedby="basic-addon1" #modelPassword="ngModel"> -->
-                                <input type="password" class="form-control" name="newpassword" id="newpassword"
-                                    title="enter new password if any." placeholder="enter new password"
-                                    aria-label="newpassword" aria-describedby="basic-addon1">
+                                <input [(ngModel)]="currentUser.password" type="password" class="form-control" name="newpassword"
+                                    id="newpassword" title="enter new password if any." placeholder="enter new password"
+                                    aria-label="newpassword" aria-describedby="basic-addon1" #modelPassword="ngModel">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" style="width: 130px;"
                                         id="inputGroup-sizing-default">Verify:</span>
                                 </div>
-                                <!-- <input type="password" class="form-control" name="verify" id="verify"
-                                    title="enter vetify password if any." placeholder="enter vetify password"
-                                    aria-label="vetify" aria-describedby="basic-addon1" ngValidateEqual="newpassword"
-                                    #modelConfirmPassword="ngModel"> -->
-                                <input type="password" class="form-control" name="verify" id="verify"
-                                    title="enter vetify password if any." placeholder="enter vetify password"
-                                    aria-label="vetify" aria-describedby="basic-addon1" ngValidateEqual="newpassword"
-                                    >
+                                <input [(ngModel)]="vetify" type="password" class="form-control" name="verify"
+                                    id="verify" title="enter vetify password if any."
+                                    placeholder="enter vetify password" aria-label="vetify"
+                                    aria-describedby="basic-addon1" ngValidateEqual="newpassword"
+                                    #modelConfirmPassword="ngModel">
                             </div>
-                            <!-- <div
-                                *ngIf="(modelConfirmPassword.dirty || modelConfirmPassword.touched) && modelConfirmPassword.invalid">
-                                <p class="warning-text"
-                                    *ngIf="modelConfirmPassword.hasError('notEqual') && modelPassword.valid">
-                                    Passwords Don't Match
+                            <div *ngIf="(modelConfirmPassword.dirty || modelConfirmPassword.touched) && modelConfirmPassword.invalid">
+                                <p class="alert alert-danger" role="alert" *ngIf="modelConfirmPassword.hasError('notEqual') && modelPassword.valid">
+                                  Passwords Don't Match
                                 </p>
-                            </div> -->
+                            </div>
                         </form>
                         <div class="form-group">
                             <div class="col-xs-12" style="text-align: center;">
                                 <br />
-                                <button class="btn btn-lg btn-success" type="submit">
+                                <button class="btn btn-lg btn-success" type="submit" (click)="updateUser()">
                                     <i class="fa fa-save fa-1x"></i> Update Password
                                 </button>
                             </div>

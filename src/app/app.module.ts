@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ValidateEqualModule } from 'ng-validate-equal';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -63,6 +64,7 @@ import { UserDetailsComponent } from './user-details/user-details.component';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    ValidateEqualModule,
   ],
   providers: [ authInterceptorProviders ],
   bootstrap: [ AppComponent ]
