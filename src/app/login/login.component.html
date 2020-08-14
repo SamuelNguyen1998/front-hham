@@ -1,40 +1,56 @@
-<div class="login-container-outer">
-  <div class="login-container mt-3">
-    <form class="login-form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" class="form-login"
-          name="form"
-          novalidate>
-      <div>
-        <h2 class="login-header">Log in</h2>
-      </div>
-      <label for="login-input-user" class="login__label">Username</label>
-      <input #username="ngModel" [(ngModel)]="form.username" class="login__input"
-             id="login-input-user" name="username"
-             required type="text"/>
-      <div *ngIf="f.submitted && username.invalid" class="alert alert-warning" role="alert"
-           style="top :10px">
-        Username is required!
-      </div>
-      <label for="login-input-password" class="login__label">
-        Password
-      </label>
-      <input id="login-input-password" class="login__input" type="password" name="password"
-             [(ngModel)]="form.password"
-             required #password="ngModel"/>
-      <div class="alert alert-warning" role="alert" style="top :10px"
-           *ngIf="f.submitted && password.invalid">
-        <div *ngIf="password.errors.required">Password is required</div>
-        <div *ngIf="password.errors.minlength">
-          Password must be at least 6 characters
-        </div>
-      </div>
-      <button class="login__submit mt-5">Sign in</button>
+<div class="container py-5">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <form class="col-md-4">
+      <h1 class="text-center">Login</h1>
+
       <div class="form-group">
-        <div *ngIf="f.submitted && error !== ''" class="alert alert-danger" role="alert"
-             style="top :10px">
-          Login failed: {{ error }}
+        <label for="username">Username</label>
+        <input [(ngModel)]="loginRequest.username"
+               [class.is-valid]="usernameTouched && usernameIsValid()"
+               [class.is-invalid]="usernameTouched && !usernameIsValid()"
+               class="form-control" id="username" name="username"
+               type="text">
+      </div>
+      <p *ngIf="usernameTouched && !usernameIsValid()" class="alert alert-danger" role="alert">
+        Username must not be empty
+      </p>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input [(ngModel)]="loginRequest.password"
+               [class.is-valid]="passwordTouched && passwordIsValid()"
+               [class.is-invalid]="passwordTouched && !passwordIsValid()"
+               class="form-control" id="password" name="password"
+               type="password">
+      </div>
+      <p *ngIf="passwordTouched && !passwordIsValid()" class="alert alert-danger" role="alert">
+        Password must be at least 8 characters
+      </p>
+
+      <div class="form-group">
+        <div class="custom-control custom-checkbox">
+          <input [(ngModel)]="loginRequest.keepSignedIn"
+                 class="custom-control-input" id="keepSignedIn" name="keepSignedIn"
+                 type="checkbox">
+          <label class="custom-control-label user-select-none" for="keepSignedIn">
+            Keep me signed in
+          </label>
         </div>
       </div>
+
+      <div class="form-group">
+        <a routerLink="/resetPassword">Forgot your password?</a>
+      </div>
+
+      <p *ngIf="errorMessage" class="alert alert-danger">{{  errorMessage }}</p>
+      <div class="form-group text-center">
+        <input (click)="onSubmit()"
+               class="btn btn-primary px-5" name="login"
+               type="submit" value="Login">
+      </div>
+
     </form>
-    <a href="#" class="login__forgot">Forgot Password?</a>
+    <div class="col-md-4"></div>
   </div>
 </div>

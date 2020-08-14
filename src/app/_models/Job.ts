@@ -10,4 +10,3 @@ export interface Job {
   validFrom: Date;
   validTo?: Date;
 }
-
