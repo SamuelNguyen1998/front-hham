@@ -7,33 +7,23 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss']
+  styleUrls: [ './user-profile.component.scss' ]
 })
 export class UserProfileComponent implements OnInit {
-
-  currentUser: User[];
+  user: User = { ...this.auth.user };
   message = '';
-  
 
-  constructor(
-    public auth: AuthService, 
-    private userService: UserService,
-    private router: Router) {
+  constructor(public auth: AuthService,
+              private userService: UserService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
-    this.userService.get(this.auth.currentUser.id).subscribe(
-      response => {
-        this.currentUser = response.data;
-      },
-      error => {
-        console.log(error);
-      });
   }
+
   updateUser(): void {
-    this.userService.update(this.auth.currentUser.id, this.currentUser).subscribe(
+    this.userService.update(this.auth.user.id, this.auth.user).subscribe(
       response => {
-        console.log(response);
         this.message = 'The user was updated successfully!';
       },
       error => {

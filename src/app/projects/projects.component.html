@@ -1,7 +1,7 @@
 <div class="container pt-5">
   <h1 class="pb-3">Project management</h1>
   <div class="row">
-    <div class="col-md-4 mb-3" *ngIf="auth.currentUser.isAdmin">
+    <div class="col-md-4 mb-3" *ngIf="auth.user.admin">
       <a class="btn btn-success" routerLink="/projects/add">
         <i class="fas fa-plus"></i> Create new project
       </a>

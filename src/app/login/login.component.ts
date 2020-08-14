@@ -19,13 +19,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.auth.loggedIn) {
-      this.router.navigate([ "dashboard" ]);
+      this.router.navigate([ "/" ]);
     }
   }
 
   onSubmit(): void {
     this.auth.login(this.form)
-      .then(() => this.router.navigate([ 'dashboard' ]))
+      .then(() => this.router.navigate([ '/' ]))
       .catch((err: Error) => this.error = err.message);
   }
 }

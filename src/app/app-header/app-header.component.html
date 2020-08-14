@@ -38,14 +38,14 @@
             Funds
           </a>
         </li>
-        <li *ngIf="auth.currentUser.isAdmin" class="nav-item">
+        <li *ngIf="auth.user.admin" class="nav-item">
           <a class="nav-link"
              data-target="#navbarContent.collapse.show" data-toggle="collapse"
              routerLink="/users" routerLinkActive="active">
             Users
           </a>
         </li>
-        <li class="nav-item" *ngIf="auth.currentUser.isAdmin">
+        <li class="nav-item" *ngIf="auth.user.admin">
           <a class="nav-link"
              data-target="#navbarContent.collapse.show" data-toggle="collapse"
              routerLink="/jobs" routerLinkActive="active">
@@ -61,7 +61,7 @@
            href="#"
            id="accountMenuToggler"
            type="button">
-          {{ auth.currentUser.displayName }}
+          {{ auth.user.displayName }}
         </a>
         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="accountMenuToggler">
           <li class="dropdown-item">

@@ -20,7 +20,7 @@
     </form>
 
     <div class="col-md-3 text-right btn-group">
-      <div *ngIf="auth.currentUser.isAdmin">
+      <div *ngIf="auth.user.admin">
         <button *ngIf="!isInEditMode" (click)="enterEditMode()" class="btn btn-info height-limited-button mr-3">
           <i class="fas fa-pen"></i> Edit
         </button>

@@ -4,9 +4,9 @@ export class User {
   password: string;
   displayName: string;
   email: string;
-  isAdmin: boolean;
+  admin: boolean;
   jobTitleId: number;
-  jobTitle: string
+  jobTitle: string;
   createdOn: Date;
-  deletedOn: Date;
+  deactivatedOn?: Date;
 }

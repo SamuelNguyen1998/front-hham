@@ -5,15 +5,12 @@
       <input [(ngModel)]="newActivity.name" class="form-control" name="name" type="text">
     </form>
 
-
-
-
-    <div class="col-md-3 text-right btn-group" *ngIf="auth.currentUser.isAdmin">
+    <div class="col-md-3 text-right btn-group" *ngIf="auth.user.admin">
       <button (click)="enterActivityEditMode()" *ngIf="!isInActivityEditMode"
               class="btn btn-info height-limited-button mr-3">
         <i class="fas fa-pen"></i> Edit
       </button>
-  
+
 
 
       <button *ngIf="!isInActivityEditMode" class="btn btn-danger height-limited-button" (click)="archive()">
@@ -30,7 +27,7 @@
 
     <!--   finish activity -->
     <div class="col-sm-6">
-    <button (click)="finishActivity()" 
+    <button (click)="finishActivity()"
     class="btn btn-info height-limited-button mr-3">
     <i class="fas fa-pen"></i> Finish
     </button>
@@ -82,7 +79,7 @@
           <div class="text-center">
 
             <!-- TODO: This group is ugly on small screen, redesign needed -->
-            <div *ngIf="auth.currentUser.isAdmin">
+            <div *ngIf="auth.user.admin">
               <button (click)="beginEditOption(option.id)"
                       *ngIf="!isInOptionEditMode"
                       class="btn btn-info m-1"
@@ -111,7 +108,7 @@
               </button>
             </div>
 
-            <span *ngIf="!auth.currentUser.isAdmin"
+            <span *ngIf="!auth.user.admin"
                   class="d-inline-block"
                   tabindex="0"
                   data-toggle="tooltip"
