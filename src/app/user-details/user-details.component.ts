@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { User } from '../_models/User';
-import { NgFlashMessageService } from 'ng-flash-messages';
 
 
 @Component({
@@ -23,7 +22,6 @@ export class UserDetailsComponent implements OnInit {
 
 
   constructor(private userService: UserService,
-              private ngFlashMessageService: NgFlashMessageService,
               private route: ActivatedRoute) {
   }
 
@@ -47,7 +45,7 @@ export class UserDetailsComponent implements OnInit {
       response => {
         // TODO: Flash success message
         console.log(response);
-        
+
       },
       error => {
         this.errorMessage = 'Failed creating new user';
