@@ -45,7 +45,7 @@ export class UserDetailsComponent implements OnInit {
       response => {
         // TODO: Flash success message
         console.log(response);
-        
+
       },
       error => {
         this.errorMessage = 'Failed creating new user';
