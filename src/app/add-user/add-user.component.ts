@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
+import { Job } from '../_models/Job';
+import { JobService } from '../_services/job.service';
 
 @Component({
   selector: 'app-add-user',
@@ -9,11 +11,13 @@ import { Router } from '@angular/router';
   styleUrls: [ './add-user.component.scss' ]
 })
 export class AddUserComponent implements OnInit {
+  jobTitle: Job[];
   user = {
     username: '',
     password: '',
     displayName: '',
     email: '',
+    jobTitleId: null,
   };
 
   userTouched = {
@@ -25,10 +29,12 @@ export class AddUserComponent implements OnInit {
   errorMessage = '';
 
   constructor(private userService: UserService,
+              private jobService: JobService,
               private router: Router) {
   }
 
   ngOnInit(): void {
+    this.loadJobTitle();
   }
 
   create(): void {
@@ -41,6 +47,12 @@ export class AddUserComponent implements OnInit {
         this.errorMessage = 'Failed creating new user';
         console.log(error);
       }
+    );
+  }
+  loadJobTitle(): void {
+    this.jobService.getAll().subscribe(
+      response => this.jobTitle = response.data,
+      console.log
     );
   }
 
@@ -56,6 +68,7 @@ export class AddUserComponent implements OnInit {
       password: '',
       displayName: '',
       email: '',
+      jobTitleId: null,
     };
   }
 
