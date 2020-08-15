@@ -6,6 +6,7 @@ import { ProjectService } from '../_services/project.service';
 import { ActivityService } from '../_services/activity.service';
 import { User } from "../_models/User";
 import { UserService } from "../_services/user.service";
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-project-details',
@@ -23,7 +24,8 @@ export class ProjectDetailsComponent implements OnInit {
   isActivityListExpanded = false;
   isInEditMode = false;
 
-  constructor(private projectService: ProjectService,
+  constructor(public auth: AuthService,
+              private projectService: ProjectService,
               private activityService: ActivityService,
               private userService: UserService,
               private route: ActivatedRoute,

@@ -1,1 +1,2 @@
-<p>dashboard works!</p>
+<dashboard-admin *ngIf="auth.currentUser.isAdmin"></dashboard-admin>
+<dashboard-user *ngIf="!auth.currentUser.isAdmin"></dashboard-user>

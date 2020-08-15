@@ -1,0 +1,12 @@
+footer {
+  background-color: black;
+  color: white;
+
+  a {
+    color: white;
+
+    &:hover {
+      color: hsla(210, 100%, 75%, 1);
+    }
+  }
+}
