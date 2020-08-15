@@ -1,1 +1,147 @@
-<p>user-profile works!</p>
+<div class="container" style="margin-top: 140px;">
+    <header class="jumbotron" *ngIf="auth.currentUser; else loggedOut">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="text-center">
+                    <h1>{{ auth.currentUser.username }}</h1>
+                    <img src="https://cdn.pixabay.com/photo/2016/08/31/11/54/user-1633249_960_720.png"
+                        class="avatar rounded-circle img-thumbnail" alt="avatar" />
+                    <h6>Upload a different photo...</h6>
+                    <input type="file" accept="image/*" class="text-center center-block file-upload" />
+                </div>
+            </div>
+
+            <div class="col-sm-9" id="main">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#home">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#messages"><i class="fa fa-edit fa-1x"></i> Edit
+                            Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#changepass">Change Password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home">
+                        <hr />
+
+                        <div class="row">
+                            <div class="col-lg-6 mr-auto">
+                                <p class="lead">
+                                    <strong>Email:</strong>
+                                    {{ auth.currentUser.email }}
+                                </p>
+                            </div>
+                            <div class="col-lg-6 mr-auto">
+                                <p class="lead">
+                                    <strong>Job Title:</strong>
+                                    {{ currentUser.jobTitle.name }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/tab-pane-->
+                    <div class="tab-pane" id="messages">
+                        <h2></h2>
+                        <hr />
+                        <div class="row">
+                            <div class="col-lg-6 mr-auto">
+                                <label for="displayname">
+                                    <h4>Display name</h4>
+                                </label>
+                                <input type="text" class="form-control" name="displayname" id="displayname"
+                                    placeholder="enter displayname" title="enter your display name if any."
+                                    [(ngModel)]="currentUser.displayName" />
+                            </div>
+                            <div class="col-lg-6 mr-auto">
+                                <label for="email">
+                                    <h4>Email</h4>
+                                </label>
+                                <input type="text" class="form-control" name="email" id="phone"
+                                    placeholder="enter email" title="enter your email if any."
+                                    [(ngModel)]="currentUser.email" />
+                            </div>
+                            <div class="col-lg-6 mr-auto">
+                                <label for="username">
+                                    <h4>Username</h4>
+                                </label>
+                                <input type="text" class="form-control" name="username" id="username"
+                                    placeholder="enter username" title="enter your username if any."
+                                    [(ngModel)]="currentUser.username" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <br />
+                                <button class="btn btn-lg btn-success" type="submit" (click)="updateUser()">
+                                    <i class="fa fa-save fa-1x"></i> Save
+                                </button>
+                                <button class="btn btn-lg" type="reset">
+                                    <i class="fa fa-reply fa-1x"></i> Reset
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                    <!--/tab-pane-->
+                    <div class="tab-pane" id="changepass">
+                        <h2>CHANGE PASSWORD</h2>
+                        <hr />
+                        <form>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="width: 130px;"
+                                        id="inputGroup-sizing-default">New Password:</span>
+                                </div>
+                                <input [(ngModel)]="currentUser.password" type="password" class="form-control" name="newpassword"
+                                    id="newpassword" title="enter new password if any." placeholder="enter new password"
+                                    aria-label="newpassword" aria-describedby="basic-addon1" #modelPassword="ngModel">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" style="width: 130px;"
+                                        id="inputGroup-sizing-default">Verify:</span>
+                                </div>
+                                <input [(ngModel)]="vetify" type="password" class="form-control" name="verify"
+                                    id="verify" title="enter vetify password if any."
+                                    placeholder="enter vetify password" aria-label="vetify"
+                                    aria-describedby="basic-addon1" ngValidateEqual="newpassword"
+                                    #modelConfirmPassword="ngModel">
+                            </div>
+                            <div *ngIf="(modelConfirmPassword.dirty || modelConfirmPassword.touched) && modelConfirmPassword.invalid">
+                                <p class="alert alert-danger" role="alert" *ngIf="modelConfirmPassword.hasError('notEqual') && modelPassword.valid">
+                                  Passwords Don't Match
+                                </p>
+                            </div>
+                        </form>
+                        <div class="form-group">
+                            <div class="col-xs-12" style="text-align: center;">
+                                <br />
+                                <button class="btn btn-lg btn-success" type="submit" (click)="updateUser()">
+                                    <i class="fa fa-save fa-1x"></i> Update Password
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                    <!--/tab-pane-->
+                </div>
+                <!--/tab-pane-->
+            </div>
+            <!--/tab-content-->
+        </div>
+        <!--/col-9-->
+    </header>
+</div>
+
+<ng-template #loggedOut>
+    Please login.
+</ng-template>

@@ -1,14 +1,14 @@
 <div class="container pt-5">
   <h1 class="pb-3">Project management</h1>
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 mb-3" *ngIf="auth.currentUser.isAdmin">
       <a class="btn btn-success" routerLink="/projects/add">
         <i class="fas fa-plus"></i> Create new project
       </a>
     </div>
 
     <!-- TODO: Add advanced filters here instead of a general search field -->
-    <form class="col-md-8 form-inline">
+    <form class="col-md-8 ml-auto mb-3 form-inline">
       <div class="btn-group ml-auto searchBox">
         <input [(ngModel)]="searchTerm" name="searchTerm"
                class="form-control ml-auto"
