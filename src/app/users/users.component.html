@@ -1,7 +1,7 @@
 <div class="container pt-5">
   <h1 class="pb-3">User management</h1>
   <div class="row">
-    <div class="col-md-4 mb-3">
+    <div class="col-md-4">
       <a class="btn btn-success" routerLink="/users/add">
         <i class="fas fa-plus"></i> Create new user
       </a>
@@ -33,7 +33,7 @@
         <td>{{ user.username }}</td>
         <td>{{ user.displayName }}</td>
         <td>{{ user.email }}</td>
-        <td>{{ user.jobTitle.name }}</td>
+        <td>{{ user.jobTitleId }}</td>
         <td>
           <a class="btn btn-primary m-1" routerLink="/users/{{ user.id }}">
             <i class="fas fa-eye"></i> View

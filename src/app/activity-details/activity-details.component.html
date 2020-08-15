@@ -5,15 +5,15 @@
       <input [(ngModel)]="newActivity.name" class="form-control" name="name" type="text">
     </form>
 
-    <div class="col-md-3 text-right btn-group" *ngIf="auth.currentUser.isAdmin">
+    <div class="col-md-3 text-right btn-group">
       <button (click)="enterActivityEditMode()" *ngIf="!isInActivityEditMode"
-              class="btn btn-info height-limited-button mr-3">
+              class="btn btn-info height-limited-button">
         <i class="fas fa-pen"></i> Edit
       </button>
       <button *ngIf="!isInActivityEditMode" class="btn btn-danger height-limited-button" (click)="archive()">
         <i class="fas fa-archive"></i> Archive
       </button>
-      <button (click)="saveActivityEdit()" *ngIf="isInActivityEditMode" class="btn btn-primary height-limited-button mr-3">
+      <button (click)="saveActivityEdit()" *ngIf="isInActivityEditMode" class="btn btn-primary height-limited-button">
         <i class="fas fa-pen"></i> Save
       </button>
       <button (click)="cancelActivityEdit()" *ngIf="isInActivityEditMode"
