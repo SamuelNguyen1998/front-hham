@@ -35,7 +35,7 @@ const routes: Routes = [
 
   { path: 'users', component: UsersComponent, canActivate: [ AuthGuard ] },
   { path: 'users/add', component: AddUserComponent, canActivate: [ AuthGuard ] },
-  { path: 'users/:id/edit', component: UserDetailsComponent, canActivate: [ AuthGuard ] },
+  { path: 'users/:id', component: UserDetailsComponent, canActivate: [ AuthGuard ] },
 
   { path: 'jobs', component: JobTitlesComponent, canActivate: [ AuthGuard ] },
   { path: 'jobs/add', component: AddJobTitleComponent, canActivate: [ AuthGuard ] },

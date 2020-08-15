@@ -1,5 +1,5 @@
 <div class="login-container-outer">
-  <div class="login-container mt-3">
+  <div class="login-container">
     <form class="login-form" #f="ngForm" (ngSubmit)="f.form.valid && onSubmit()" class="form-login"
           name="form"
           novalidate>
@@ -27,7 +27,13 @@
           Password must be at least 6 characters
         </div>
       </div>
-      <button class="login__submit mt-5">Sign in</button>
+      <label class="login__label--checkbox">
+        <input [(ngModel)]="keepSignedIn" class="login__input--checkbox" id="keepSignedIn"
+               name="keepSignedIn"
+               type="checkbox">
+        Keep me Signed in
+      </label>
+      <button class="login__submit">Sign in</button>
       <div class="form-group">
         <div *ngIf="f.submitted && error !== ''" class="alert alert-danger" role="alert"
              style="top :10px">

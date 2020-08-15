@@ -20,20 +20,18 @@
     </form>
 
     <div class="col-md-3 text-right btn-group">
-      <div *ngIf="auth.currentUser.isAdmin">
-        <button *ngIf="!isInEditMode" (click)="enterEditMode()" class="btn btn-info height-limited-button mr-3">
-          <i class="fas fa-pen"></i> Edit
-        </button>
-        <button *ngIf="!isInEditMode" class="btn btn-danger height-limited-button" (click)="archive()">
-          <i class="fas fa-archive"></i> Archive
-        </button>
-        <button (click)="saveEdit()" *ngIf="isInEditMode" class="btn btn-primary height-limited-button mr-3">
-          <i class="fas fa-pen"></i> Save
-        </button>
-        <button (click)="cancelEdit()" *ngIf="isInEditMode" class="btn btn-secondary height-limited-button">
-          <i class="fas fa-times-circle"></i> Cancel
-        </button>
-      </div>
+      <button *ngIf="!isInEditMode" (click)="enterEditMode()" class="btn btn-info height-limited-button">
+        <i class="fas fa-pen"></i> Edit
+      </button>
+      <button *ngIf="!isInEditMode" class="btn btn-danger height-limited-button" (click)="archive()">
+        <i class="fas fa-archive"></i> Archive
+      </button>
+      <button (click)="saveEdit()" *ngIf="isInEditMode" class="btn btn-primary height-limited-button">
+        <i class="fas fa-pen"></i> Save
+      </button>
+      <button (click)="cancelEdit()" *ngIf="isInEditMode" class="btn btn-secondary height-limited-button">
+        <i class="fas fa-times-circle"></i> Cancel
+      </button>
     </div>
   </div>
   <p class="text-muted">Created on {{ project?.createdOn | date: 'full' }}</p>
