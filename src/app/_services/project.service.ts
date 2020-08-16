@@ -40,6 +40,10 @@ export class ProjectService {
     return this.http.get(`${Constants.API_BASE}/projects/${id}/members`);
   }
 
+  getAllProjectOfUser(id: number): Observable<any> {
+    return this.http.get(`${Constants.API_BASE}/projects/${id}/projects`);
+  }
+
   addMember(id: number, data): Observable<any> {
     return this.http.post(`${Constants.API_BASE}/projects/${id}/members`, data);
   }
