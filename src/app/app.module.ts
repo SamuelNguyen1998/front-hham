@@ -32,6 +32,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 
 import { FundComponent } from './fund/fund.component';
+import { FundDetailsComponent } from './fund-details/fund-details.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { FundComponent } from './fund/fund.component';
     UserProfileComponent,
 
     FundComponent,
+    FundDetailsComponent,
   ],
   imports: [
     AppRoutingModule,
