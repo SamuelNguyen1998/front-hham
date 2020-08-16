@@ -1,1 +1,41 @@
-<p>job-title-details works!</p>
+<div class="container pt-5">
+    <div class="row">
+        <div class="col-md-3"></div>
+
+        <form class="col-md-6">
+            <h1 class="pb-3">Edit Job Title</h1>
+
+            <div class="form-group">
+                <label class="required-field" for="name">Job Title</label>
+                <input [(ngModel)]="currentJob.name"
+                 class="form-control" id="name" name="name"
+                 required type="text">
+            </div>
+
+            <div class="form-group">
+                <label class="required-field" for="monthlyAmount">Monthly Amount</label>
+                <input [(ngModel)]="currentJob.monthlyAmount"
+                 class="form-control" id="monthlyAmount" name="monthlyAmount"
+                 required type="text">
+
+                 <!-- validate for input, amount is a decimal -->
+            </div>
+
+            <div class="text-center">
+                <button routerLink= "/jobs" (click)="updateJob()" class="btn btn-success m-1">
+                  <i class="fas fa-plus"></i> Update
+                </button>
+                <button routerLink="/jobs" class="btn btn-secondary m-1">
+                  <i class="fas fa-backward"></i> Back
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+
+
+
+
+
+</div>

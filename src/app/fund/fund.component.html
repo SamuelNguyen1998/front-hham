@@ -1,70 +1,26 @@
-<div class="container-fluid" style="padding-top: 25px;">
-  <div class="list row">
-    <div class="col-md-8">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search by title" [(ngModel)]="title" />
-        <div class="input-group-append">
-          <!-- <button class="btn btn-outline-secondary" type="button" (click)="searchTitle()">
-              Search
-            </button> -->
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-5">
-      <h4>Project List</h4>
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let project of projects; let i = index" [class.active]="i == currentIndex"
-          (click)="setActiveProject(project, i)">
-          {{ project.name }}
-        </li>
-      </ul>
-    </div>
-    <div class="col-md-6">
-      <div *ngIf="currentProject">
-        <h4>Project</h4>
-        <div>
-          <label><strong>Name:</strong></label> {{ currentProject.name }}
-        </div>
-        <div>
-          <label><strong>Description:</strong></label>
-          {{ currentProject.description }}
-        </div>
-        <div>
-          <label><strong>Fund:</strong></label>
-          {{ currentProject.fund }}
-        </div>
-        <table>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Job Title</th>
-            <th scope="col">Monthly Amount</th>
-            <th scope="col">Check</th>
-          </tr>
-            <!-- <tr *ngFor="let f of funds().controls; let i = index">
-              <div [formGroupName]="i">
-                <td>{{f.value.displayName}}</td>
-                <td>{{f.value.email}}</td>
-                <td>{{f.value.jobTitle}}</td>
-                <td>{{f.value.monthlyAmount}}</td>
-                <td><input [formControlName]="i"  type="checkbox" class="form-check-input" checked></td>
-              </div>
-            </tr>              -->
-            <tr *ngFor="let member of members">
-              <td>{{member.displayName}}</td>
-              <td>{{member.email}}</td>
-              <td>{{member.jobTitle.name}}</td>
-              <td>{{member.jobTitle.monthlyAmount}}</td>
-              <td><input type="checkbox" class="form-check-input" id="{{member.id}}" value="{{member.jobTitle.monthlyAmount}}"></td>
-            </tr>
-        </table>
-        <button (click)="completeFund()" class="btn btn-success">Submit</button>
-      </div>
+<div class="container pt-5">
+  <h1 class="pb-3">Fund management</h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Fund Name</th>
+        <th scope="col">Fund Balance</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody> 
+      <tr *ngFor="let p of projects">
+        <td>{{ p.name }}</td>
+        <td>{{ p.fund }}</td>
+        <td>
+          <a class="btn btn-primary m-1" >
+            <i class="fas fa-eye"></i> View
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-      <!-- <div *ngIf="!currentProject">
-          <br />
-          <p>Please click on a Project...</p>
-        </div> -->
-    </div>
-  </div>
+
+  
 </div>

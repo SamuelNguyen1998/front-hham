@@ -10,7 +10,7 @@ import { authInterceptorProviders } from './_services/auth.interceptor';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
-import { AppFooterComponent } from './app-footer/app-footer.component';
+//import { AppFooterComponent } from './app-footer/app-footer.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
@@ -31,12 +31,13 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 
+import { FundComponent } from './fund/fund.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AppHeaderComponent,
-    AppFooterComponent,
+//    AppFooterComponent,
     NotFoundComponent,
     LoginComponent,
     DashboardComponent,
@@ -57,6 +58,8 @@ import { UserDetailsComponent } from './user-details/user-details.component';
     AddUserComponent,
     UserDetailsComponent,
     UserProfileComponent,
+
+    FundComponent,
   ],
   imports: [
     AppRoutingModule,
