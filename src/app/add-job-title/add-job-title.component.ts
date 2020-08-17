@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Job } from '../_models/Job';
-import { JobService } from '../_services/job.service';
+import { JobTitleService } from '../_services/job-title.service';
 import { Router } from '@angular/router';
+import { JobTitle } from "../_models/JobTitle";
 
 @Component({
   selector: 'app-add-job-title',
@@ -9,16 +9,14 @@ import { Router } from '@angular/router';
   styleUrls: [ './add-job-title.component.scss' ]
 })
 export class AddJobTitleComponent implements OnInit {
-  job: Job = {
-    id: 0,
+  job: JobTitle = {
     name: '',
     monthlyAmount: 0,
-    validFrom: undefined,
   };
   errorMessage = '';
-  jobTouched = false;
+  touched = { name: false, amount: false };
 
-  constructor(private jobService: JobService,
+  constructor(private jobService: JobTitleService,
               private router: Router) {
   }
 
@@ -29,27 +27,37 @@ export class AddJobTitleComponent implements OnInit {
     this.jobService.create(this.job).subscribe(
       response => {
         // TODO: Add flash message to notify about successful operation
-        this.router.navigate([ `/jobs` ]);
+        this.router.navigate([ '/jobs' ]);
       },
-      error => {
-        this.errorMessage = '';
-        console.log(error);
-      }
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
   reset(): void {
     this.errorMessage = '';
-    this.jobTouched = false;
-    this.job = {
-      id: 0,
-      name: '',
-      monthlyAmount: 0,
-      validFrom: undefined,
-    };
+    this.touched = { name: false, amount: false };
+    this.job = { name: '', monthlyAmount: 0 };
   }
 
   isValidName(): boolean {
     return this.job.name.length > 0;
+  }
+
+  keyPressOnAmount(event: KeyboardEvent): void {
+    // Decimal digits are accepted
+    if (/\d/.test(event.key)) {
+      return;
+    }
+    // Decimal point is allowed, but only once
+    const amountStr = this.job.monthlyAmount.toString();
+    if (event.key === "." && amountStr.indexOf(".") < 0) {
+      return;
+    }
+    // All other keys are rejected
+    event.preventDefault();
+  }
+
+  isValidAmount(): boolean {
+    return this.job.monthlyAmount && this.job.monthlyAmount >= 0;
   }
 }

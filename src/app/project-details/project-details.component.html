@@ -1,13 +1,13 @@
 <div class="container pt-5">
   <div *ngIf="successMessage" class="alert alert-success" role="alert">
     {{ successMessage }}
-    <button (click)="clearSuccessMessage()" aria-label="Close" class="close" data-dismiss="alert" type="button">
+    <button (click)="clearSuccessMessage()" aria-label="Close" class="close">
       <span aria-hidden="true">×</span>
     </button>
   </div>
   <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
     {{ errorMessage }}
-    <button (click)="clearErrorMessage()" aria-label="Close" class="close" data-dismiss="alert" type="button">
+    <button (click)="clearErrorMessage()" aria-label="Close" class="close">
       <span aria-hidden="true">×</span>
     </button>
   </div>

@@ -30,9 +30,9 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.usernameTouched = true;
-    this.passwordTouched = true;
     if (!this.usernameIsValid() || !this.passwordIsValid()) {
+      this.usernameTouched = true;
+      this.passwordTouched = true;
       return;
     }
     this.auth.login(this.loginRequest)

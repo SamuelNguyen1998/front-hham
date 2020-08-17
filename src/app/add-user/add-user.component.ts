@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
-import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
-import { Job } from '../_models/Job';
+
+import { JobTitle } from "../_models/JobTitle";
 import { JobService } from '../_services/job.service';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-add-user',
@@ -11,7 +11,7 @@ import { JobService } from '../_services/job.service';
   styleUrls: [ './add-user.component.scss' ]
 })
 export class AddUserComponent implements OnInit {
-  jobTitle: Job[];
+  jobTitle: JobTitle[];
   user = {
     username: '',
     password: '',
@@ -41,7 +41,7 @@ export class AddUserComponent implements OnInit {
     this.userService.create(this.user).subscribe(
       response => {
         // TODO: Flash success message
-        this.router.navigate([ `/users/${response.id}` ]);
+        this.router.navigate([ `/users/${ response.id }` ]);
       },
       error => {
         this.errorMessage = 'Failed creating new user';
@@ -49,6 +49,7 @@ export class AddUserComponent implements OnInit {
       }
     );
   }
+
   loadJobTitle(): void {
     this.jobService.getAll().subscribe(
       response => this.jobTitle = response.data,

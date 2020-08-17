@@ -43,7 +43,7 @@
         <a routerLink="/resetPassword">Forgot your password?</a>
       </div>
 
-      <p *ngIf="errorMessage" class="alert alert-danger">{{  errorMessage }}</p>
+      <p *ngIf="errorMessage" class="alert alert-danger" role="alert">{{  errorMessage }}</p>
       <div class="form-group text-center">
         <input (click)="onSubmit()"
                class="btn btn-primary px-5" name="login"
