@@ -9,7 +9,7 @@ import { authInterceptorProviders } from './_services/auth.interceptor';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
-//import { AppFooterComponent } from './app-footer/app-footer.component';
+import { AppFooterComponent } from './app-footer/app-footer.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
@@ -35,7 +35,7 @@ import { FundDetailsComponent } from './fund-details/fund-details.component';
   declarations: [
     AppComponent,
     AppHeaderComponent,
-//    AppFooterComponent,
+    AppFooterComponent,
     NotFoundComponent,
     LoginComponent,
     DashboardComponent,

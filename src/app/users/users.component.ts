@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from "../_models/User";
+import { JobTitle } from "../_models/JobTitle";
 import { AuthService } from '../_services/auth.service';
 import { UserService } from '../_services/user.service';
-import { JobTitle } from "../_models/JobTitle";
 import { JobTitleService } from "../_services/job-title.service";
 
 @Component({
@@ -75,7 +75,7 @@ export class UsersComponent implements OnInit {
   deactivate(): void {
     this.userService.deactivate(this.idOfTheUserToDeactivate).subscribe(
       response => {
-        this.users = this.users.filter(user => user.id === response.data.id);
+        this.users = this.users.filter(user => user.id !== response.data.id);
         // Trigger this to update the list of visible users
         this.searchByName();
         this.successMessage = `Successfully deactivated user ${ response.data.username }`;

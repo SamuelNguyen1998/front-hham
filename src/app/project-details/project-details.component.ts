@@ -46,40 +46,29 @@ export class ProjectDetailsComponent implements OnInit {
         this.project = response.data;
         this.loadActivities();
       },
-      error => {
-        this.errorMessage = 'Failed loading projects';
-        console.log(error);
-      }
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
   loadActivities(): void {
     this.activityService.findAllInProject(this.id).subscribe(
       response => this.activities = response.data,
-      error => {
-        this.errorMessage = 'Failed loading activities related to this project';
-        console.log(error);
-      }
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
   loadMembers(): void {
-    this.projectService.getMember(this.id)
-      .subscribe(
-        response => {
-          this.members = response.data;
-        },
-        error => console.log(error),
-      );
+    this.projectService.getMember(this.id).subscribe(
+      response => this.members = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
+    );
   }
+
   loadAllMembers(): void {
-    this.userService.getAll()
-      .subscribe(
-        response => {
-          this.allMembers = response.data;
-        },
-        error => console.log(error),
-      );
+    this.userService.getAll().subscribe(
+      response => this.allMembers = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
+    );
   }
 
   addMember(id: number): void {
@@ -88,7 +77,7 @@ export class ProjectDetailsComponent implements OnInit {
         this.successMessage = 'The Member was added successfully!';
         this.loadMembers();
       },
-      error => console.log(error),
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
@@ -99,7 +88,7 @@ export class ProjectDetailsComponent implements OnInit {
         this.members = this.members.filter(member => member.id === id);
         this.loadMembers();
       },
-      error => console.log(error)
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
@@ -121,10 +110,7 @@ export class ProjectDetailsComponent implements OnInit {
         this.successMessage = 'Successfully updated project information';
         this.project = this.newProject;
       },
-      error => {
-        this.errorMessage = 'Update failed';
-        console.log(error);
-      }
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
     this.isInEditMode = false;
   }
@@ -151,9 +137,5 @@ export class ProjectDetailsComponent implements OnInit {
   updateActivityListState(): void {
     const classes = document.getElementById('activityList').classList;
     this.isActivityListExpanded = !classes.contains('show');
-  }
-
-  confirmArchive(): void {
-    ;
   }
 }

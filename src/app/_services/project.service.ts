@@ -9,7 +9,6 @@ import { Project } from "../_models/Project";
   providedIn: 'root'
 })
 export class ProjectService {
-
   constructor(private http: HttpClient) {
   }
 
@@ -42,7 +41,7 @@ export class ProjectService {
   }
 
   getAllProjectOfUser(id: number): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/projects/${id}/projects`);
+    return this.http.get(`${ Constants.API_BASE }/projects/${ id }/projects`);
   }
 
   addMember(id: number, data): Observable<any> {

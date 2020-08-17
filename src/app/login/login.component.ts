@@ -11,8 +11,8 @@ import { LoginRequest } from "../_models/LoginRequest";
 })
 export class LoginComponent implements OnInit {
   loginRequest: LoginRequest = {
-    username: "",
-    password: "",
+    username: '',
+    password: '',
     keepSignedIn: false,
   };
   touched = { username: false, password: false };
@@ -36,9 +36,7 @@ export class LoginComponent implements OnInit {
     }
     this.auth.login(this.loginRequest)
       .then(() => this.router.navigate([ '/' ]))
-      .catch(errorResponse => {
-        this.errorMessage = errorResponse.error.message;
-      });
+      .catch(errorResponse => this.errorMessage = errorResponse.error.message);
   }
 
   usernameIsValid(): boolean {

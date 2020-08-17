@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { JobTitleService } from '../_services/job-title.service';
 import { Router } from '@angular/router';
+
 import { JobTitle } from "../_models/JobTitle";
+import { JobTitleService } from '../_services/job-title.service';
 
 @Component({
   selector: 'app-add-job-title',

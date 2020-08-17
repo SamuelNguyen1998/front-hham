@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Project } from '../_models/Project';
 import { Activity } from '../_models/Activity';
-import { ActivityService } from '../_services/activity.service';
 import { AuthService } from '../_services/auth.service';
 import { ProjectService } from '../_services/project.service';
-import { Project } from '../_models/Project';
+import { ActivityService } from '../_services/activity.service';
 
 @Component({
   selector: 'app-activities',
@@ -32,12 +32,10 @@ export class ActivitiesComponent implements OnInit {
   }
 
   getActivityOfUser(): void {
-    this.projectService.getAllProjectOfUser(this.auth.currentUser.id).subscribe(
+    this.projectService.getAllProjectOfUser(this.auth.user.id).subscribe(
       response => this.projects = response.data,
-
     );
-    for ( let p of this.projects)
-    {
+    for (const p of this.projects) {
       this.activityService.findAllInProject(p.id).subscribe(
         response => this.activities = response.data,
       );

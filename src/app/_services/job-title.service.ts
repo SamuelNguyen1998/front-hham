@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Constants } from '../Constants';
 import { JobTitle } from "../_models/JobTitle";
@@ -9,7 +9,6 @@ import { JobTitle } from "../_models/JobTitle";
   providedIn: 'root'
 })
 export class JobTitleService {
-
   constructor(private http: HttpClient) {
   }
 

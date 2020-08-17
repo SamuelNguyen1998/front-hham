@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Constants } from '../Constants';
-import { LoginRequest } from '../_models/LoginRequest';
-import { Session } from "../_models/Session";
 import { User } from "../_models/User";
+import { Session } from "../_models/Session";
+import { LoginRequest } from '../_models/LoginRequest';
 
 @Injectable({
   providedIn: 'root'

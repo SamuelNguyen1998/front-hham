@@ -1,28 +1,15 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from "@angular/router";
 
 @Component({
-    selector: 'app-footer',
-    templateUrl: './app-footer.component.html',
-    styleUrls: ['./app-footer.component.scss']
+  selector: 'app-footer',
+  templateUrl: './app-footer.component.html',
+  styleUrls: [ './app-footer.component.scss' ]
 })
 export class AppFooterComponent implements OnInit {
-    numberOfPendingUpdates = 0;
-    resizeObservable$: Observable<Event>;
-    resizeSubscription$: Subscription;
+  constructor() {
+  }
 
-    constructor(private router: Router) {
-    }
-
-    ngOnInit(): void {
-        this.router.events.subscribe(event => {
-            if (event instanceof NavigationEnd) {
-                this.pad();
-            }
-        });
-        this.pad();
-      }
-    });
+  ngOnInit(): void {
     this.pad();
   }
 

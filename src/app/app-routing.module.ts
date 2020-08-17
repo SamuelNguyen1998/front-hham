@@ -16,7 +16,6 @@ import { ActivityDetailsComponent } from './activity-details/activity-details.co
 import { AddProjectComponent } from './add-project/add-project.component';
 import { AddActivityComponent } from './add-activity/add-activity.component';
 import { AddJobTitleComponent } from './add-job-title/add-job-title.component';
-import { JobTitleDetailsComponent } from './job-title-details/job-title-details.component';
 import { FundComponent } from './fund/fund.component';
 import { FundDetailsComponent } from './fund-details/fund-details.component';
 
@@ -42,7 +41,6 @@ const routes: Routes = [
   { path: 'jobs', component: JobTitlesComponent, canActivate: [ AuthGuard ] },
   { path: 'jobs/add', component: AddJobTitleComponent, canActivate: [ AuthGuard ] },
 
-  { path: 'jobs/:id/edit', component: JobTitleDetailsComponent, canActivate: [ AuthGuard ] },
   { path: 'profile/:username', component: UserProfileComponent, canActivate: [ AuthGuard ] },
 
   { path: '404', component: NotFoundComponent },

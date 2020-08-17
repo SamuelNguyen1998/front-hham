@@ -56,12 +56,9 @@ export class AddUserComponent implements OnInit {
     this.userService.create(this.user).subscribe(
       response => {
         // TODO: Flash success message
-        console.log("Prepare to navigate");
         this.router.navigate([ `/users` ]);
       },
-      errorResponse => {
-        this.errorMessage = errorResponse.error.message;
-      }
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 

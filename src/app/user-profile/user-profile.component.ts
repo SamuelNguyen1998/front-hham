@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '../_models/User';
 import { AuthService } from '../_services/auth.service';
 import { UserService } from '../_services/user.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -23,12 +23,8 @@ export class UserProfileComponent implements OnInit {
 
   updateUser(): void {
     this.userService.update(this.auth.user).subscribe(
-      response => {
-        this.message = 'The user was updated successfully!';
-      },
-      error => {
-        console.log(error);
-      }
+      response => this.message = 'The user was updated successfully!',
+      error => console.log(error)
     );
   }
 }

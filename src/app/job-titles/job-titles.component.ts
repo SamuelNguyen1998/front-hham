@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JobTitle } from '../_models/JobTitle';
-import { JobTitleService } from '../_services/job-title.service';
 import { AuthService } from '../_services/auth.service';
+import { JobTitleService } from '../_services/job-title.service';
 
 @Component({
   selector: 'app-jobs',
