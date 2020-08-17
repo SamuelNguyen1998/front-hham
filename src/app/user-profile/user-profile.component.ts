@@ -22,7 +22,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   updateUser(): void {
-    this.userService.update(this.auth.user.id, this.auth.user).subscribe(
+    this.userService.update(this.auth.user).subscribe(
       response => {
         this.message = 'The user was updated successfully!';
       },

@@ -114,12 +114,6 @@ export class JobTitlesComponent implements OnInit {
     document.body.dispatchEvent(new Event('resize'));
   }
 
-  turnOffFiltering(): void {
-    if (this.searchTerm === '') {
-      this.visibleJobTitles = this.jobTitles;
-    }
-  }
-
   clearSuccessMessage(): void {
     this.successMessage = '';
   }

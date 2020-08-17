@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { JobTitle } from "../_models/JobTitle";
 import { JobService } from '../_services/job.service';
 import { UserService } from '../_services/user.service';
+import { User } from "../_models/User";
 
 @Component({
   selector: 'app-add-user',
@@ -11,19 +12,20 @@ import { UserService } from '../_services/user.service';
   styleUrls: [ './add-user.component.scss' ]
 })
 export class AddUserComponent implements OnInit {
-  jobTitle: JobTitle[];
-  user = {
+  user: User = {
     username: '',
     password: '',
     displayName: '',
     email: '',
-    jobTitleId: null,
+    jobTitle: '',
+    admin: false,
   };
 
   userTouched = {
     username: false,
     password: false,
     email: false,
+    jobTitle: false,
   };
 
   errorMessage = '';
@@ -63,13 +65,15 @@ export class AddUserComponent implements OnInit {
       username: false,
       password: false,
       email: false,
+      jobTitle: false,
     };
     this.user = {
       username: '',
       password: '',
       displayName: '',
       email: '',
-      jobTitleId: null,
+      jobTitle: '',
+      admin: false,
     };
   }
 

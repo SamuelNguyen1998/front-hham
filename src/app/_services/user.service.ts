@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Constants } from '../Constants';
+import { User } from "../_models/User";
 
 @Injectable({
   providedIn: 'root'
@@ -13,26 +14,26 @@ export class UserService {
   }
 
   getAll(): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/users`);
+    return this.http.get(`${ Constants.API_BASE }/users`);
   }
 
   get(id): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/users/${id}`);
+    return this.http.get(`${ Constants.API_BASE }/users/${ id }`);
   }
 
-  create(data): Observable<any> {
-    return this.http.post(`${Constants.API_BASE}/users`, data);
+  create(data: User): Observable<any> {
+    return this.http.post(`${ Constants.API_BASE }/users`, data);
   }
 
-  update(id, data): Observable<any> {
-    return this.http.put(`${Constants.API_BASE}/users/${id}`, data);
+  update(data: User): Observable<any> {
+    return this.http.put(`${ Constants.API_BASE }/users/${ data.id }`, data);
   }
 
-  delete(id): Observable<any> {
-    return this.http.delete(`${Constants.API_BASE}/users/${id}`);
+  deactivate(id: number): Observable<any> {
+    return this.http.delete(`${ Constants.API_BASE }/users/${ id }`);
   }
 
-  findByName(name): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/users?username=${name}`);
+  findByName(name: string): Observable<any> {
+    return this.http.get(`${ Constants.API_BASE }/users?username=${ name }`);
   }
 }

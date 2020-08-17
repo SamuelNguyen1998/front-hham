@@ -1,12 +1,11 @@
 export class User {
-  id: number;
+  id?: number;
   username: string;
-  password: string;
+  password?: string;
   displayName: string;
   email: string;
   admin: boolean;
-  jobTitleId: number;
   jobTitle: string;
-  createdOn: Date;
+  createdOn?: Date;
   deactivatedOn?: Date;
 }

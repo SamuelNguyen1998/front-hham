@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgModule } from '@angular/core';
-import { ValidateEqualModule } from 'ng-validate-equal';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,7 +28,6 @@ import { JobTitleDetailsComponent } from './job-title-details/job-title-details.
 import { UsersComponent } from './users/users.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { UserDetailsComponent } from './user-details/user-details.component';
 
 import { FundComponent } from './fund/fund.component';
 import { FundDetailsComponent } from './fund-details/fund-details.component';
@@ -57,7 +55,6 @@ import { FundDetailsComponent } from './fund-details/fund-details.component';
 
     UsersComponent,
     AddUserComponent,
-    UserDetailsComponent,
     UserProfileComponent,
 
     FundComponent,
@@ -67,9 +64,8 @@ import { FundDetailsComponent } from './fund-details/fund-details.component';
     AppRoutingModule,
     BrowserModule,
     FormsModule,
-    HttpClientModule,
     ReactiveFormsModule,
-    ValidateEqualModule,
+    HttpClientModule,
   ],
   providers: [ authInterceptorProviders ],
   bootstrap: [ AppComponent ]

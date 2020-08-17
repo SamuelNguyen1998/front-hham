@@ -16,7 +16,8 @@
       <button *ngIf="!isInActivityEditMode" class="btn btn-danger height-limited-button" (click)="archive()">
         <i class="fas fa-archive"></i> Archive
       </button>
-      <button (click)="saveActivityEdit()" *ngIf="isInActivityEditMode" class="btn btn-primary height-limited-button mr-3">
+      <button (click)="saveActivityEdit()" *ngIf="isInActivityEditMode"
+              class="btn btn-primary height-limited-button mr-3">
         <i class="fas fa-pen"></i> Save
       </button>
       <button (click)="cancelActivityEdit()" *ngIf="isInActivityEditMode"
@@ -169,17 +170,20 @@
   </form>
 </main>
 
+<!-- Dialogs -->
 <div class="modal fade" id="optionDeleteConfirmDialog" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title">Delete option</div>
+        <h4 class="modal-title">Delete option</h4>
       </div>
       <div class="modal-body">
         This operation is unrecoverable, please confirm your intention.
       </div>
       <div class="modal-footer">
-        <button (click)="deleteOption()" class="btn btn-danger">Delete the option</button>
+        <button (click)="deleteOption()" class="btn btn-danger" data-dismiss="modal">
+          Delete the option
+        </button>
         <button class="btn btn-secondary" data-dismiss="modal">No, do not delete</button>
       </div>
     </div>

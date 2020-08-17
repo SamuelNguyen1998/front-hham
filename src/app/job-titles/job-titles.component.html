@@ -13,10 +13,11 @@
       <!-- TODO: Add advanced filters here instead of a general search field -->
       <div class="btn-group ml-auto searchBox">
         <input [(ngModel)]="searchTerm"
-               (change)="turnOffFiltering()"
+               (change)="searchByName()"
                class="form-control ml-auto" name="searchTerm"
                placeholder="Search by name..." type="text">
-        <button (click)="searchByName()" class="btn btn-secondary" type="button">
+        <button (click)="searchByName()"
+                class="btn btn-secondary" type="button">
           <i class="fas fa-search"></i>
         </button>
       </div>

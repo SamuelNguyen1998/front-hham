@@ -17,9 +17,9 @@ import { AddProjectComponent } from './add-project/add-project.component';
 import { AddActivityComponent } from './add-activity/add-activity.component';
 import { AddJobTitleComponent } from './add-job-title/add-job-title.component';
 import { JobTitleDetailsComponent } from './job-title-details/job-title-details.component';
-import { UserDetailsComponent } from './user-details/user-details.component';
 import { FundComponent } from './fund/fund.component';
 import { FundDetailsComponent } from './fund-details/fund-details.component';
+
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -30,24 +30,18 @@ const routes: Routes = [
   { path: 'projects/:id', component: ProjectDetailsComponent, canActivate: [ AuthGuard ] },
 
   { path: 'activities', component: ActivitiesComponent, canActivate: [ AuthGuard ] },
-
-  { path: 'activities/add/:id', component: AddActivityComponent, canActivate: [ AuthGuard ] },
   { path: 'activities/add', component: AddActivityComponent, canActivate: [ AuthGuard ] },
   { path: 'activities/:id', component: ActivityDetailsComponent, canActivate: [ AuthGuard ] },
 
   { path: 'funds', component: FundComponent, canActivate: [AuthGuard]},
   { path: 'funds/:id', component: FundDetailsComponent, canActivate: [ AuthGuard ] },
 
-
   { path: 'users', component: UsersComponent, canActivate: [ AuthGuard ] },
   { path: 'users/add', component: AddUserComponent, canActivate: [ AuthGuard ] },
-  { path: 'users/:id/edit', component: UserDetailsComponent, canActivate: [ AuthGuard ] },
 
   { path: 'jobs', component: JobTitlesComponent, canActivate: [ AuthGuard ] },
   { path: 'jobs/add', component: AddJobTitleComponent, canActivate: [ AuthGuard ] },
   { path: 'jobs/:id/edit', component: JobTitleDetailsComponent, canActivate: [ AuthGuard ] },
-
-  // { path: 'funds', component: FundComponent, canActivate: [ AuthGuard ] },
 
   { path: '404', component: NotFoundComponent },
   { path: ':username', component: UserProfileComponent, canActivate: [ AuthGuard ] },
