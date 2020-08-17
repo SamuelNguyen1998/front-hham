@@ -24,6 +24,10 @@ export class AddJobTitleComponent implements OnInit {
   }
 
   create(): void {
+    this.touched = { amount: true, name: true };
+    if (!this.isValidName() || !this.isValidAmount()) {
+      return;
+    }
     this.jobService.create(this.job).subscribe(
       response => {
         // TODO: Add flash message to notify about successful operation
