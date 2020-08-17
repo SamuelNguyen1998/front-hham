@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Constants } from '../Constants';
+import { Project } from "../_models/Project";
 
 @Injectable({
   providedIn: 'root'
@@ -13,31 +14,31 @@ export class ProjectService {
   }
 
   getAll(): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/projects`);
+    return this.http.get(`${ Constants.API_BASE }/projects`);
   }
 
   get(id: number): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/projects/${id}`);
+    return this.http.get(`${ Constants.API_BASE }/projects/${ id }`);
   }
 
-  create(data): Observable<any> {
-    return this.http.post(`${Constants.API_BASE}/projects`, data);
+  create(data: Project): Observable<any> {
+    return this.http.post(`${ Constants.API_BASE }/projects`, data);
   }
 
-  update(id: number, data): Observable<any> {
-    return this.http.put(`${Constants.API_BASE}/projects/${id}`, data);
+  update(id: number, data: Project): Observable<any> {
+    return this.http.put(`${ Constants.API_BASE }/projects/${ id }`, data);
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${Constants.API_BASE}/projects/${id}`);
+    return this.http.delete(`${ Constants.API_BASE }/projects/${ id }`);
   }
 
   findByName(name: string): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/projects?name=${name}`);
+    return this.http.get(`${ Constants.API_BASE }/projects?name=${ name }`);
   }
 
   getMember(id: number): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/projects/${id}/members`);
+    return this.http.get(`${ Constants.API_BASE }/projects/${ id }/members`);
   }
 
   getAllProjectOfUser(id: number): Observable<any> {
@@ -45,10 +46,10 @@ export class ProjectService {
   }
 
   addMember(id: number, data): Observable<any> {
-    return this.http.post(`${Constants.API_BASE}/projects/${id}/members`, data);
+    return this.http.post(`${ Constants.API_BASE }/projects/${ id }/members`, data);
   }
 
   removeMember(id: number, idMember): Observable<any> {
-    return this.http.delete(`${Constants.API_BASE}/projects/${id}/members/${idMember}`);
+    return this.http.delete(`${ Constants.API_BASE }/projects/${ id }/members/${ idMember }`);
   }
 }

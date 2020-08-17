@@ -103,17 +103,12 @@ export class ProjectDetailsComponent implements OnInit {
     );
   }
 
-
   archive(): void {
     this.projectService.delete(this.project.id).subscribe(
       () => this.router.navigate([ '/projects' ]),
-      error => {
-        this.errorMessage = 'Archival failed';
-        console.log(error);
-      }
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
-
 
   enterEditMode(): void {
     this.newProject = { ...this.project };
@@ -156,5 +151,9 @@ export class ProjectDetailsComponent implements OnInit {
   updateActivityListState(): void {
     const classes = document.getElementById('activityList').classList;
     this.isActivityListExpanded = !classes.contains('show');
+  }
+
+  confirmArchive(): void {
+    ;
   }
 }

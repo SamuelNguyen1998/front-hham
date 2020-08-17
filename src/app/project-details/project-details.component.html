@@ -1,4 +1,5 @@
 <div class="container pt-5">
+  <!-- Messages -->
   <div *ngIf="successMessage" class="alert alert-success" role="alert">
     {{ successMessage }}
     <button (click)="clearSuccessMessage()" aria-label="Close" class="close">
@@ -12,32 +13,38 @@
     </button>
   </div>
 
-
+  <!-- Project info -->
   <div class="row">
     <h1 *ngIf="!isInEditMode" class="col-md-9">{{ project?.name }}</h1>
     <form *ngIf="isInEditMode" class="col-md-9">
-      <input [(ngModel)]="newProject.name" class="form-control h1" id="name" name="name" type="text">
+      <input [(ngModel)]="newProject.name"
+             class="form-control h1" id="name" name="name"
+             type="text">
     </form>
 
-    <div class="col-md-3 text-right btn-group">
-      <div *ngIf="auth.user.admin">
-        <button *ngIf="!isInEditMode" (click)="enterEditMode()" class="btn btn-info height-limited-button mr-3">
+    <div class="col-md-3 btn-group">
+      <div *ngIf="auth.user.admin && !isInEditMode" class="ml-auto">
+        <button (click)="enterEditMode()" class="btn btn-info height-limited-button mr-3">
           <i class="fas fa-pen"></i> Edit
         </button>
-        <button *ngIf="!isInEditMode" class="btn btn-danger height-limited-button" (click)="archive()">
+        <button class="btn btn-danger height-limited-button"
+                data-target="#archiveProjectConfirmDialog" data-toggle="modal">
           <i class="fas fa-archive"></i> Archive
         </button>
-        <button (click)="saveEdit()" *ngIf="isInEditMode" class="btn btn-primary height-limited-button mr-3">
+      </div>
+
+      <div *ngIf="auth.user.admin && isInEditMode" class="ml-auto">
+        <button (click)="saveEdit()" class="btn btn-primary height-limited-button mr-3">
           <i class="fas fa-pen"></i> Save
         </button>
-        <button (click)="cancelEdit()" *ngIf="isInEditMode" class="btn btn-secondary height-limited-button">
+        <button (click)="cancelEdit()" class="btn btn-secondary height-limited-button">
           <i class="fas fa-times-circle"></i> Cancel
         </button>
       </div>
     </div>
   </div>
-  <p class="text-muted">Created on {{ project?.createdOn | date: 'full' }}</p>
 
+  <p class="text-muted">Created on {{ project?.createdOn | date: 'medium' }}</p>
   <p class="description" *ngIf="!isInEditMode">{{ project?.description }}</p>
   <textarea *ngIf="isInEditMode" [(ngModel)]="newProject.description" id="description" class="form-control" cols="80"
     name="description" rows="10">
@@ -57,10 +64,14 @@
     </div>
   </div>
 
+  <!-- Members -->
   <div class="row">
     <div class="members col-12">
-      <a (click)="updateMemberListState()" aria-expanded="true" class="btn text-left p-3 d-block bg-light"
-        data-target="#memberList" data-toggle="collapse" role="button">
+      <a (click)="updateMemberListState()"
+         aria-expanded="true"
+         class="btn text-left p-3 d-block bg-light"
+         data-target="#memberList" data-toggle="collapse"
+         type="button">
         <span [class.d-none]="isMemberListExpanded">
           <i class="fas fa-angle-right"></i>
         </span>
@@ -69,6 +80,7 @@
         </span>
         {{ members?.length }} {{ members?.length > 1 ? 'Members' : 'Member' }}
       </a>
+
       <ul class="list-group collapse" id="memberList">
         <li *ngFor="let member of members" class="list-group-item">
           <a routerLink="/users">{{member.displayName}}</a>
@@ -79,16 +91,19 @@
     </div>
   </div>
 
-
   <a class="btn btn-info" routerLink="/activities/add/{{project.id}}"
     href="/activities/add/{{ project.id }}" *ngIf="isInEditMode">
     Add Activity
   </a>
 
+  <!-- Activities -->
   <div class="row">
     <div class="activities col-12">
-      <a (click)="updateActivityListState()" aria-expanded="true" class="btn text-left p-3 d-block bg-light"
-        data-target="#activityList" data-toggle="collapse" role="button">
+      <a (click)="updateActivityListState()"
+         aria-expanded="true"
+         class="btn text-left p-3 d-block bg-light"
+         data-target="#activityList" data-toggle="collapse"
+         type="button">
         <span [class.d-none]="isActivityListExpanded">
           <i class="fas fa-angle-right"></i>
         </span>
@@ -97,18 +112,45 @@
         </span>
         {{ activities?.length }} {{ activities?.length > 1 ? 'Activities' : 'Activity' }}
       </a>
+
       <ul class="list-group collapse" id="activityList">
         <li *ngFor="let activity of activities" class="list-group-item">
           <h4>
             <a routerLink="/activities/{{ activity.id }}">{{ activity.name }}</a>
-            <span [class.badge-danger]="activity.lockedOn !== null" [class.badge-success]="activity.lockedOn === null"
-              class="badge ml-2">
+            <span [class.badge-danger]="activity.lockedOn !== null"
+                  [class.badge-success]="activity.lockedOn === null"
+                  class="badge ml-2">
               {{ activity.lockedOn !== null ? 'Locked' : 'Open' }}
             </span>
           </h4>
           <div>{{ activity.description }}</div>
         </li>
       </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Dialogs -->
+<div class="modal fade" id="archiveProjectConfirmDialog" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Deactivate user account</h4>
+      </div>
+
+      <div class="modal-body">
+        Password of the deactivated account will be cleared and that user cannot anymore,
+        please confirm your intention.
+      </div>
+
+      <div class="modal-footer">
+        <button (click)="archive()" class="btn btn-danger" data-dismiss="modal" type="button">
+          Archive project
+        </button>
+        <button class="btn btn-secondary" data-dismiss="modal" type="button">
+          No, do not archive
+        </button>
+      </div>
     </div>
   </div>
 </div>
