@@ -82,6 +82,14 @@ export class ActivityDetailsComponent implements OnInit {
     );
   }
 
+  // finish activity
+  finishActivity(): void{
+     this.activityService.finish(this.activity.id).subscribe(
+       () => this.router.navigate(["/activities"]),
+     )
+
+  }
+
   enterActivityEditMode(): void {
     this.isInActivityEditMode = true;
     this.newActivity = { ...this.activity };

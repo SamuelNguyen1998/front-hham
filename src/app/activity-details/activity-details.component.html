@@ -5,11 +5,17 @@
       <input [(ngModel)]="newActivity.name" class="form-control" name="name" type="text">
     </form>
 
+
+
+
     <div class="col-md-3 text-right btn-group" *ngIf="auth.currentUser.isAdmin">
       <button (click)="enterActivityEditMode()" *ngIf="!isInActivityEditMode"
               class="btn btn-info height-limited-button mr-3">
         <i class="fas fa-pen"></i> Edit
       </button>
+  
+
+
       <button *ngIf="!isInActivityEditMode" class="btn btn-danger height-limited-button" (click)="archive()">
         <i class="fas fa-archive"></i> Archive
       </button>
@@ -21,6 +27,15 @@
         <i class="fas fa-times-circle"></i> Cancel
       </button>
     </div>
+
+    <!--   finish activity -->
+    <div class="col-sm-6">
+    <button (click)="finishActivity()" 
+    class="btn btn-info height-limited-button mr-3">
+    <i class="fas fa-pen"></i> Finish
+    </button>
+    </div>
+
   </div>
 
   <p class="text-muted">Created on {{ activity.createdOn | date: 'full' }}</p>
