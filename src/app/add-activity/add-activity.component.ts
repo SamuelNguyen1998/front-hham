@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { ActivityService } from '../_services/activity.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ProjectService } from '../_services/project.service';
+import { Project } from '../_models/Project';
 
 @Component({
   selector: 'app-add-activity',
@@ -16,13 +18,16 @@ export class AddActivityComponent implements OnInit {
   };
   errorMessage = '';
   userTouched = false;
+  projects: Project[];
 
   constructor(private activityService: ActivityService,
+              private projectService: ProjectService,
               private router: Router,
               private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.loadProjects();
   }
 
   create(): void {
@@ -46,5 +51,11 @@ export class AddActivityComponent implements OnInit {
     this.userTouched = false;
     this.activity.name = '';
     this.activity.description = '';
+  }
+  loadProjects(): void {
+    this.projectService.getAll().subscribe(
+      response => this.projects = response.data,
+      console.log
+    );
   }
 }

@@ -68,7 +68,6 @@ export class ProjectDetailsComponent implements OnInit {
       .subscribe(
         response => {
           this.members = response.data;
-          console.log(this.members);
         },
         error => console.log(error),
       );
@@ -78,7 +77,6 @@ export class ProjectDetailsComponent implements OnInit {
       .subscribe(
         response => {
           this.allMembers = response.data;
-          console.log(this.allMembers);
         },
         error => console.log(error),
       );
@@ -88,7 +86,7 @@ export class ProjectDetailsComponent implements OnInit {
     this.projectService.addMember(this.project.id, id).subscribe(
       response => {
         this.successMessage = 'The Member was added successfully!';
-        this.members.push(response.data);
+        this.loadMembers();
       },
       error => console.log(error),
     );
@@ -99,6 +97,7 @@ export class ProjectDetailsComponent implements OnInit {
       response => {
         this.successMessage = 'The Member was removed successfully!';
         this.members = this.members.filter(member => member.id === id);
+        this.loadMembers();
       },
       error => console.log(error)
     );

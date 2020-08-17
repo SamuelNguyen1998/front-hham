@@ -39,9 +39,8 @@
   <p class="text-muted">Created on {{ project?.createdOn | date: 'full' }}</p>
 
   <p class="description" *ngIf="!isInEditMode">{{ project?.description }}</p>
-  <textarea *ngIf="isInEditMode"
-            [(ngModel)]="newProject.description"
-            id="description" class="form-control" cols="80" name="description" rows="10">
+  <textarea *ngIf="isInEditMode" [(ngModel)]="newProject.description" id="description" class="form-control" cols="80"
+    name="description" rows="10">
   </textarea>
 
   <div>Current fund: {{ project?.fund }}</div>
@@ -60,10 +59,8 @@
 
   <div class="row">
     <div class="members col-12">
-      <a (click)="updateMemberListState()"
-         aria-expanded="true" class="btn text-left p-3 d-block bg-light"
-         data-target="#memberList" data-toggle="collapse"
-         role="button">
+      <a (click)="updateMemberListState()" aria-expanded="true" class="btn text-left p-3 d-block bg-light"
+        data-target="#memberList" data-toggle="collapse" role="button">
         <span [class.d-none]="isMemberListExpanded">
           <i class="fas fa-angle-right"></i>
         </span>
@@ -73,39 +70,41 @@
         {{ members?.length }} {{ members?.length > 1 ? 'Members' : 'Member' }}
       </a>
       <ul class="list-group collapse" id="memberList">
-        <li *ngFor="let member of members" class="list-group-item" >
+        <li *ngFor="let member of members" class="list-group-item">
           <a routerLink="/users">{{member.displayName}}</a>
-          <button *ngIf="auth.currentUser.isAdmin" class="btn-danger" (click)="removeMember(member.id)">Delete</button>
+          <span *ngIf="auth.currentUser.isAdmin" class=" btn btn-danger m-2"
+            (click)="removeMember(member.id)">Delete</span>
         </li>
       </ul>
     </div>
   </div>
 
 
+  <a class="btn btn-info" routerLink="/activities/add/{{project.id}}"
+    href="/activities/add/{{ project.id }}" *ngIf="isInEditMode">
+    Add Activity
+  </a>
+
   <div class="row">
     <div class="activities col-12">
-      <a (click)="updateActivityListState()"
-         aria-expanded="true"
-         class="btn text-left p-3 d-block bg-light"
-         data-target="#activityList" data-toggle="collapse"
-         role="button">
-      <span [class.d-none]="isActivityListExpanded">
-        <i class="fas fa-angle-right"></i>
-      </span>
+      <a (click)="updateActivityListState()" aria-expanded="true" class="btn text-left p-3 d-block bg-light"
+        data-target="#activityList" data-toggle="collapse" role="button">
+        <span [class.d-none]="isActivityListExpanded">
+          <i class="fas fa-angle-right"></i>
+        </span>
         <span [class.d-none]="!isActivityListExpanded">
-        <i class="fas fa-angle-down"></i>
-      </span>
+          <i class="fas fa-angle-down"></i>
+        </span>
         {{ activities?.length }} {{ activities?.length > 1 ? 'Activities' : 'Activity' }}
       </a>
       <ul class="list-group collapse" id="activityList">
         <li *ngFor="let activity of activities" class="list-group-item">
           <h4>
             <a routerLink="/activities/{{ activity.id }}">{{ activity.name }}</a>
-            <span [class.badge-danger]="activity.lockedOn !== null"
-                  [class.badge-success]="activity.lockedOn === null"
-                  class="badge ml-2">
-          {{ activity.lockedOn !== null ? 'Locked' : 'Open' }}
-        </span>
+            <span [class.badge-danger]="activity.lockedOn !== null" [class.badge-success]="activity.lockedOn === null"
+              class="badge ml-2">
+              {{ activity.lockedOn !== null ? 'Locked' : 'Open' }}
+            </span>
           </h4>
           <div>{{ activity.description }}</div>
         </li>
