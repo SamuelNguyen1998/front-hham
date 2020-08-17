@@ -64,10 +64,12 @@
               </tr> 
             </thead>
             <tr *ngFor="let t of transactions">
+              <ng-container *ngIf="t.typeId === 1">
                 <th>{{t.username}}</th>
                 <td>{{t.jobTitle}}</td>
                 <td> {{t.amount}} VND</td>
                 <td>{{t.memo}}</td> 
+              </ng-container>
               </tr>
           </table>
     </div>
@@ -80,17 +82,19 @@
             <thead class="thead-dark">
               <tr>
                 <th>Activity Name</th>
-                <th>Locked on</th>
+                <th>Finished On</th>
                 <th>Amount of Money</th>
                 <th>Note</th>
               </tr> 
             </thead>
-            <tr *ngFor="let t of transactions">
-                <th>{{t.username}}</th>
-                <td>{{t.jobTitle}}</td>
-                <td> {{t.amount}} VND</td>
+            <tr *ngFor="let t of transactions"  >
+              <ng-container *ngIf="t.typeId === 2" >                               
+                <th>{{t.activityName}}</th>
+                <td>{{t.activityFinishedOn | date: 'full' }}</td>
+                <td> {{t.amount}}</td>
                 <td>{{t.memo}}</td> 
-              </tr>
+              </ng-container>
+            </tr>
           </table>
     </div>
 </div>

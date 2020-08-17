@@ -31,6 +31,9 @@ export class ActivityService {
   archive(id): Observable<any> {
     return this.http.delete(`${Constants.API_BASE}/activities/${id}`);
   }
+  finish(id): Observable<any> {
+    return this.http.post(`${Constants.API_BASE}/activities/${id}/finish`,id);
+  }
 
   findByName(name): Observable<any> {
     return this.http.get(`${Constants.API_BASE}/activities?name=${name}`);
