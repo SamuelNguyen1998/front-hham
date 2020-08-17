@@ -23,7 +23,6 @@ import { ActivityDetailsComponent } from './activity-details/activity-details.co
 
 import { JobTitlesComponent } from './job-titles/job-titles.component';
 import { AddJobTitleComponent } from './add-job-title/add-job-title.component';
-import { JobTitleDetailsComponent } from './job-title-details/job-title-details.component';
 
 import { UsersComponent } from './users/users.component';
 import { AddUserComponent } from './add-user/add-user.component';
@@ -47,7 +46,6 @@ import { FundDetailsComponent } from './fund-details/fund-details.component';
 
     JobTitlesComponent,
     AddJobTitleComponent,
-    JobTitleDetailsComponent,
 
     ProjectsComponent,
     AddProjectComponent,
