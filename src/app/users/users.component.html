@@ -1,4 +1,4 @@
-<div class="container pt-5">
+<div class="container pt-5" *ngIf="auth.currentUser.isAdmin">
   <h1 class="pb-3">User management</h1>
   <div class="row">
     <div class="col-md-4 mb-3">

@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class JobTitleDetailsComponent implements OnInit {
 
-  currentJob: Job;
+  currentJob: any;
 
   jobTouched = {
     name: false,

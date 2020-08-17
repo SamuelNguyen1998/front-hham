@@ -47,6 +47,17 @@
   <div>Current fund: {{ project?.fund }}</div>
   <p><a routerLink="/funds">TODO: Make this a link to Fund Management page</a></p>
 
+  <div *ngIf="isInEditMode" class="dropdown">
+    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      Add Member
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <button class="dropdown-item" *ngFor="let member of allMembers"
+        (click)="addMember(member)">{{member.displayName}}</button>
+    </div>
+  </div>
+
   <div class="row">
     <div class="members col-12">
       <a (click)="updateMemberListState()"
@@ -59,21 +70,17 @@
         <span [class.d-none]="!isMemberListExpanded">
           <i class="fas fa-angle-down"></i>
         </span>
-        {{ 0 }} {{ false ? 'Members' : 'Member' }}
+        {{ members?.length }} {{ members?.length > 1 ? 'Members' : 'Member' }}
       </a>
       <ul class="list-group collapse" id="memberList">
-        <li class="list-group-item">
-          <a routerLink="/users">User 1</a>
-        </li>
-        <li class="list-group-item">
-          <a routerLink="/users">User 2</a>
-        </li>
-        <li class="list-group-item">
-          <a routerLink="/users">User 3</a>
+        <li *ngFor="let member of members" class="list-group-item" >
+          <a routerLink="/users">{{member.displayName}}</a>
+          <button *ngIf="auth.currentUser.isAdmin" class="btn-danger" (click)="removeMember(member.id)">Delete</button>
         </li>
       </ul>
     </div>
   </div>
+
 
   <div class="row">
     <div class="activities col-12">

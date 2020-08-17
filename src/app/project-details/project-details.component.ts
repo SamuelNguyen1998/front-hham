@@ -18,11 +18,13 @@ export class ProjectDetailsComponent implements OnInit {
   newProject: Project;
   activities: Activity[];
   members: User[];
+  allMembers: User[];
   successMessage = '';
   errorMessage = '';
   isMemberListExpanded = false;
   isActivityListExpanded = false;
   isInEditMode = false;
+  id = this.route.snapshot.params.id;
 
   constructor(public auth: AuthService,
               private projectService: ProjectService,
@@ -33,13 +35,13 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadAllMembers();
     this.loadProject();
-    // TODO: Only load members of this project instead of all users in the system
     this.loadMembers();
   }
 
   loadProject(): void {
-    this.projectService.get(this.route.snapshot.params.id).subscribe(
+    this.projectService.get(this.id).subscribe(
       response => {
         this.project = response.data;
         this.loadActivities();
@@ -52,7 +54,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   loadActivities(): void {
-    this.activityService.findAllInProject(this.project.id).subscribe(
+    this.activityService.findAllInProject(this.id).subscribe(
       response => this.activities = response.data,
       error => {
         this.errorMessage = 'Failed loading activities related to this project';
@@ -62,17 +64,31 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   loadMembers(): void {
-    this.userService.getAll().subscribe(
-      response => this.members = response.data,
-      error => console.log(error),
-    );
+    this.projectService.getMember(this.id)
+      .subscribe(
+        response => {
+          this.members = response.data;
+          console.log(this.members);
+        },
+        error => console.log(error),
+      );
+  }
+  loadAllMembers(): void {
+    this.userService.getAll()
+      .subscribe(
+        response => {
+          this.allMembers = response.data;
+          console.log(this.allMembers);
+        },
+        error => console.log(error),
+      );
   }
 
   addMember(id: number): void {
     this.projectService.addMember(this.project.id, id).subscribe(
       response => {
         this.successMessage = 'The Member was added successfully!';
-        // this.members.push(response.data);
+        this.members.push(response.data);
       },
       error => console.log(error),
     );
