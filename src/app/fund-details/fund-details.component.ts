@@ -7,6 +7,10 @@ import { ProjectService } from '../_services/project.service';
 import { ActivityService } from '../_services/activity.service';
 import { FundService } from 'src/app/_services/fund.service'
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { timer } from 'rxjs';
+
+
 @Component({
   selector: 'app-fund-details',
   templateUrl: './fund-details.component.html',
@@ -23,7 +27,8 @@ export class FundDetailsComponent implements OnInit {
   constructor(private projectService: ProjectService,
               private activityService: ActivityService, 
               private route: ActivatedRoute,
-              private transactionService: FundService) { }
+              private transactionService: FundService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.projectService.get(this.route.snapshot.params.id).subscribe(
@@ -62,6 +67,9 @@ export class FundDetailsComponent implements OnInit {
   saveTransaction(): void{
     var inputElems = document.getElementsByTagName("input");
     for (var i = 0; i < inputElems.length; i++) {
+      setTimeout(() => {
+          
+      }, 5000);
       if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
         const data = {
           userId: Number(inputElems[i].getAttribute("id")),
@@ -72,12 +80,14 @@ export class FundDetailsComponent implements OnInit {
         this.transactionService.create(data).subscribe(
           response => {
             console.log(response);
-            
+            this.router.navigate([`/funds/${this.currentProject.id}`]);
           },
         );
       }
+
     }
-    window.location.reload();
+   
+  //  window.location.reload();
   }
   remind(): void{
     var inputElems = document.getElementsByTagName("input");
@@ -97,6 +107,7 @@ export class FundDetailsComponent implements OnInit {
         );
       }
     }
+
     window.location.reload();
   }
 
