@@ -16,7 +16,7 @@ export class AddJobTitleComponent implements OnInit {
     validFrom: undefined,
   };
   errorMessage = '';
-  userTouched = false;
+  jobTouched = false;
 
   constructor(private jobService: JobService,
               private router: Router) {
@@ -29,7 +29,7 @@ export class AddJobTitleComponent implements OnInit {
     this.jobService.create(this.job).subscribe(
       response => {
         // TODO: Add flash message to notify about successful operation
-        this.router.navigate([ `/jobs/${response.id}` ]);
+        this.router.navigate([ `/jobs` ]);
       },
       error => {
         this.errorMessage = '';
@@ -40,7 +40,7 @@ export class AddJobTitleComponent implements OnInit {
 
   reset(): void {
     this.errorMessage = '';
-    this.userTouched = false;
+    this.jobTouched = false;
     this.job = {
       id: 0,
       name: '',

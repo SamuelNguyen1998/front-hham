@@ -99,4 +99,9 @@ export class FundDetailsComponent implements OnInit {
     }
     window.location.reload();
   }
+
+
+  typeOf(value){
+    return typeof value;
+  }
 }

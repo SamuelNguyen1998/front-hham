@@ -8,13 +8,13 @@
       <div class="form-group">
         <label class="required-field" for="name">Job title</label>
         <input [(ngModel)]="job.name"
-               (focusout)="userTouched = true"
-               [class.is-invalid]="userTouched && !isValidName()"
-               [class.is-valid]="userTouched && isValidName()"
+               (focusout)="jobTouched = true"
+               [class.is-invalid]="jobTouched && !isValidName()"
+               [class.is-valid]="jobTouched && isValidName()"
                class="form-control" id="name" name="name"
                required type="text">
       </div>
-      <div *ngIf="userTouched && !isValidName()" class="alert alert-danger" role="alert">
+      <div *ngIf="jobTouched && !isValidName()" class="alert alert-danger" role="alert">
         Name of the job title is required
       </div>
 

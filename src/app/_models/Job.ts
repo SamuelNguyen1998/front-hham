@@ -1,7 +1,7 @@
 import { NumberSymbol } from '@angular/common';
 
 export interface Job {
-  id: NumberSymbol;
+  id: number;
   name: string;
   monthlyAmount: number;
   validFrom: Date;
