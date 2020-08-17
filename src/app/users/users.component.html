@@ -15,7 +15,7 @@
                (change)="turnOffFiltering()"
                class="form-control ml-auto" name="searchTerm"
                placeholder="Search by name..." type="text">
-        <button (click)="searchByName()" class="btn btn-secondary">
+        <button (click)="searchByName()" class="btn btn-secondary" type="button">
           <i class="fas fa-search"></i>
         </button>
       </div>
@@ -39,11 +39,11 @@
           <td>{{ user.username }}</td>
           <td>{{ user.displayName }}</td>
           <td>{{ user.email }}</td>
-          <td>{{ user.jobTitle ? user.jobTitle : "Not available" }}</td>
+          <td>{{ user.jobTitle ? user.jobTitle.name : "Not available" }}</td>
           <td>
-            <button class="btn btn-primary m-1" routerLink="/users/{{ user.id }}">
+            <a class="btn btn-primary m-1" routerLink="/profile/{{ user.id }}">
               <i class="fas fa-eye"></i> View
-            </button>
+            </a>
             <button (click)="beginEdit(user.id)"
                     class="btn btn-info m-1"
                     data-backdrop="static"
@@ -52,13 +52,19 @@
                     type="button">
               <i class="fas fa-pen"></i> Edit
             </button>
-            <button (click)="confirmDeactivate(user.id)"
-                    class="btn btn-danger m-1"
-                    data-target="#deactivateUserConfirmDialog"
-                    data-toggle="modal"
-                    type="button">
-              <i class="fas fa-lock"></i> Deactivate
-            </button>
+            <div class="d-inline-block"
+                 data-toggle="tooltip"
+                 tabindex="0"
+                 title="Account of the system admin cannot be deactivated">
+              <button (click)="confirmDeactivate(user.id)"
+                      [disabled]="user.admin"
+                      class="btn btn-danger m-1"
+                      data-target="#deactivateUserConfirmDialog"
+                      data-toggle="modal"
+                      type="button">
+                <i class="fas fa-lock"></i> Deactivate
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -80,10 +86,12 @@
       </div>
 
       <div class="modal-footer">
-        <button (click)="deactivate()" class="btn btn-danger" data-dismiss="modal">
+        <button (click)="deactivate()" class="btn btn-danger" data-dismiss="modal" type="button">
           Deactivate this user
         </button>
-        <button class="btn btn-secondary" data-dismiss="modal">No, do not deactivate</button>
+        <button class="btn btn-secondary" data-dismiss="modal" type="button">
+          No, do not deactivate
+        </button>
       </div>
     </div>
   </div>
@@ -142,9 +150,14 @@
 
         <div class="form-group">
           <label for="jobTitle">Job title</label>
-          <select class="form-control" name="jobTitle" id="jobTitle">
-            <option value="null">--- Not available ---</option>
-            <option *ngFor="let jobTitle of jobTitles" value="{{ jobTitle.id }}">
+          <select [(ngModel)]="editingUser.jobTitle.id"
+                  class="form-control" id="jobTitle" name="jobTitle">
+            <option [selected]="editingUser.jobTitle" value="null">
+              --- Not available ---
+            </option>
+            <option *ngFor="let jobTitle of jobTitles"
+                    [selected]="editingUser.jobTitle.id === jobTitle.id"
+                    value="{{ jobTitle.id }}">
               {{ jobTitle.name }}
             </option>
           </select>
@@ -152,10 +165,10 @@
       </form>
 
       <div class="modal-footer">
-        <button (click)="saveEdit()" class="btn btn-primary" data-dismiss="modal">a
+        <button (click)="saveEdit($event)" class="btn btn-primary" data-dismiss="modal" type="button">
           <i class="fas fa-save"></i> Save
         </button>
-        <button class="btn btn-secondary" data-dismiss="modal">
+        <button class="btn btn-secondary" data-dismiss="modal" type="button">
           <i class="fas fa-times-circle"></i> Cancel
         </button>
       </div>

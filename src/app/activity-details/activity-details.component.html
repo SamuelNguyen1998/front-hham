@@ -115,7 +115,10 @@
                   data-toggle="tooltip"
                   title="You have already voted">
               <!-- TODO: Use real state -->
-              <button (click)="vote(option.id)" [disabled]="true" aria-disabled="true" class="btn btn-primary">
+              <button (click)="vote(option.id)"
+                      [disabled]="true"
+                      aria-disabled="true"
+                      class="btn btn-primary">
                 Vote
               </button>
             </span>

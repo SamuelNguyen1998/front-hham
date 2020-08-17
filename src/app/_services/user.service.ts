@@ -9,7 +9,6 @@ import { User } from "../_models/User";
   providedIn: 'root'
 })
 export class UserService {
-
   constructor(private http: HttpClient) {
   }
 
@@ -17,7 +16,7 @@ export class UserService {
     return this.http.get(`${ Constants.API_BASE }/users`);
   }
 
-  get(id): Observable<any> {
+  get(id: number): Observable<any> {
     return this.http.get(`${ Constants.API_BASE }/users/${ id }`);
   }
 

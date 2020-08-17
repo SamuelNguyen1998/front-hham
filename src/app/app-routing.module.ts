@@ -41,10 +41,11 @@ const routes: Routes = [
 
   { path: 'jobs', component: JobTitlesComponent, canActivate: [ AuthGuard ] },
   { path: 'jobs/add', component: AddJobTitleComponent, canActivate: [ AuthGuard ] },
+
   { path: 'jobs/:id/edit', component: JobTitleDetailsComponent, canActivate: [ AuthGuard ] },
+  { path: 'profile/:username', component: UserProfileComponent, canActivate: [ AuthGuard ] },
 
   { path: '404', component: NotFoundComponent },
-  { path: ':username', component: UserProfileComponent, canActivate: [ AuthGuard ] },
   { path: '*', redirectTo: '404' },
 ];
 

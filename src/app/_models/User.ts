@@ -1,3 +1,5 @@
+import { JobTitle } from "./JobTitle";
+
 export class User {
   id?: number;
   username: string;
@@ -5,7 +7,7 @@ export class User {
   displayName: string;
   email: string;
   admin: boolean;
-  jobTitle: string;
+  jobTitle?: JobTitle;
   createdOn?: Date;
   deactivatedOn?: Date;
 }

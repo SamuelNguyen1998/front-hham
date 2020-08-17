@@ -17,13 +17,12 @@ export class UsersComponent implements OnInit {
   idOfTheUserToDeactivate = null;
   successMessage = '';
   errorMessage = '';
-  isInEditMode = false;
   idOfTheUserToEdit: number;
   editingUser: User = {
     admin: false,
     displayName: '',
     email: '',
-    jobTitle: '',
+    jobTitle: { id: null, name: '' },
     username: '',
   };
   jobTitles: JobTitle[];
@@ -96,17 +95,24 @@ export class UsersComponent implements OnInit {
   beginEdit(id: number): void {
     this.idOfTheUserToEdit = id;
     this.editingUser = { ...this.users.find(user => user.id === id) };
+    if (this.editingUser.jobTitle === null) {
+      this.editingUser.jobTitle = { id: null, name: '' };
+    }
     this.touched = { username: false, email: false };
   }
 
-  saveEdit(): void {
+  saveEdit(event: Event): void {
+    this.touched = { email: true, username: true };
+    if (!this.usernameIsValid() || !this.emailIsValid()) {
+      event.stopPropagation();
+      return;
+    }
     this.userService.update(this.editingUser).subscribe(
       response => {
         const index = this.users.findIndex(user => user.id === response.data.id);
         this.users[index] = response.data;
         this.successMessage = `Successfully updated user ${ response.data.username }`;
         this.searchByName(); // Reload search result
-        this.isInEditMode = false;
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
