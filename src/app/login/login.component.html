@@ -8,7 +8,6 @@
         <label for="username">Username</label>
         <input [(ngModel)]="loginRequest.username"
                (focusout)="touched.username = true"
-               [class.is-valid]="touched.username && usernameIsValid()"
                [class.is-invalid]="touched.username && !usernameIsValid()"
                class="form-control" id="username" name="username"
                type="text">
@@ -21,7 +20,6 @@
         <label for="password">Password</label>
         <input [(ngModel)]="loginRequest.password"
                (focusout)="touched.password = true"
-               [class.is-valid]="touched.password && passwordIsValid()"
                [class.is-invalid]="touched.password && !passwordIsValid()"
                class="form-control" id="password" name="password"
                type="password">
@@ -47,7 +45,7 @@
 
       <p *ngIf="errorMessage" class="alert alert-danger" role="alert">{{  errorMessage }}</p>
       <div class="form-group text-center">
-        <button (click)="onSubmit()" class="btn btn-primary px-5" type="button">Login</button>
+        <input (click)="onSubmit($event)" class="btn btn-primary px-5" type="submit" value="Login">
       </div>
 
     </form>

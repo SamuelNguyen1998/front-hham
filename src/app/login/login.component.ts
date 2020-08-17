@@ -28,9 +28,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
+  onSubmit(event: Event): void {
     if (!this.usernameIsValid() || !this.passwordIsValid()) {
       this.touched = { username: true, password: true };
+      event.preventDefault();
       return;
     }
     this.auth.login(this.loginRequest)
