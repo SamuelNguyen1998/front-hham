@@ -15,8 +15,7 @@ export class LoginComponent implements OnInit {
     password: "",
     keepSignedIn: false,
   };
-  usernameTouched = false;
-  passwordTouched = false;
+  touched = { username: false, password: false };
   errorMessage: string;
 
   constructor(private auth: AuthService,
@@ -31,8 +30,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (!this.usernameIsValid() || !this.passwordIsValid()) {
-      this.usernameTouched = true;
-      this.passwordTouched = true;
+      this.touched = { username: true, password: true };
       return;
     }
     this.auth.login(this.loginRequest)
@@ -47,7 +45,7 @@ export class LoginComponent implements OnInit {
   }
 
   passwordIsValid(): boolean {
-    return this.loginRequest.password.length >= 0;
+    return this.loginRequest.password.length > 0;
     // return this.loginRequest.password.length >= 8;
   }
 }
