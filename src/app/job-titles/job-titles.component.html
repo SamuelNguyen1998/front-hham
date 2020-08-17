@@ -16,7 +16,7 @@
                (change)="turnOffFiltering()"
                class="form-control ml-auto" name="searchTerm"
                placeholder="Search by name..." type="text">
-        <button (click)="searchByName()" class="btn btn-secondary">
+        <button (click)="searchByName()" class="btn btn-secondary" type="button">
           <i class="fas fa-search"></i>
         </button>
       </div>
@@ -26,13 +26,13 @@
   <!-- Messages -->
   <div *ngIf="successMessage" class="alert alert-success" role="alert">
     {{ successMessage }}
-    <button (click)="clearSuccessMessage()" aria-label="Close" class="close">
+    <button (click)="clearSuccessMessage()" aria-label="Close" class="close" type="button">
       <span aria-hidden="true">×</span>
     </button>
   </div>
   <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
     {{ errorMessage }}
-    <button (click)="clearErrorMessage()" aria-label="Close" class="close">
+    <button (click)="clearErrorMessage()" aria-label="Close" class="close" type="button">
       <span aria-hidden="true">×</span>
     </button>
   </div>
@@ -53,11 +53,11 @@
             <div *ngIf="!isInEditMode || jobTitle.id !== editingJobTitleId">
               {{ jobTitle.name }}
             </div>
-            <input (focusout)="userTouched.name = true"
+            <input (focusout)="touched.name = true"
                    *ngIf="isInEditMode && jobTitle.id === editingJobTitleId"
                    [(ngModel)]="editingJobTitle.name"
-                   [class.is-invalid]="userTouched.name && !isValidName()"
-                   [class.is-valid]="userTouched.name && isValidName()"
+                   [class.is-invalid]="touched.name && !isValidName()"
+                   [class.is-valid]="touched.name && isValidName()"
                    class="form-control" name="jobTitleName" type="text">
           </td>
 
@@ -65,12 +65,12 @@
             <div *ngIf="!isInEditMode || jobTitle.id !== editingJobTitleId">
               {{ jobTitle.monthlyAmount }}
             </div>
-            <input (focusout)="userTouched.monthlyAmount = true"
+            <input (focusout)="touched.monthlyAmount = true"
                    (keypress)="keyPressOnAmount($event)"
                    *ngIf="isInEditMode && jobTitle.id === editingJobTitleId"
                    [(ngModel)]="editingJobTitle.monthlyAmount"
-                   [class.is-invalid]="userTouched.monthlyAmount && !isValidAmount()"
-                   [class.is-valid]="userTouched.monthlyAmount && isValidAmount()"
+                   [class.is-invalid]="touched.monthlyAmount && !isValidAmount()"
+                   [class.is-valid]="touched.monthlyAmount && isValidAmount()"
                    class="form-control" min="0" name="jobTitleMonthlyAmount"
                    step="1000" type="number">
           </td>
@@ -79,7 +79,7 @@
             <button *ngIf="!isInEditMode || jobTitle.id !== editingJobTitleId"
                     (click)="beginEdit(jobTitle.id)"
                     [disabled]="isInEditMode && jobTitle.id !== editingJobTitleId"
-                    class="btn btn-info m-1">
+                    class="btn btn-info m-1" type="button">
               <i class="fas fa-pen"></i> Edit
             </button>
             <button *ngIf="!isInEditMode || jobTitle.id !== editingJobTitleId"
@@ -87,18 +87,19 @@
                     [disabled]="isInEditMode && jobTitle.id !== editingJobTitleId"
                     class="btn btn-danger m-1"
                     data-toggle="modal"
-                    data-target="#archiveJobTitleConfirmDialog">
+                    data-target="#archiveJobTitleConfirmDialog"
+                    type="button">
               <i class="fas fa-archive"></i> Archive
             </button>
 
             <button (click)="saveEdit()"
                     *ngIf="isInEditMode && jobTitle.id === editingJobTitleId"
-                    class="btn btn-primary m-1">
+                    class="btn btn-primary m-1" type="button">
               <i class="fas fa-save"></i> Save
             </button>
             <button (click)="cancelEdit()"
                     *ngIf="isInEditMode && jobTitle.id === editingJobTitleId"
-                    class="btn btn-secondary m-1">
+                    class="btn btn-secondary m-1" type="button">
               <i class="fas fa-times-circle"></i> Cancel
             </button>
           </td>
@@ -120,10 +121,12 @@
         <!-- TODO: Ask user to change job title of existing users to another one before archiving -->
       </div>
       <div class="modal-footer">
-        <button (click)="archive()" class="btn btn-danger" data-dismiss="modal">
+        <button (click)="archive()" class="btn btn-danger" data-dismiss="modal" type="button">
           Archive this job title
         </button>
-        <button class="btn btn-secondary" data-dismiss="modal">No, do not archive</button>
+        <button class="btn btn-secondary" data-dismiss="modal" type="button">
+          No, do not archive
+        </button>
       </div>
     </div>
   </div>

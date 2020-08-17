@@ -11,14 +11,14 @@ import { AuthService } from '../_services/auth.service';
 export class JobTitlesComponent implements OnInit {
   jobTitles: JobTitle[];
   visibleJobTitles: JobTitle[];
-  searchTerm: string;
   successMessage: string;
   errorMessage: string;
   idOfTheJobTitleToArchive: number;
   isInEditMode = false;
+  searchTerm = '';
   editingJobTitle: JobTitle = { name: '', monthlyAmount: 0 };
   editingJobTitleId: number;
-  userTouched = { name: false, monthlyAmount: false };
+  touched = { name: false, monthlyAmount: false };
 
   constructor(public auth: AuthService,
               private jobService: JobTitleService) {
@@ -82,7 +82,7 @@ export class JobTitlesComponent implements OnInit {
   }
 
   beginEdit(id: number): void {
-    this.userTouched = { name: false, monthlyAmount: false };
+    this.touched = { name: false, monthlyAmount: false };
     this.editingJobTitle = { ...this.jobTitles.find(jobTitle => jobTitle.id === id) };
     this.editingJobTitleId = id;
     this.isInEditMode = true;
@@ -109,6 +109,9 @@ export class JobTitlesComponent implements OnInit {
     this.visibleJobTitles = this.jobTitles.filter(
       jobTitle => jobTitle.name.indexOf(this.searchTerm) >= 0
     );
+    // Don't know why Angular doesn't trigger resize event when model changes.
+    // This event is used to trigger footer repositioning.
+    document.body.dispatchEvent(new Event('resize'));
   }
 
   turnOffFiltering(): void {
