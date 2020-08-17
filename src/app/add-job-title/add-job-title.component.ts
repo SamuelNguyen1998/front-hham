@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AddJobTitleComponent implements OnInit {
   job: Job = {
+    id: 0,
     name: '',
     monthlyAmount: 0,
     validFrom: undefined,
@@ -41,6 +42,7 @@ export class AddJobTitleComponent implements OnInit {
     this.errorMessage = '';
     this.userTouched = false;
     this.job = {
+      id: 0,
       name: '',
       monthlyAmount: 0,
       validFrom: undefined,
