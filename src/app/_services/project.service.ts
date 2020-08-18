@@ -44,23 +44,23 @@ export class ProjectService {
     return this.http.get(`${ Constants.API_BASE }/projects/${ id }/projects`);
   }
 
-  addMember(id: number, data): Observable<any> {
-    return this.http.post(`${ Constants.API_BASE }/projects/${ id }/members`, data);
+  addMember(id: number, userId: number): Observable<any> {
+    return this.http.post(`${ Constants.API_BASE }/projects/${ id }/members`, { id: userId });
   }
 
-  removeMember(id: number, idMember): Observable<any> {
-    return this.http.delete(`${ Constants.API_BASE }/projects/${ id }/members/${ idMember }`);
+  removeMember(id: number, memberId): Observable<any> {
+    return this.http.delete(`${ Constants.API_BASE }/projects/${ id }/members/${ memberId }`);
   }
 
-  addAdmin(id: number, data): Observable<any> {
-    return this.http.post(`${ Constants.API_BASE }/projects/${ id }/admins`, data);
+  addAdmin(id: number, userId: number): Observable<any> {
+    return this.http.post(`${ Constants.API_BASE }/projects/${ id }/admins`, { id: userId });
   }
 
-  getAdmin(id: number): Observable<any> {
+  getAdmins(id: number): Observable<any> {
     return this.http.get(`${ Constants.API_BASE }/projects/${ id }/admins`);
   }
 
-  removeAdmin(id: number, idAdmin): Observable<any> {
-    return this.http.delete(`${ Constants.API_BASE }/projects/${ id }/admins/${ idAdmin }`);
+  removeAdmin(id: number, adminId: number): Observable<any> {
+    return this.http.delete(`${ Constants.API_BASE }/projects/${ id }/admins/${ adminId }`);
   }
 }

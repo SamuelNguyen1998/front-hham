@@ -61,14 +61,14 @@
   <div *ngIf="isInEditMode" class="dropdown">
     <button aria-expanded="false"
             aria-haspopup="true"
-            class="btn btn-info dropdown-toggle" id="dropdownMenuButton"
+            class="btn btn-info dropdown-toggle" id="dropdownAdminList"
             data-toggle="dropdown"
             type="button">
       Add Admin
     </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <button class="dropdown-item" *ngFor="let member of allMembers"
-              (click)="addAdmin(member)">{{member.displayName}}</button>
+    <div class="dropdown-menu" aria-labelledby="dropdownAdminList">
+      <button class="dropdown-item" *ngFor="let member of members"
+              (click)="addAdmin(member.id)">{{ member.displayName }}</button>
     </div>
   </div>
 
@@ -91,7 +91,7 @@
 
       <ul class="list-group collapse" id="adminList">
         <li *ngFor="let admin of admins" class="list-group-item">
-          <a routerLink="/users">{{ admin.displayName }}</a>
+          <a routerLink="/users/{{ admin.id }}">{{ admin.displayName }}</a>
           <span (click)="removeAdmin(admin.id)"
                 *ngIf="auth.user.admin"
                 class="btn btn-danger m-2">
@@ -112,7 +112,7 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <button (click)="addMember(user.id)"
-              *ngFor="let user of users"
+              *ngFor="let user of usersNotInProject"
               class="dropdown-item"
               type="button">
         {{ user.displayName }}

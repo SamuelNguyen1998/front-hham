@@ -4,7 +4,7 @@ import { Activity } from '../_models/Activity';
 import { AuthService } from '../_services/auth.service';
 import { ProjectService } from '../_services/project.service';
 import { ActivityService } from '../_services/activity.service';
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-activities',

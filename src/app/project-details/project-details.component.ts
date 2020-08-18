@@ -18,7 +18,6 @@ export class ProjectDetailsComponent implements OnInit {
   newProject: Project;
   activities: Activity[];
   members: User[];
-  admins: User[];
   users: User[];
   successMessage = '';
   errorMessage = '';
@@ -39,9 +38,18 @@ export class ProjectDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.loadProject();
     this.loadMembers();
-    this.loadAdmins();
     this.loadAllUsers();
     this.loadActivities();
+  }
+
+  get admins(): User[] {
+    return this.members.filter(member => member.admin);
+  }
+
+  get usersNotInProject(): User[] {
+    return this.users?.filter(user =>
+      !this.members?.find(member => member.id === user.id)
+    );
   }
 
   loadProject(): void {
@@ -76,7 +84,7 @@ export class ProjectDetailsComponent implements OnInit {
     this.projectService.addMember(this.project.id, id).subscribe(
       response => {
         this.successMessage = 'The Member was added successfully!';
-        this.loadMembers();
+        this.members.push(this.users.find(user => user.id === id));
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
@@ -87,7 +95,28 @@ export class ProjectDetailsComponent implements OnInit {
       response => {
         this.successMessage = 'The Member was removed successfully!';
         this.members = this.members.filter(member => member.id === id);
-        this.loadMembers();
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
+  }
+
+  addAdmin(id: number): void {
+    this.projectService.addAdmin(this.project.id, id).subscribe(
+      response => {
+        this.successMessage = 'The Admin was added successfully!';
+        const index = this.members.findIndex(admin => admin.id === id);
+        this.members[index].admin = true;
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
+  }
+
+  removeAdmin(id: number): void {
+    this.projectService.removeAdmin(this.project.id, id).subscribe(
+      response => {
+        this.successMessage = 'The Member was removed successfully!';
+        const index = this.members.findIndex(admin => admin.id === id);
+        this.members[index].admin = false;
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
@@ -145,33 +174,5 @@ export class ProjectDetailsComponent implements OnInit {
   updateActivityListState(): void {
     const classes = document.getElementById('activityList').classList;
     this.isActivityListExpanded = !classes.contains('show');
-  }
-
-  addAdmin(id: number): void {
-    this.projectService.addAdmin(this.project.id, id).subscribe(
-      response => {
-        this.successMessage = 'The Admin was added successfully!';
-        this.loadAdmins();
-      },
-      errorResponse => this.errorMessage = errorResponse.error.message
-    );
-  }
-
-  loadAdmins(): void {
-    this.projectService.getAdmin(this.id).subscribe(
-      response => this.admins = response.data,
-      errorResponse => this.errorMessage = errorResponse.error.message,
-    );
-  }
-
-  removeAdmin(id: number): void {
-    this.projectService.removeAdmin(this.project.id, id).subscribe(
-      response => {
-        this.successMessage = 'The Member was removed successfully!';
-        this.admins = this.admins.filter(admin => admin.id === id);
-        this.loadAdmins();
-      },
-      errorResponse => this.errorMessage = errorResponse.error.message
-    );
   }
 }
