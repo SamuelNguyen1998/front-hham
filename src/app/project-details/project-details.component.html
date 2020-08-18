@@ -67,8 +67,8 @@
       Add Admin
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownAdminList">
-      <button class="dropdown-item" *ngFor="let member of users"
-              (click)="addAdmin(member.id)">{{member.displayName}}</button>
+      <button class="dropdown-item" *ngFor="let member of members"
+              (click)="addAdmin(member.id)">{{ member.displayName }}</button>
     </div>
   </div>
 
@@ -112,7 +112,7 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <button (click)="addMember(user.id)"
-              *ngFor="let user of users"
+              *ngFor="let user of usersNotInProject"
               class="dropdown-item"
               type="button">
         {{ user.displayName }}
