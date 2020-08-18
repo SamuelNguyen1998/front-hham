@@ -51,4 +51,16 @@ export class ProjectService {
   removeMember(id: number, idMember): Observable<any> {
     return this.http.delete(`${ Constants.API_BASE }/projects/${ id }/members/${ idMember }`);
   }
+
+  addAdmin(id: number, data): Observable<any> {
+    return this.http.post(`${ Constants.API_BASE }/projects/${ id }/admins`, data);
+  }
+
+  getAdmin(id: number): Observable<any> {
+    return this.http.get(`${ Constants.API_BASE }/projects/${ id }/admins`);
+  }
+
+  removeAdmin(id: number, idAdmin): Observable<any> {
+    return this.http.delete(`${ Constants.API_BASE }/projects/${ id }/admins/${ idAdmin }`);
+  }
 }

@@ -64,6 +64,50 @@
             class="btn btn-info dropdown-toggle" id="dropdownMenuButton"
             data-toggle="dropdown"
             type="button">
+      Add Admin
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <button class="dropdown-item" *ngFor="let member of allMembers"
+              (click)="addAdmin(member)">{{member.displayName}}</button>
+    </div>
+  </div>
+
+  <!-- Admins -->
+  <div class="row">
+    <div class="members col-12">
+      <a (click)="updateAdminListState()"
+         aria-expanded="true"
+         class="btn text-left p-3 d-block bg-light"
+         data-target="#adminList" data-toggle="collapse"
+         type="button">
+        <span [class.d-none]="isAdminListExpanded">
+          <i class="fas fa-angle-right"></i>
+        </span>
+        <span [class.d-none]="!isAdminListExpanded">
+          <i class="fas fa-angle-down"></i>
+        </span>
+        {{ admins?.length }} {{ admins?.length > 1 ? 'Admins' : 'Admin' }}
+      </a>
+
+      <ul class="list-group collapse" id="adminList">
+        <li *ngFor="let admin of admins" class="list-group-item">
+          <a routerLink="/users">{{ admin.displayName }}</a>
+          <span (click)="removeAdmin(admin.id)"
+                *ngIf="auth.user.admin"
+                class="btn btn-danger m-2">
+            Delete
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div *ngIf="isInEditMode" class="dropdown">
+    <button aria-expanded="false"
+            aria-haspopup="true"
+            class="btn btn-info dropdown-toggle" id="dropdownMenuButton"
+            data-toggle="dropdown"
+            type="button">
       Add Member
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

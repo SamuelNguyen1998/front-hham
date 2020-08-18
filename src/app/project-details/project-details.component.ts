@@ -19,8 +19,10 @@ export class ProjectDetailsComponent implements OnInit {
   activities: Activity[];
   members: User[];
   allMembers: User[];
+  admins: User[];
   successMessage = '';
   errorMessage = '';
+  isAdminListExpanded = false;
   isMemberListExpanded = false;
   isActivityListExpanded = false;
   isInEditMode = false;
@@ -38,6 +40,7 @@ export class ProjectDetailsComponent implements OnInit {
     this.loadAllMembers();
     this.loadProject();
     this.loadMembers();
+    this.loadAdmin();
   }
 
   loadProject(): void {
@@ -127,6 +130,13 @@ export class ProjectDetailsComponent implements OnInit {
     this.successMessage = '';
   }
 
+  updateAdminListState(): void {
+    // Click events are fired before the state change, so we need to
+    // check for the absence of the class 'show' instead of its presence
+    const classes = document.getElementById('adminList').classList;
+    this.isAdminListExpanded = !classes.contains('show');
+  }
+
   updateMemberListState(): void {
     // Click events are fired before the state change, so we need to
     // check for the absence of the class 'show' instead of its presence
@@ -137,5 +147,33 @@ export class ProjectDetailsComponent implements OnInit {
   updateActivityListState(): void {
     const classes = document.getElementById('activityList').classList;
     this.isActivityListExpanded = !classes.contains('show');
+  }
+
+  addAdmin(id: number): void {
+    this.projectService.addAdmin(this.project.id, id).subscribe(
+      response => {
+        this.successMessage = 'The Admin was added successfully!';
+        this.loadAdmin();
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
+  }
+
+  loadAdmin(): void {
+    this.projectService.getAdmin(this.id).subscribe(
+      response => this.admins = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
+    );
+  }
+
+  removeAdmin(id: number): void {
+    this.projectService.removeAdmin(this.project.id, id).subscribe(
+      response => {
+        this.successMessage = 'The Member was removed successfully!';
+        this.admins = this.admins.filter(admin => admin.id === id);
+        this.loadAdmin();
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
   }
 }
