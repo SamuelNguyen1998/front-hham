@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { timer } from 'rxjs';
 import { JobTitleService } from "../_services/job-title.service";
 import { JobTitle } from '../_models/JobTitle';
+import { AuthService } from '../_services/auth.service';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class FundDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private transactionService: FundService,
               private router: Router,
-              private jobTitleService: JobTitleService) { }
+              private jobTitleService: JobTitleService, 
+              public auth: AuthService) { }
 
 
   ngOnInit(): void {

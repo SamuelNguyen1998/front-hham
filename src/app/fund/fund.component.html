@@ -11,7 +11,7 @@
     <tbody> 
       <tr *ngFor="let p of projects">
         <td>{{ p.name }}</td>
-        <td>{{ p.description }}</td>
+        <td>{{p?.funds[0].amount}}</td>
         <td>
           <a class="btn btn-primary m-1" routerLink="/funds/{{p.id}}" >
             <i class="fas fa-eye"></i> View
@@ -20,5 +20,4 @@
       </tr>
     </tbody>
   </table>
-
 </div>

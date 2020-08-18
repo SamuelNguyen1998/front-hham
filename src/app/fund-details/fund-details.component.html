@@ -24,7 +24,7 @@
                 <th >Monthly Amount to pay</th>
                
 
-                <th>check</th>
+                <th *ngIf="auth.user.admin" >check</th>
                
               </tr>
             </thead>
@@ -32,15 +32,14 @@
                 <td>{{member.displayName}} </td>
                 <td>{{member.jobTitle ? member.jobTitle.name : "no"}}</td>
                 <td>{{member.jobTitle ? member.jobTitle.monthlyAmount : "no" }} VND</td>
-                <td><input type="checkbox" class="form-check-input" id="{{member.id}}" value="{{member.jobTitle.monthlyAmount}}" ></td>
-
+                <td *ngIf="auth.user.admin" ><input type="checkbox" class="form-check-input" id="{{member.id}}" value="{{member.jobTitle.monthlyAmount}}" ></td>
             </tr>
         </table>
         <div class="position-absolute top-left"> 
-        <button (click)="saveTransaction()" class="btn btn-success">Payment</button>
+        <button *ngIf="auth.user.admin" (click)="saveTransaction()" class="btn btn-success">Payment</button>
         </div> 
         <div class="text-right"> 
-        <button (click)="remind()" class="btn btn-success">Remind</button>
+        <button *ngIf="auth.user.admin" (click)="remind()" class="btn btn-success">Remind</button>
         </div> 
 
     </div>  
