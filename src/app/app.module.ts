@@ -12,6 +12,8 @@ import { AppHeaderComponent } from './app-header/app-header.component';
 import { AppFooterComponent } from './app-footer/app-footer.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardUserComponent } from './dashboard-user/dashboard-user.component'
+import { DashboardAdminComponent } from './dashboard-admin/dashboard-admin.component'
 
 import { ProjectsComponent } from './projects/projects.component';
 import { AddProjectComponent } from './add-project/add-project.component';
@@ -31,6 +33,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { FundComponent } from './fund/fund.component';
 import { FundDetailsComponent } from './fund-details/fund-details.component';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +43,8 @@ import { FundDetailsComponent } from './fund-details/fund-details.component';
     NotFoundComponent,
     LoginComponent,
     DashboardComponent,
+    DashboardUserComponent,
+    DashboardAdminComponent,
 
     ActivitiesComponent,
     AddActivityComponent,

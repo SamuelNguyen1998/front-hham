@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Activity } from "../_models/Activity";
-import { FlashMessagesService } from "angular2-flash-messages";
 import { OptionService } from "../_services/option.service";
 import { UserService } from "../_services/user.service";
 import { ActivityService } from '../_services/activity.service';
+import { Project } from '../_models/Project';
+import { AuthService } from '../_services/auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { ProjectService } from '../_services/project.service';
 
 
 @Component({
@@ -12,33 +15,47 @@ import { ActivityService } from '../_services/activity.service';
   styleUrls: [ './dashboard-user.component.scss' ]
 })
 export class DashboardUserComponent implements OnInit {
-  @Input() activity: Activity;
-  content: string;
-  selected: number;
-  votingEnded: boolean = false;
+  activities: Activity[];
+  projects: Project[];
+  searchTerm: string;
+  projectId: number;
 
-  constructor(private userService: UserService,
+  constructor(public auth: AuthService,
+              private route: ActivatedRoute,
               private activityService: ActivityService,
-              private optionService: OptionService,
-              private flashMessagesService: FlashMessagesService) { }
+              private projectService: ProjectService) {
+              this.projectId = this.route.snapshot.params.projectId;
+  }
 
   ngOnInit(): void {
-    this.votingEnded = new Date(this.activity.lockedOn).getTime() < new Date().getTime();
+    this.retrieveActivities();
+    console.log(this.activities);
   }
 
-  vote() {
-    this.optionService.vote(this.selected).subscribe(success => {
-      this.activity.lockedOn = new Date();
-      this.flashMessagesService.show("Vote submitted!", {
-        cssClass: 'card-panel green lighten-4',
-        timeout: 3000
-      });
-    }, error => {
-      console.log(error);
-      this.flashMessagesService.show("You can't vote twice", {
-        cssClass: 'card-panel red lighten-3',
-        timeout: 3000
-      });
-    });
+  retrieveActivities(): void {
+    this.activityService.getAll().subscribe(
+      response => this.activities = response.data,
+      console.log
+    );
   }
+
+  getActivityOfUser(): void {
+    this.projectService.getAllProjectOfUser(this.auth.user.id).subscribe(
+      response => this.projects = response.data,
+    );
+    for (const p of this.projects) {
+      this.activityService.findAllInProject(p.id).subscribe(
+        response => this.activities = response.data,
+      );
+    }
+  }
+
+  searchByName(): void {
+    this.activityService.findByName(this.searchTerm).subscribe(
+      data => this.activities = data,
+      console.log
+    );
+  }
+
+  
 }
