@@ -33,8 +33,16 @@ export class ActivityService {
     return this.http.delete(`${ Constants.API_BASE }/activities/${ id }`);
   }
 
+  lock(id: number): Observable<any> {
+    return this.http.put(`${ Constants.API_BASE }/activities/${ id }/lock`, {});
+  }
+
   finish(id: number): Observable<any> {
-    return this.http.post(`${ Constants.API_BASE }/activities/${ id }/finish`, id);
+    return this.http.put(`${ Constants.API_BASE }/activities/${ id }/finish`, {});
+  }
+
+  cancel(id: number): Observable<any> {
+    return this.http.put(`${ Constants.API_BASE }/activities/${ id }/cancel`, {});
   }
 
   findByName(name: string): Observable<any> {

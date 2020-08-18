@@ -32,7 +32,11 @@ export class OptionService {
     return this.http.delete(`${ Constants.API_BASE }/options/${ id }`);
   }
 
-  vote(id: number): Observable<any> {
-    return this.http.post(`${ Constants.API_BASE }/options/${ id }/vote`, {});
+  vote(optionId: number, userId: number, note: string): Observable<any> {
+    return this.http.post(`${ Constants.API_BASE }/votes`, { userId, optionId, note });
+  }
+
+  getVoteInActivity(activityId: number, userId: number): Observable<any> {
+    return this.http.get(`${ Constants.API_BASE }/votes?userId=${ userId }&activityId=${ activityId }`);
   }
 }

@@ -1,8 +1,8 @@
 export class Option {
-  id: number;
+  id?: number;
   activityId: number;
   name: string;
   image: string;
   price: number;
-  createdOn: Date;
+  createdOn?: Date;
 }
