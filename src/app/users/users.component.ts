@@ -79,6 +79,8 @@ export class UsersComponent implements OnInit {
         // Trigger this to update the list of visible users
         this.searchByName();
         this.successMessage = `Successfully deactivated user ${ response.data.username }`;
+        // Trigger footer repositioning
+        document.body.dispatchEvent(new Event('resize'));
       },
       errorResponse => {
         this.errorMessage = errorResponse.error.message;

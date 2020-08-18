@@ -111,8 +111,12 @@
       Add Member
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <button class="dropdown-item" *ngFor="let member of allMembers"
-              (click)="addMember(member)">{{member.displayName}}</button>
+      <button (click)="addMember(user.id)"
+              *ngFor="let user of users"
+              class="dropdown-item"
+              type="button">
+        {{ user.displayName }}
+      </button>
     </div>
   </div>
 
@@ -135,12 +139,13 @@
 
       <ul class="list-group collapse" id="memberList">
         <li *ngFor="let member of members" class="list-group-item">
-          <a routerLink="/users">{{ member.displayName }}</a>
-          <span (click)="removeMember(member.id)"
-                *ngIf="auth.user.admin"
-                class="btn btn-danger m-2">
+          <a routerLink="/users/{{ member.id }}">{{ member.displayName }}</a>
+          <button (click)="removeMember(member.id)"
+                  *ngIf="auth.user.admin"
+                  class="btn btn-danger m-2"
+                  type="button">
             Delete
-          </span>
+          </button>
         </li>
       </ul>
     </div>

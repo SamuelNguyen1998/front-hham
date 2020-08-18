@@ -10,14 +10,14 @@ import { JobTitleService } from '../_services/job-title.service';
   styleUrls: [ './add-job-title.component.scss' ]
 })
 export class AddJobTitleComponent implements OnInit {
-  job: JobTitle = {
+  jobTitle: JobTitle = {
     name: '',
     monthlyAmount: 0,
   };
   errorMessage = '';
   touched = { name: false, amount: false };
 
-  constructor(private jobService: JobTitleService,
+  constructor(private jobTitleService: JobTitleService,
               private router: Router) {
   }
 
@@ -29,7 +29,7 @@ export class AddJobTitleComponent implements OnInit {
     if (!this.isValidName() || !this.isValidAmount()) {
       return;
     }
-    this.jobService.create(this.job).subscribe(
+    this.jobTitleService.create(this.jobTitle).subscribe(
       response => {
         // TODO: Add flash message to notify about successful operation
         this.router.navigate([ '/jobs' ]);
@@ -41,11 +41,11 @@ export class AddJobTitleComponent implements OnInit {
   reset(): void {
     this.errorMessage = '';
     this.touched = { name: false, amount: false };
-    this.job = { name: '', monthlyAmount: 0 };
+    this.jobTitle = { name: '', monthlyAmount: 0 };
   }
 
   isValidName(): boolean {
-    return this.job.name.length > 0;
+    return this.jobTitle.name.length > 0;
   }
 
   keyPressOnAmount(event: KeyboardEvent): void {
@@ -54,7 +54,7 @@ export class AddJobTitleComponent implements OnInit {
       return;
     }
     // Decimal point is allowed, but only once
-    const amountStr = this.job.monthlyAmount.toString();
+    const amountStr = this.jobTitle.monthlyAmount.toString();
     if (event.key === "." && amountStr.indexOf(".") < 0) {
       return;
     }
@@ -63,6 +63,6 @@ export class AddJobTitleComponent implements OnInit {
   }
 
   isValidAmount(): boolean {
-    return this.job.monthlyAmount && this.job.monthlyAmount >= 0;
+    return this.jobTitle.monthlyAmount >= 0;
   }
 }
