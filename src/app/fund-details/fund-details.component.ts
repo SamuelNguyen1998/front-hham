@@ -19,6 +19,7 @@ import { JobTitle } from '../_models/JobTitle';
 })
 export class FundDetailsComponent implements OnInit {
   currentProject: Project;
+  
   activities: Activity[];
   activity: Activity;
   members: User[];
@@ -42,8 +43,7 @@ export class FundDetailsComponent implements OnInit {
         this.loadTransaction();
         console.log(response);
        
-      }
-      
+      }  
     )
   }
   loadActivities(): void{
@@ -84,7 +84,7 @@ export class FundDetailsComponent implements OnInit {
       if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
         const data = {
           userId: Number(inputElems[i].getAttribute("id")),
-          fundId: this.currentProject.id,
+          fundId: this.currentProject.funds[0].id,
           amount: Number(inputElems[i].getAttribute("value")),
           typeId: 1
         };
@@ -97,8 +97,7 @@ export class FundDetailsComponent implements OnInit {
       }
 
     }
-   
-  //  window.location.reload();
+    window.location.reload();
   }
   remind(): void{
     var inputElems = document.getElementsByTagName("input");
@@ -118,12 +117,7 @@ export class FundDetailsComponent implements OnInit {
         );
       }
     }
-
     window.location.reload();
   }
 
-
-  typeOf(value){
-    return typeof value;
-  }
 }
