@@ -1,12 +1,13 @@
+import { JobTitle } from "./JobTitle";
+
 export class User {
-  id: number;
+  id?: number;
   username: string;
-  password: string;
+  password?: string;
   displayName: string;
   email: string;
-  isAdmin: boolean;
-  jobTitleId: number;
-  jobTitle: string
-  createdOn: Date;
-  deletedOn: Date;
+  admin: boolean;
+  jobTitle?: JobTitle;
+  createdOn?: Date;
+  deactivatedOn?: Date;
 }

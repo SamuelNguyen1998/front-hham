@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
-import { UserService } from '../_services/user.service';
 import { Router } from '@angular/router';
-import { Job } from '../_models/Job';
-import { JobService } from '../_services/job.service';
+
+import { User } from "../_models/User";
+import { JobTitle } from "../_models/JobTitle";
+import { UserService } from '../_services/user.service';
+import { JobTitleService } from "../_services/job-title.service";
 
 @Component({
   selector: 'app-add-user',
@@ -11,54 +12,59 @@ import { JobService } from '../_services/job.service';
   styleUrls: [ './add-user.component.scss' ]
 })
 export class AddUserComponent implements OnInit {
-  jobTitle: Job[];
-  user = {
+  user: User = {
     username: '',
     password: '',
     displayName: '',
     email: '',
-    jobTitleId: null,
+    admin: false,
+    jobTitle: { id: null, name: '' }
   };
-
-  userTouched = {
+  touched = {
     username: false,
     password: false,
     email: false,
   };
-
   errorMessage = '';
+  jobTitles: JobTitle[] = [];
 
   constructor(private userService: UserService,
-              private jobService: JobService,
+              private jobTitleService: JobTitleService,
               private router: Router) {
   }
 
   ngOnInit(): void {
-    this.loadJobTitle();
+    this.loadJobTitles();
+  }
+
+  loadJobTitles(): void {
+    this.jobTitleService.getAll().subscribe(
+      response => this.jobTitles = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
+    );
   }
 
   create(): void {
+    this.touched = {
+      username: true,
+      password: true,
+      email: true,
+    };
+    if (!this.usernameIsValid() || !this.passwordIsValid() || !this.emailIsValid()) {
+      return;
+    }
     this.userService.create(this.user).subscribe(
       response => {
         // TODO: Flash success message
-        this.router.navigate([ `/users/${response.id}` ]);
+        this.router.navigate([ `/users` ]);
       },
-      error => {
-        this.errorMessage = 'Failed creating new user';
-        console.log(error);
-      }
-    );
-  }
-  loadJobTitle(): void {
-    this.jobService.getAll().subscribe(
-      response => this.jobTitle = response.data,
-      console.log
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
   reset(): void {
     this.errorMessage = '';
-    this.userTouched = {
+    this.touched = {
       username: false,
       password: false,
       email: false,
@@ -68,20 +74,33 @@ export class AddUserComponent implements OnInit {
       password: '',
       displayName: '',
       email: '',
-      jobTitleId: null,
+      admin: false,
+      jobTitle: { id: null, name: '' },
     };
   }
 
+
+  usernameIsEmpty(): boolean {
+    return this.user.username.length === 0;
+  }
+
   usernameIsValid(): boolean {
-    return /[A-Za-z]/.test(this.user.username);
+    return /^[A-Za-z0-9.]+$/.test(this.user.username);
+  }
+
+  passwordIsEmpty(): boolean {
+    return this.user.password.length === 0;
   }
 
   passwordIsValid(): boolean {
     return this.user.password.length >= 8;
   }
 
+  emailIsEmpty(): boolean {
+    return this.user.email.length === 0;
+  }
+
   emailIsValid(): boolean {
-    // Should I check for trillions of weird but valid combinations?
-    return this.user.email.length > 3 && this.user.email.indexOf('@') >= 0;
+    return /^[-\w.]+@[-\w.]+$/.test(this.user.email);
   }
 }

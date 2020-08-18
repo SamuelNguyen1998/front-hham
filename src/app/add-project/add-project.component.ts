@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
-import { ProjectService } from '../_services/project.service';
 import { Router } from '@angular/router';
+
+import { Project } from "../_models/Project";
+import { ProjectService } from '../_services/project.service';
 
 @Component({
   selector: 'app-add-project',
@@ -9,11 +10,11 @@ import { Router } from '@angular/router';
   styleUrls: [ './add-project.component.scss' ]
 })
 export class AddProjectComponent implements OnInit {
-  project = {
+  project: Project = {
     name: '',
     description: '',
   };
-  userTouched = false;
+  touched = false;
   errorMessage = '';
 
   constructor(private projectService: ProjectService,
@@ -24,15 +25,16 @@ export class AddProjectComponent implements OnInit {
   }
 
   create(): void {
+    this.touched = true;
+    if (!this.isValidName()) {
+      return;
+    }
     this.projectService.create(this.project).subscribe(
       response => {
         // TODO: Add flash message to show on details page
-        this.router.navigate([ `/projects/${response.id}` ]);
+        this.router.navigate([ `/projects/${ response.data.id }` ]);
       },
-      error => {
-        this.errorMessage = 'What to write? Failed creating project?';
-        console.log(error);
-      }
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
@@ -41,7 +43,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   reset(): void {
-    this.userTouched = false;
+    this.touched = false;
     this.project = {
       name: '',
       description: ''

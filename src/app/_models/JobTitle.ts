@@ -1,6 +1,7 @@
 export class JobTitle {
-  id: number;
+  id?: number;
   name: string;
-  validFrom: Date;
-  validTo: Date;
+  monthlyAmount?: number;
+  validFrom?: Date;
+  validTo?: Date;
 }

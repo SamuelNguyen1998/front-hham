@@ -1,4 +1,5 @@
 import { User } from './User';
+
 export class Transaction {
   id: number;
   typeId: number;

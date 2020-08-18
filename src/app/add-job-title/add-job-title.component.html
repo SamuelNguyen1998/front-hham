@@ -8,28 +8,35 @@
       <div class="form-group">
         <label class="required-field" for="name">Job title</label>
         <input [(ngModel)]="job.name"
-               (focusout)="jobTouched = true"
-               [class.is-invalid]="jobTouched && !isValidName()"
-               [class.is-valid]="jobTouched && isValidName()"
+               (focusout)="touched.name = true"
+               [class.is-invalid]="touched.name && !isValidName()"
+               [class.is-valid]="touched.name && isValidName()"
                class="form-control" id="name" name="name"
                required type="text">
       </div>
-      <div *ngIf="jobTouched && !isValidName()" class="alert alert-danger" role="alert">
+      <div *ngIf="touched.name && !isValidName()" class="alert alert-danger" role="alert">
         Name of the job title is required
       </div>
 
       <div class="form-group">
         <label class="required-field" for="monthlyAmount">Monthly amount</label>
         <input [(ngModel)]="job.monthlyAmount"
+               (focusout)="touched.amount = true"
+               (keypress)="keyPressOnAmount($event)"
+               [class.is-invalid]="touched.amount && !isValidAmount()"
+               [class.is-valid]="touched.amount && isValidAmount()"
                class="form-control" id="monthlyAmount" name="monthlyAmount"
                required type="number" min="0" step="1000">
       </div>
+      <div *ngIf="touched.amount && !isValidAmount()" class="alert alert-danger" role="alert">
+        Monthly funding amount must be a non-negative number
+      </div>
 
       <div class="text-center">
-        <button routerLink="/jobs" (click)="create()" class="btn btn-success m-1">
+        <button (click)="create()" class="btn btn-success m-1" type="button">
           <i class="fas fa-plus"></i> Create
         </button>
-        <button (click)="reset()" class="btn btn-secondary m-1">
+        <button (click)="reset()" class="btn btn-secondary m-1" type="button">
           <i class="fas fa-undo"></i> Reset
         </button>
       </div>

@@ -6,12 +6,12 @@
 
       <div class="form-group">
         <label class="required-field" for="name">Name</label>
-        <input (focusout)="userTouched = true" [(ngModel)]="project.name"
-               [class.is-invalid]="this.userTouched && !isValidName()"
-               [class.is-valid]="this.userTouched && isValidName()"
+        <input (focusout)="touched = true" [(ngModel)]="project.name"
+               [class.is-invalid]="this.touched && !isValidName()"
+               [class.is-valid]="this.touched && isValidName()"
                class="form-control" id="name" name="name" required type="text">
       </div>
-      <div *ngIf="this.userTouched && !isValidName()" class="alert alert-danger" role="alert">
+      <div *ngIf="this.touched && !isValidName()" class="alert alert-danger" role="alert">
         Project name is required
       </div>
 
@@ -23,10 +23,10 @@
       </div>
 
       <div class="text-center">
-        <button (click)="create()" class="btn btn-success m-1">
+        <button (click)="create()" class="btn btn-success m-1" type="button">
           <i class="fas fa-plus"></i> Create
         </button>
-        <button (click)="reset()" class="btn btn-secondary m-1">
+        <button (click)="reset()" class="btn btn-secondary m-1" type="button">
           <i class="fas fa-undo"></i> Reset
         </button>
       </div>

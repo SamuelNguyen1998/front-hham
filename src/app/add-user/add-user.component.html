@@ -8,26 +8,34 @@
       <div class="form-group">
         <label class="required-field" for="user">Username</label>
         <input [(ngModel)]="user.username"
-               (focusout)="userTouched.username = true"
-               [class.is-invalid]="userTouched.username && !usernameIsValid()"
-               [class.is-valid]="userTouched.username && usernameIsValid()"
+               (focusout)="touched.username = true"
+               [class.is-invalid]="touched.username && !usernameIsValid()"
+               [class.is-valid]="touched.username && usernameIsValid()"
                class="form-control" id="user" name="user"
                required type="text">
       </div>
-      <div *ngIf="userTouched.username && !usernameIsValid()" class="alert alert-danger" role="alert">
-        Username is required and must contain at least 1 alphabetical character
+      <div *ngIf="touched.username && usernameIsEmpty()" class="alert alert-danger" role="alert">
+        Username is required
+      </div>
+      <div *ngIf="touched.username && !usernameIsEmpty() && !usernameIsValid()"
+           class="alert alert-danger" role="alert">
+        Username can contain only alphanumeric characters and dots.
       </div>
 
       <div class="form-group">
         <label class="required-field" for="password">Password</label>
         <input [(ngModel)]="user.password"
-               (focusout)="userTouched.password = true"
-               [class.is-invalid]="userTouched.password && !passwordIsValid()"
-               [class.is-valid]="userTouched.password && passwordIsValid()"
+               (focusout)="touched.password = true"
+               [class.is-invalid]="touched.password && !passwordIsValid()"
+               [class.is-valid]="touched.password && passwordIsValid()"
                class="form-control" id="password" name="password"
                required type="password">
       </div>
-      <div *ngIf="userTouched.password && !passwordIsValid()" class="alert alert-danger" role="alert">
+      <div *ngIf="touched.password && passwordIsEmpty()" class="alert alert-danger" role="alert">
+        Password is required
+      </div>
+      <div *ngIf="touched.password && !passwordIsEmpty() && !passwordIsValid()"
+           class="alert alert-danger" role="alert">
         Password must be at least 8 characters
       </div>
 
@@ -41,28 +49,35 @@
       <div class="form-group">
         <label class="required-field" for="email">Email</label>
         <input [(ngModel)]="user.email"
-               (focusout)="userTouched.email = true"
-               [class.is-invalid]="userTouched.email && !emailIsValid()"
-               [class.is-valid]="userTouched.email && emailIsValid()"
+               (focusout)="touched.email = true"
+               [class.is-invalid]="touched.email && !emailIsValid()"
+               [class.is-valid]="touched.email && emailIsValid()"
                class="form-control" id="email" name="email"
                required type="email">
       </div>
-      <div *ngIf="userTouched.email && !emailIsValid()" class="alert alert-danger" role="alert">
+      <div *ngIf="touched.email && emailIsEmpty()" class="alert alert-danger" role="alert">
         Email is required
+      </div>
+      <div *ngIf="touched.email && !emailIsEmpty() && !emailIsValid()"
+           class="alert alert-danger" role="alert">
+        Invalid email
       </div>
 
       <div class="form-group">
-        <label class="required-field" for="job">Job title</label>
-        <select [(ngModel)]="user.jobTitleId" id="job" name="job" class="form-control">
-          <option value="{{job.id}}" *ngFor="let job of jobTitle">{{job.name}}</option>
+        <label for="jobTitle">Job title</label>
+        <select [(ngModel)]="user.jobTitle.id" class="form-control" name="jobTitle" id="jobTitle">
+          <option value="null">--- Not available ---</option>
+          <option *ngFor="let jobTitle of jobTitles" value="{{ jobTitle.id }}">
+            {{ jobTitle.name }}
+          </option>
         </select>
       </div>
-      
+
       <div class="text-center">
-        <button (click)="create()" class="btn btn-success m-1">
+        <button (click)="create()" class="btn btn-success m-1" type="button">
           <i class="fas fa-plus"></i> Create
         </button>
-        <button (click)="reset()" class="btn btn-secondary m-1">
+        <button (click)="reset()" class="btn btn-secondary m-1" type="button">
           <i class="fas fa-undo"></i> Reset
         </button>
       </div>

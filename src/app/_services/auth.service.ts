@@ -2,72 +2,82 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Constants } from '../Constants';
+import { User } from "../_models/User";
+import { Session } from "../_models/Session";
 import { LoginRequest } from '../_models/LoginRequest';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private _loggedIn: boolean = false;
-  private _token: string = '';
-  private _currentUser: {
-    id: number,
-    username: string,
-    displayName: string,
-    email: string,
-    isAdmin: boolean,
+  // tslint:disable-next-line:variable-name
+  private m_loggedIn = false;
+  // tslint:disable-next-line:variable-name
+  private m_session: Session = {
+    createdOn: undefined,
+    expiredOn: undefined,
+    token: "",
+    userId: 0
   };
+  // tslint:disable-next-line:variable-name
+  private m_user: User;
+
+  private static getStorageItem(key): string {
+    const item = sessionStorage.getItem(key);
+    if (item !== null) {
+      return item;
+    }
+    return localStorage.getItem(key);
+  }
 
   constructor(private http: HttpClient) {
-    const lastAccess = +localStorage.getItem('lastAccess');
-    const elapsedTimeInMs = Date.now() - lastAccess;
-    const threshold = 60 * 60 * 1000; // 60 minutes
-    if (lastAccess && elapsedTimeInMs < threshold) {
-      this._loggedIn = true;
-      this._token = localStorage.getItem('token');
-      this._currentUser = JSON.parse(localStorage.getItem('userInfo'));
+    const sessionString = AuthService.getStorageItem('session');
+    if (sessionString === null) {
+      return;
+    }
+    const session = JSON.parse(sessionString);
+    session.createdOn = new Date(session.createdOn);
+    session.expiredOn = new Date(session.expiredOn);
+    if (session.expiredOn > Date.now()) {
+      this.m_loggedIn = true;
+      this.m_session = session;
+      this.m_user = JSON.parse(AuthService.getStorageItem('user'));
     }
   }
 
   get loggedIn(): boolean {
-    return this._loggedIn;
+    return this.m_loggedIn;
   }
 
   get token(): string {
-    return this._token;
+    return this.m_session.token;
   }
 
-  get currentUser(): {
-    id: number,
-    username: string,
-    displayName: string,
-    email: string,
-    isAdmin: boolean,
-  } {
-    return this._currentUser;
+  get user(): User {
+    return this.m_user;
   }
 
-  async login(loginRequest: LoginRequest): Promise<void> {
-
-    const response: any = await this.http.post(`${Constants.DOC_BASE}/auth/login`,
-      loginRequest,
-      Constants.DEFAULT_HTTP_OPTIONS).toPromise();
-    if (response.code > 0) {
-      throw new Error(response.message);
-    }
-    this._loggedIn = true;
-    this._token = response.token;
-    const { id, username, displayName, email, admin } = response.user;
-    this._currentUser = { id, username, displayName, email, isAdmin: admin };
-    localStorage.setItem('token', response.token);
-    localStorage.setItem('userInfo', JSON.stringify(this.currentUser));
-    localStorage.setItem('lastAccess', Date.now().toString());
+  login(loginRequest: LoginRequest): Promise<void> {
+    const endpoint = `${ Constants.DOC_BASE }/auth/login`;
+    return this.http
+      .post(endpoint, loginRequest, Constants.DEFAULT_HTTP_OPTIONS)
+      .toPromise()
+      .then((response: any) => {
+          this.m_loggedIn = true;
+          this.m_session = response.session;
+          this.m_user = response.user;
+          const storage = loginRequest.keepSignedIn ? localStorage : sessionStorage;
+          storage.setItem('session', JSON.stringify(this.m_session));
+          storage.setItem('user', JSON.stringify(this.m_user));
+        }
+      );
   }
 
   logout(): void {
     localStorage.clear();
-    this._loggedIn = false;
-    this._token = '';
-    this._currentUser = undefined;
+    sessionStorage.clear();
+    this.m_loggedIn = undefined;
+    this.m_session = undefined;
+    this.m_user = undefined;
   }
 }

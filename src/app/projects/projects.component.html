@@ -1,33 +1,41 @@
 <div class="container pt-5">
   <h1 class="pb-3">Project management</h1>
   <div class="row">
-    <div class="col-md-4 mb-3" *ngIf="auth.currentUser.isAdmin">
+    <div class="col-md-4 mb-3" *ngIf="auth.user.admin">
       <a class="btn btn-success" routerLink="/projects/add">
         <i class="fas fa-plus"></i> Create new project
       </a>
     </div>
 
+    <!-- Search -->
     <!-- TODO: Add advanced filters here instead of a general search field -->
     <form class="col-md-8 ml-auto mb-3 form-inline">
       <div class="btn-group ml-auto searchBox">
-        <input [(ngModel)]="searchTerm" name="searchTerm"
-               class="form-control ml-auto"
-               placeholder="Search by name..."
-               type="text">
+        <input [(ngModel)]="searchTerm"
+               (change)="searchByName()"
+               name="searchTerm" class="form-control ml-auto"
+               placeholder="Search by name..." type="text">
         <a class="btn btn-secondary" role="button" (click)="searchByName()">
           <i class="fas fa-search"></i>
         </a>
       </div>
     </form>
   </div>
-  <div *ngFor="let project of projects" class="col-12 card">
+
+  <!-- Messages -->
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+    <button (click)="clearErrorMessage()" aria-label="Close" class="close" type="button">×</button>
+  </div>
+
+  <!-- Data -->
+  <div *ngFor="let project of visibleProjects" class="col-12 card">
     <div class="card-body">
       <h4 class="card-title">
         <a routerLink="/projects/{{ project.id }}">{{ project.name }}</a>
       </h4>
       <p class="card-text description">{{ project.description }}</p>
-      <p class="card-text text-muted">{{ project.createdOn | date: 'full' }}</p>
-
+      <p class="card-text text-muted">{{ project.createdOn | date: 'medium' }}</p>
     </div>
   </div>
 </div>

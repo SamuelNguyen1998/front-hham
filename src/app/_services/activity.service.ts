@@ -8,46 +8,37 @@ import { Constants } from '../Constants';
   providedIn: 'root'
 })
 export class ActivityService {
-
   constructor(private http: HttpClient) {
   }
 
   getAll(): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/activities`);
+    return this.http.get(`${ Constants.API_BASE }/activities`);
   }
 
   get(id): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/activities/${id}`);
+    return this.http.get(`${ Constants.API_BASE }/activities/${ id }`);
   }
 
   create(data): Observable<any> {
-    return this.http.post(`${Constants.API_BASE}/activities`, data);
+    return this.http.post(`${ Constants.API_BASE }/activities`, data);
   }
 
   update(id, data): Observable<any> {
-    return this.http.put(`${Constants.API_BASE}/activities/${id}`, data);
+    return this.http.put(`${ Constants.API_BASE }/activities/${ id }`, data);
   }
 
   archive(id): Observable<any> {
-    return this.http.delete(`${Constants.API_BASE}/activities/${id}`);
+    return this.http.delete(`${ Constants.API_BASE }/activities/${ id }`);
   }
   finish(id): Observable<any> {
     return this.http.post(`${Constants.API_BASE}/activities/${id}/finish`,id);
   }
 
   findByName(name): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/activities?name=${name}`);
+    return this.http.get(`${ Constants.API_BASE }/activities?name=${ name }`);
   }
-
-  // vote(id: number): Observable<any> {
-  //   return this.http.post(`${Constants.API_BASE}/options/${id}/vote`, {});
-  // }
 
   findAllInProject(id: number): Observable<any> {
-    return this.http.get(`${Constants.API_BASE}/activities?projectId=${id}`);
+    return this.http.get(`${ Constants.API_BASE }/activities?projectId=${ id }`);
   }
-
-  // findOptions(id: number): Observable<any> {
-  //   return this.http.get(`${Constants.API_BASE}/options?activityId=${id}`);
-  // }
 }

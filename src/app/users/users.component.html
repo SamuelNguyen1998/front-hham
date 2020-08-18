@@ -1,51 +1,177 @@
-<div class="container pt-5">
+<div class="container pt-5" *ngIf="auth.user.admin">
   <h1 class="pb-3">User management</h1>
-  <div class="row">
-    <div class="col-md-4 mb-3">
+  <div class="row mb-3">
+    <div class="col-md-4">
       <a class="btn btn-success" routerLink="/users/add">
         <i class="fas fa-plus"></i> Create new user
       </a>
     </div>
+
+    <!-- Search -->
     <!-- TODO: Add advanced filters here instead of a general search field -->
     <form class="col-md-8 form-inline">
       <div class="btn-group ml-auto searchBox">
         <input [(ngModel)]="searchTerm"
+               (change)="turnOffFiltering()"
                class="form-control ml-auto" name="searchTerm"
                placeholder="Search by name..." type="text">
-        <button (click)="searchByName()" class="btn btn-secondary">
+        <button (click)="searchByName()" class="btn btn-secondary" type="button">
           <i class="fas fa-search"></i>
         </button>
       </div>
     </form>
   </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Username</th>
-        <th scope="col">Display name</th>
-        <th scope="col">Email</th>
-        <th scope="col">Job title</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{ user.username }}</td>
-        <td>{{ user.displayName }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.jobTitle.name }}</td>
-        <td>
-          <a class="btn btn-primary m-1" routerLink="/users/{{ user.id }}">
-            <i class="fas fa-eye"></i> View
-          </a>
-          <a class="btn btn-info m-1" routerLink="/users/{{ user.id }}/edit">
-            <i class="fas fa-pen"></i> Edit
-          </a>
-          <a class="btn btn-danger m-1" routerLink="/users/{{ user.id }}/deactivate">
-            <i class="fas fa-lock"></i> Deactivate
-          </a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+
+  <!-- Data -->
+  <form>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Display name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Job title</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of visibleUsers">
+          <td>{{ user.username }}</td>
+          <td>{{ user.displayName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.jobTitle ? user.jobTitle.name : "Not available" }}</td>
+          <td>
+            <a class="btn btn-primary m-1" routerLink="/profile/{{ user.id }}">
+              <i class="fas fa-eye"></i> View
+            </a>
+            <button (click)="beginEdit(user.id)"
+                    class="btn btn-info m-1"
+                    data-backdrop="static"
+                    data-target="#editUserDialog"
+                    data-toggle="modal"
+                    type="button">
+              <i class="fas fa-pen"></i> Edit
+            </button>
+            <div class="d-inline-block"
+                 data-toggle="tooltip"
+                 tabindex="0"
+                 title="Account of the system admin cannot be deactivated">
+              <button (click)="confirmDeactivate(user.id)"
+                      [disabled]="user.admin"
+                      class="btn btn-danger m-1"
+                      data-target="#deactivateUserConfirmDialog"
+                      data-toggle="modal"
+                      type="button">
+                <i class="fas fa-lock"></i> Deactivate
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+
+<!-- Dialogs -->
+<div class="modal fade" id="deactivateUserConfirmDialog" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Deactivate user account</h4>
+      </div>
+
+      <div class="modal-body">
+        Password of the deactivated account will be cleared and that user cannot anymore,
+        please confirm your intention.
+      </div>
+
+      <div class="modal-footer">
+        <button (click)="deactivate()" class="btn btn-danger" data-dismiss="modal" type="button">
+          Deactivate this user
+        </button>
+        <button class="btn btn-secondary" data-dismiss="modal" type="button">
+          No, do not deactivate
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="editUserDialog" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit user</h4>
+      </div>
+
+      <form class="modal-body">
+        <div class="form-group">
+          <label class="required-field" for="username">Username</label>
+          <input (focusout)="touched.username = true"
+                 [(ngModel)]="editingUser.username"
+                 [class.is-invalid]="touched.username && !usernameIsValid()"
+                 [class.is-valid]="touched.username && usernameIsValid()"
+                 class="form-control" id="username" name="username"
+                 type="text">
+        </div>
+        <div *ngIf="touched.username && usernameIsEmpty()"
+             class="alert alert-danger" role="alert">
+          Username is required
+        </div>
+        <div *ngIf="touched.username && !usernameIsEmpty() && !usernameIsValid()"
+             class="alert alert-danger" role="alert">
+          Only alphanumeric characters and dots are allowed.
+        </div>
+
+        <div class="form-group">
+          <label for="displayName">Display name</label>
+          <input [(ngModel)]="editingUser.displayName"
+                 class="form-control" id="displayName" name="displayName"
+                 type="text">
+        </div>
+
+        <div class="form-group">
+          <label class="required-field" for="email">Email</label>
+          <input [(ngModel)]="editingUser.email"
+                 (focusout)="touched.email = true"
+                 [class.is-invalid]="touched.email && !emailIsValid()"
+                 [class.is-valid]="touched.email && emailIsValid()"
+                 class="form-control" id="email" name="email"
+                 type="email">
+        </div>
+        <div *ngIf="touched.email && emailIsEmpty()" class="alert alert-danger" role="alert">
+          Email is required
+        </div>
+        <div *ngIf="touched.email && !emailIsEmpty() && !emailIsValid()"
+             class="alert alert-danger" role="alert">
+          Invalid email
+        </div>
+
+        <div class="form-group">
+          <label for="jobTitle">Job title</label>
+          <select [(ngModel)]="editingUser.jobTitle.id"
+                  class="form-control" id="jobTitle" name="jobTitle">
+            <option [selected]="editingUser.jobTitle" value="null">
+              --- Not available ---
+            </option>
+            <option *ngFor="let jobTitle of jobTitles"
+                    [selected]="editingUser.jobTitle.id === jobTitle.id"
+                    value="{{ jobTitle.id }}">
+              {{ jobTitle.name }}
+            </option>
+          </select>
+        </div>
+      </form>
+
+      <div class="modal-footer">
+        <button (click)="saveEdit($event)" class="btn btn-primary" data-dismiss="modal" type="button">
+          <i class="fas fa-save"></i> Save
+        </button>
+        <button class="btn btn-secondary" data-dismiss="modal" type="button">
+          <i class="fas fa-times-circle"></i> Cancel
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

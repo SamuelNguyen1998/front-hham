@@ -5,21 +5,19 @@
       <input [(ngModel)]="newActivity.name" class="form-control" name="name" type="text">
     </form>
 
-
-
-
-    <div class="col-md-3 text-right btn-group" *ngIf="auth.currentUser.isAdmin">
+    <div class="col-md-3 text-right btn-group" *ngIf="auth.user.admin">
       <button (click)="enterActivityEditMode()" *ngIf="!isInActivityEditMode"
               class="btn btn-info height-limited-button mr-3">
         <i class="fas fa-pen"></i> Edit
       </button>
-  
+
 
 
       <button *ngIf="!isInActivityEditMode" class="btn btn-danger height-limited-button" (click)="archive()">
         <i class="fas fa-archive"></i> Archive
       </button>
-      <button (click)="saveActivityEdit()" *ngIf="isInActivityEditMode" class="btn btn-primary height-limited-button mr-3">
+      <button (click)="saveActivityEdit()" *ngIf="isInActivityEditMode"
+              class="btn btn-primary height-limited-button mr-3">
         <i class="fas fa-pen"></i> Save
       </button>
       <button (click)="cancelActivityEdit()" *ngIf="isInActivityEditMode"
@@ -30,7 +28,7 @@
 
     <!--   finish activity -->
     <div class="col-sm-6">
-    <button (click)="finishActivity()" 
+    <button (click)="finishActivity()"
     class="btn btn-info height-limited-button mr-3">
     <i class="fas fa-pen"></i> Finish
     </button>
@@ -82,7 +80,7 @@
           <div class="text-center">
 
             <!-- TODO: This group is ugly on small screen, redesign needed -->
-            <div *ngIf="auth.currentUser.isAdmin">
+            <div *ngIf="auth.user.admin">
               <button (click)="beginEditOption(option.id)"
                       *ngIf="!isInOptionEditMode"
                       class="btn btn-info m-1"
@@ -111,13 +109,16 @@
               </button>
             </div>
 
-            <span *ngIf="!auth.currentUser.isAdmin"
+            <span *ngIf="!auth.user.admin"
                   class="d-inline-block"
                   tabindex="0"
                   data-toggle="tooltip"
                   title="You have already voted">
               <!-- TODO: Use real state -->
-              <button (click)="vote(option.id)" [disabled]="true" aria-disabled="true" class="btn btn-primary">
+              <button (click)="vote(option.id)"
+                      [disabled]="true"
+                      aria-disabled="true"
+                      class="btn btn-primary">
                 Vote
               </button>
             </span>
@@ -172,17 +173,20 @@
   </form>
 </main>
 
+<!-- Dialogs -->
 <div class="modal fade" id="optionDeleteConfirmDialog" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title">Delete option</div>
+        <h4 class="modal-title">Delete option</h4>
       </div>
       <div class="modal-body">
         This operation is unrecoverable, please confirm your intention.
       </div>
       <div class="modal-footer">
-        <button (click)="deleteOption()" class="btn btn-danger">Delete the option</button>
+        <button (click)="deleteOption()" class="btn btn-danger" data-dismiss="modal">
+          Delete the option
+        </button>
         <button class="btn btn-secondary" data-dismiss="modal">No, do not delete</button>
       </div>
     </div>
