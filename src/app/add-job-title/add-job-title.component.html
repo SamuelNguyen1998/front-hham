@@ -7,7 +7,7 @@
 
       <div class="form-group">
         <label class="required-field" for="name">Job title</label>
-        <input [(ngModel)]="job.name"
+        <input [(ngModel)]="jobTitle.name"
                (focusout)="touched.name = true"
                [class.is-invalid]="touched.name && !isValidName()"
                [class.is-valid]="touched.name && isValidName()"
@@ -20,7 +20,7 @@
 
       <div class="form-group">
         <label class="required-field" for="monthlyAmount">Monthly amount</label>
-        <input [(ngModel)]="job.monthlyAmount"
+        <input [(ngModel)]="jobTitle.monthlyAmount"
                (focusout)="touched.amount = true"
                (keypress)="keyPressOnAmount($event)"
                [class.is-invalid]="touched.amount && !isValidAmount()"

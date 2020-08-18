@@ -36,7 +36,7 @@ export class ProjectService {
     return this.http.get(`${ Constants.API_BASE }/projects?name=${ name }`);
   }
 
-  getMember(id: number): Observable<any> {
+  getMembers(id: number): Observable<any> {
     return this.http.get(`${ Constants.API_BASE }/projects/${ id }/members`);
   }
 

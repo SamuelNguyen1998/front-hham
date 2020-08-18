@@ -18,8 +18,8 @@ export class ProjectDetailsComponent implements OnInit {
   newProject: Project;
   activities: Activity[];
   members: User[];
-  allMembers: User[];
   admins: User[];
+  users: User[];
   successMessage = '';
   errorMessage = '';
   isAdminListExpanded = false;
@@ -37,18 +37,16 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadAllMembers();
     this.loadProject();
     this.loadMembers();
-    this.loadAdmin();
+    this.loadAdmins();
+    this.loadAllUsers();
+    this.loadActivities();
   }
 
   loadProject(): void {
     this.projectService.get(this.id).subscribe(
-      response => {
-        this.project = response.data;
-        this.loadActivities();
-      },
+      response => this.project = response.data,
       errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
@@ -61,15 +59,15 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   loadMembers(): void {
-    this.projectService.getMember(this.id).subscribe(
+    this.projectService.getMembers(this.id).subscribe(
       response => this.members = response.data,
       errorResponse => this.errorMessage = errorResponse.error.message,
     );
   }
 
-  loadAllMembers(): void {
+  loadAllUsers(): void {
     this.userService.getAll().subscribe(
-      response => this.allMembers = response.data,
+      response => this.users = response.data,
       errorResponse => this.errorMessage = errorResponse.error.message,
     );
   }
@@ -153,13 +151,13 @@ export class ProjectDetailsComponent implements OnInit {
     this.projectService.addAdmin(this.project.id, id).subscribe(
       response => {
         this.successMessage = 'The Admin was added successfully!';
-        this.loadAdmin();
+        this.loadAdmins();
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
-  loadAdmin(): void {
+  loadAdmins(): void {
     this.projectService.getAdmin(this.id).subscribe(
       response => this.admins = response.data,
       errorResponse => this.errorMessage = errorResponse.error.message,
@@ -171,7 +169,7 @@ export class ProjectDetailsComponent implements OnInit {
       response => {
         this.successMessage = 'The Member was removed successfully!';
         this.admins = this.admins.filter(admin => admin.id === id);
-        this.loadAdmin();
+        this.loadAdmins();
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );

@@ -4,6 +4,7 @@ import { Activity } from '../_models/Activity';
 import { AuthService } from '../_services/auth.service';
 import { ProjectService } from '../_services/project.service';
 import { ActivityService } from '../_services/activity.service';
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-activities',
@@ -14,10 +15,13 @@ export class ActivitiesComponent implements OnInit {
   activities: Activity[];
   projects: Project[];
   searchTerm: string;
+  projectId: number;
 
   constructor(public auth: AuthService,
+              private route: ActivatedRoute,
               private activityService: ActivityService,
               private projectService: ProjectService) {
+    this.projectId = this.route.snapshot.params.projectId;
   }
 
   ngOnInit(): void {

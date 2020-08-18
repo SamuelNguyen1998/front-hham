@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -6,11 +7,18 @@ import { Component, HostListener, OnInit } from '@angular/core';
   styleUrls: [ './app-footer.component.scss' ]
 })
 export class AppFooterComponent implements OnInit {
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
     this.pad();
+    this.router.events.subscribe(event => {
+      // If a navigation happens...
+      if (event instanceof NavigationEnd) {
+        // ...then trigger footer repositioning
+        document.body.dispatchEvent(new Event('resize'));
+      }
+    });
   }
 
   pad(): void {
