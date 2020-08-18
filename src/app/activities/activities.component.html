@@ -1,6 +1,18 @@
 <div class="container pt-5">
-  <h1 class="pb-3">Activity management</h1>
-  <div class="row">
+  <!-- Content for empty case-->
+  <div *ngIf="auth.user.admin && activities?.length == 0" class="text-center">
+    <h4 class="py-5">No activity is happening, create your own now.</h4>
+    <a class="btn btn-lg btn-success" routerLink="/activities/add">
+      <i class="fas fa-plus"></i> Create new activity
+    </a>
+  </div>
+  <div *ngIf="!auth.user.admin && activities?.length == 0" class="text-center">
+    <h4 class="py-5">No activity is happening at the moment.</h4>
+  </div>
+
+  <!-- Content for regular case -->
+  <h1 *ngIf="activities?.length > 0" class="pb-3">Activity management</h1>
+  <div *ngIf="activities?.length > 0" class="row">
     <div class="col-md-4 mb-3" *ngIf="auth.user.admin">
       <a class="btn btn-success" routerLink="/activities/add">
         <i class="fas fa-plus"></i> Create new activity

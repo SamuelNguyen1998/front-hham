@@ -1,12 +1,13 @@
 footer {
   background-color: black;
   color: white;
+  font-size: 1.1rem;
 
   a {
     color: white;
 
     &:hover {
-      color: hsla(210, 100%, 75%, 1);
+      color: hsla(30, 100%, 60%, 1);
     }
   }
 }
