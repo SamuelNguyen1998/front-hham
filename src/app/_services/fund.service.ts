@@ -14,6 +14,10 @@ export class FundService {
     return this.http.get(`${ Constants.API_BASE }/transactions`);
   }
 
+  getAllFund(): Observable<any> {
+    return this.http.get(`${ Constants.API_BASE }/transactions/funds`);
+  }
+
   get(id): Observable<any> {
     return this.http.get(`${ Constants.API_BASE }/transactions/${ id }`);
   }

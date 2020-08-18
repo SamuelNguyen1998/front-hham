@@ -8,6 +8,12 @@ import { ActivityService } from '../_services/activity.service';
 import { FundService } from 'src/app/_services/fund.service'
 import { ActivatedRoute } from '@angular/router';
 
+import { Router } from '@angular/router';
+import { timer } from 'rxjs';
+import { JobTitleService } from "../_services/job-title.service";
+import { JobTitle } from '../_models/JobTitle';
+
+
 @Component({
   selector: 'app-fund-details',
   templateUrl: './fund-details.component.html',
@@ -15,9 +21,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class FundDetailsComponent implements OnInit {
   currentProject: Project;
+  
   activities: Activity[];
   activity: Activity;
   members: User[];
+  jobTitles: JobTitle[];
   transaction: Transaction;
   transactions: Transaction[];
   errorMessage = '';
@@ -25,8 +33,10 @@ export class FundDetailsComponent implements OnInit {
   constructor(private projectService: ProjectService,
               private activityService: ActivityService,
               private route: ActivatedRoute,
-              private transactionService: FundService) {
-  }
+              private transactionService: FundService,
+              private router: Router,
+              private jobTitleService: JobTitleService) { }
+
 
   ngOnInit(): void {
     this.projectService.get(this.route.snapshot.params.id).subscribe(
@@ -35,7 +45,9 @@ export class FundDetailsComponent implements OnInit {
         this.loadActivities();
         this.loadMembers();
         this.loadTransaction();
-      }
+ 
+       
+      }  
     )
   }
 
@@ -55,10 +67,13 @@ export class FundDetailsComponent implements OnInit {
     );
   }
 
-  loadTransaction(): void {
+
+  loadTransaction(): void{
+
     this.transactionService.getTransaction(this.currentProject.id).subscribe(
       response => {
         this.transactions = response.data;
+        console.log(response);
       },
       error => console.log(error)
     );
@@ -67,20 +82,22 @@ export class FundDetailsComponent implements OnInit {
   saveTransaction(): void {
     var inputElems = document.getElementsByTagName("input");
     for (var i = 0; i < inputElems.length; i++) {
+    
       if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
         const data = {
           userId: Number(inputElems[i].getAttribute("id")),
-          projectId: this.currentProject.id,
+          fundId: this.currentProject.funds[0].id,
           amount: Number(inputElems[i].getAttribute("value")),
           typeId: 1
         };
         this.transactionService.create(data).subscribe(
           response => {
-            console.log(response);
+            this.router.navigate([`/funds/${this.currentProject.id}`]);
 
           },
         );
       }
+
     }
     window.location.reload();
   }
