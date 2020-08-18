@@ -9,7 +9,8 @@ import { FundService } from 'src/app/_services/fund.service'
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { timer } from 'rxjs';
-
+import { JobTitleService } from "../_services/job-title.service";
+import { JobTitle } from '../_models/JobTitle';
 
 @Component({
   selector: 'app-fund-details',
@@ -21,6 +22,7 @@ export class FundDetailsComponent implements OnInit {
   activities: Activity[];
   activity: Activity;
   members: User[];
+  jobTitles: JobTitle[];
   transaction: Transaction;
   transactions: Transaction[];
 
@@ -28,7 +30,8 @@ export class FundDetailsComponent implements OnInit {
               private activityService: ActivityService, 
               private route: ActivatedRoute,
               private transactionService: FundService,
-              private router: Router) { }
+              private router: Router,
+              private jobTitleService: JobTitleService) { }
 
   ngOnInit(): void {
     this.projectService.get(this.route.snapshot.params.id).subscribe(
@@ -37,7 +40,10 @@ export class FundDetailsComponent implements OnInit {
         this.loadActivities();
         this.loadMembers();
         this.loadTransaction();
+        console.log(response);
+       
       }
+      
     )
   }
   loadActivities(): void{
@@ -52,9 +58,16 @@ export class FundDetailsComponent implements OnInit {
     this.projectService.getMember(this.currentProject.id).subscribe(
       response => {
         this.members = response.data;
+        console.log(response);
       }
     )
   }
+  loadJobTitles(): void {
+    this.jobTitleService.getAll().subscribe(
+      response => this.jobTitles = response.data,
+    );
+  }
+
   loadTransaction(): void{
     this.transactionService.getTransaction(this.currentProject.id).subscribe(
       response => {
@@ -67,13 +80,11 @@ export class FundDetailsComponent implements OnInit {
   saveTransaction(): void{
     var inputElems = document.getElementsByTagName("input");
     for (var i = 0; i < inputElems.length; i++) {
-      setTimeout(() => {
-          
-      }, 5000);
+    
       if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
         const data = {
           userId: Number(inputElems[i].getAttribute("id")),
-          projectId: this.currentProject.id,
+          fundId: this.currentProject.id,
           amount: Number(inputElems[i].getAttribute("value")),
           typeId: 1
         };
