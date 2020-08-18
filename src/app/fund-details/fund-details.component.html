@@ -24,15 +24,16 @@
                 <th >Monthly Amount to pay</th>
                
 
-                <th *ngIf="auth.user.admin" >check</th>
+                <th *ngIf="auth.user.admin">check</th>
                
               </tr>
             </thead>
             <tr *ngFor="let member of members" >
                 <td>{{member.displayName}} </td>
-                <td>{{member.jobTitle ? member.jobTitle.name : "no"}}</td>
-                <td>{{member.jobTitle ? member.jobTitle.monthlyAmount : "no" }} VND</td>
-                <td *ngIf="auth.user.admin" ><input type="checkbox" class="form-check-input" id="{{member.id}}" value="{{member.jobTitle.monthlyAmount}}" ></td>
+                <td>{{member.jobTitle ? member.jobTitle.name : "Not found"}}</td>
+                <td>{{member.jobTitle ? member.jobTitle.monthlyAmount : 0 }} VND</td>
+                <td *ngIf="auth.user.admin"><input type="checkbox" class="form-check-input" id="{{member.id}}" value="{{member.jobTitle ? member.jobTitle.monthlyAmount : 0 }}" ></td>
+
             </tr>
         </table>
         <div class="position-absolute top-left"> 
@@ -62,7 +63,7 @@
               
               <ng-container *ngIf="t.typeId === 1 && t.fundId === currentProject?.funds[0].id">
                 <th>{{t.username}}</th>
-                <td>{{t?.jobTitleDtos[0].name}}</td>
+                <td>{{t?.jobTitleDtos[0] ? t?.jobTitleDtos[0].name : "Not found"}}</td>
                 <td> {{t.amount}} VND</td>
                 <td>{{t.memo}}</td> 
               </ng-container>

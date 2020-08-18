@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgModule } from '@angular/core';
+import {ChartsModule} from 'ng2-charts';
+import { ValidateEqualModule } from 'ng-validate-equal';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -70,6 +72,8 @@ import { FundDetailsComponent } from './fund-details/fund-details.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    ChartsModule,
+    ValidateEqualModule,
   ],
   providers: [ authInterceptorProviders ],
   bootstrap: [ AppComponent ]

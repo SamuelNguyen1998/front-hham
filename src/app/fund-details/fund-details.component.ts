@@ -31,13 +31,13 @@ export class FundDetailsComponent implements OnInit {
   transactions: Transaction[];
   errorMessage = '';
 
-  constructor(private projectService: ProjectService,
+  constructor(public auth: AuthService,
+              private projectService: ProjectService,
               private activityService: ActivityService,
               private route: ActivatedRoute,
               private transactionService: FundService,
               private router: Router,
-              private jobTitleService: JobTitleService, 
-              public auth: AuthService) { }
+              private jobTitleService: JobTitleService) { }
 
 
   ngOnInit(): void {
