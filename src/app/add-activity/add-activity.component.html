@@ -7,14 +7,14 @@
 
       <div class="form-group">
         <label class="required-field" for="name">Name:</label>
-        <input (focusout)="userTouched = true"
+        <input (focusout)="touched = true"
                [(ngModel)]="activity.name"
-               [class.is-invalid]="userTouched && !nameIsValid()"
-               [class.is-valid]="userTouched && nameIsValid()"
+               [class.is-invalid]="touched && !nameIsValid()"
+               [class.is-valid]="touched && nameIsValid()"
                class="form-control" id="name" name="name"
                required type="text">
       </div>
-      <div *ngIf="userTouched && !nameIsValid()" class="alert alert-danger" role="alert">
+      <div *ngIf="touched && !nameIsValid()" class="alert alert-danger" role="alert">
         Activity name is required
       </div>
 
@@ -23,21 +23,26 @@
         <textarea [(ngModel)]="activity.description"
                   class="form-control" id="description" name="description"
                   rows="10" required>
-      </textarea>
+        </textarea>
       </div>
 
       <div class="form-group">
-        <label class="required-field" for="projects">Belongs Projects:</label>
-        <select [(ngModel)]="activity.projectId" id="projects" name="projects" class="form-control">
-          <option value="{{project.id}}" *ngFor="let project of projects">{{project.name}}</option>
+        <label class="required-field" for="projects">Project involving:</label>
+        <select [(ngModel)]="activity.projectId"
+                id="projects" name="projects" class="form-control">
+          <option *ngFor="let project of projects"
+                  value="{{ project.id }}"
+                  [selected]="activity.projectId === project.id">
+            {{ project.name }}
+          </option>
         </select>
       </div>
 
       <div class="text-center">
-        <button (click)="create()" class="btn btn-success m-1">
+        <button (click)="create()" class="btn btn-success m-1" type="button">
           <i class="fas fa-plus"></i> Create
         </button>
-        <button (click)="reset()" class="btn btn-secondary m-1">
+        <button (click)="reset()" class="btn btn-secondary m-1" type="button">
           <i class="fas fa-undo"></i> Reset
         </button>
       </div>

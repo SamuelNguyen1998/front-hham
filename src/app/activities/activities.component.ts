@@ -11,36 +11,38 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class ActivitiesComponent implements OnInit {
   activities: Activity[];
-  activitiesOfUser: Activity[];
-  searchTerm: string;
+  visibleActivities: Activity[];
+  projectId: number;
+  searchTerm = '';
+  errorMessage = '';
 
   constructor(public auth: AuthService,
               private route: ActivatedRoute,
-              private activityService: ActivityService) {}
+              private activityService: ActivityService) {
+    this.projectId = this.route.snapshot.params.projectId;
+  }
 
   ngOnInit(): void {
     this.retrieveActivities();
-    this.getActivityOfUser()
   }
 
   retrieveActivities(): void {
-    this.activityService.getAll().subscribe(
-      response => this.activities = response.data,
-      console.log
-    );
-  }
-
-  getActivityOfUser(): void {
     this.activityService.getAllActivityOfUser(this.auth.user.id).subscribe(
-      response => this.activitiesOfUser = response.data,
-      console.log
+      response => {
+        this.activities = response.data;
+        this.visibleActivities = this.activities;
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
   searchByName(): void {
-    this.activityService.findByName(this.searchTerm).subscribe(
-      data => this.activities = data,
-      console.log
+    if (this.searchTerm === '') {
+      this.visibleActivities = this.activities;
+      return;
+    }
+    this.visibleActivities = this.activities.filter(
+      activity => activity.name.indexOf(this.searchTerm) >= 0
     );
   }
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Constants } from "../Constants";
+import { Option } from "../_models/Option";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class OptionService {
   constructor(private http: HttpClient) {
   }
 
-  get(id): Observable<any> {
+  get(id: number): Observable<any> {
     return this.http.get(`${ Constants.API_BASE }/options/${ id }`);
   }
 
@@ -19,15 +20,15 @@ export class OptionService {
     return this.http.get(`${ Constants.API_BASE }/options?activityId=${ id }`);
   }
 
-  create(data): Observable<any> {
+  create(data: Option): Observable<any> {
     return this.http.post(`${ Constants.API_BASE }/options`, data);
   }
 
-  update(id, data): Observable<any> {
+  update(id: number, data: Option): Observable<any> {
     return this.http.put(`${ Constants.API_BASE }/options/${ id }`, data);
   }
 
-  delete(id): Observable<any> {
+  delete(id: number): Observable<any> {
     return this.http.delete(`${ Constants.API_BASE }/options/${ id }`);
   }
 

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
-import { ActivityService } from '../_services/activity.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ProjectService } from '../_services/project.service';
+
 import { Project } from '../_models/Project';
+import { Activity } from "../_models/Activity";
+import { ProjectService } from '../_services/project.service';
+import { ActivityService } from '../_services/activity.service';
 
 @Component({
   selector: 'app-add-activity',
@@ -11,19 +12,20 @@ import { Project } from '../_models/Project';
   styleUrls: [ './add-activity.component.scss' ]
 })
 export class AddActivityComponent implements OnInit {
-  activity = {
+  activity: Activity = {
     name: '',
     description: '',
-    projectId: this.route.snapshot.params.id,
+    projectId: null,
   };
   errorMessage = '';
-  userTouched = false;
+  touched = false;
   projects: Project[];
 
   constructor(private activityService: ActivityService,
               private projectService: ProjectService,
               private router: Router,
               private route: ActivatedRoute) {
+    this.activity.projectId = this.route.snapshot.params.projectId;
   }
 
   ngOnInit(): void {
@@ -34,12 +36,9 @@ export class AddActivityComponent implements OnInit {
     this.activityService.create(this.activity).subscribe(
       response => {
         // TODO: Flash success message
-        this.router.navigate([ `/activities/${response.id}` ]);
+        this.router.navigate([ `/activities/${ response.data.id }` ]);
       },
-      error => {
-        this.errorMessage = 'Failed creating activity';
-        console.log(error);
-      }
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
@@ -47,15 +46,15 @@ export class AddActivityComponent implements OnInit {
     return this.activity.name.length > 0;
   }
 
-  reset() {
-    this.userTouched = false;
-    this.activity.name = '';
-    this.activity.description = '';
+  reset(): void {
+    this.touched = false;
+    this.activity = { name: '', description: '' };
   }
+
   loadProjects(): void {
     this.projectService.getAll().subscribe(
       response => this.projects = response.data,
-      console.log
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Constants } from '../Constants';
+import { Activity } from "../_models/Activity";
 
 @Injectable({
   providedIn: 'root'
@@ -15,26 +16,28 @@ export class ActivityService {
     return this.http.get(`${ Constants.API_BASE }/activities`);
   }
 
-  get(id): Observable<any> {
+  get(id: number): Observable<any> {
     return this.http.get(`${ Constants.API_BASE }/activities/${ id }`);
   }
 
-  create(data): Observable<any> {
-    return this.http.post(`${ Constants.API_BASE }/activities`, data);
+  create(data: Activity): Observable<any> {
+    const query = data.projectId ? `?projectId=${ data.projectId }` : '';
+    return this.http.post(`${ Constants.API_BASE }/activities${ query }`, data);
   }
 
-  update(id, data): Observable<any> {
+  update(id: number, data): Observable<any> {
     return this.http.put(`${ Constants.API_BASE }/activities/${ id }`, data);
   }
 
-  archive(id): Observable<any> {
+  archive(id: number): Observable<any> {
     return this.http.delete(`${ Constants.API_BASE }/activities/${ id }`);
   }
-  finish(id): Observable<any> {
-    return this.http.post(`${Constants.API_BASE}/activities/${id}/finish`,id);
+
+  finish(id: number): Observable<any> {
+    return this.http.post(`${ Constants.API_BASE }/activities/${ id }/finish`, id);
   }
 
-  findByName(name): Observable<any> {
+  findByName(name: string): Observable<any> {
     return this.http.get(`${ Constants.API_BASE }/activities?name=${ name }`);
   }
 

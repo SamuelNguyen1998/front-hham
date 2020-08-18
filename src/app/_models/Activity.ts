@@ -1,9 +1,9 @@
 export class Activity {
-  id: number;
+  id?: number;
   projectId?: number;
   name: string;
   description: string;
-  createdOn: Date;
+  createdOn?: Date;
   lockedOn?: Date;
   archivedOn?: Date;
 }

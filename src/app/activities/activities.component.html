@@ -11,35 +11,22 @@
     <form class="col-md-8 ml-auto mb-3 form-inline">
       <div class="btn-group ml-auto searchBox">
         <input [(ngModel)]="searchTerm"
+               (change)="searchByName()"
                class="form-control ml-auto" name="searchTerm"
                placeholder="Search by name..." type="text">
-        <button class="btn btn-secondary" (click)="searchByName()">
+        <button class="btn btn-secondary" (click)="searchByName()" type="button">
           <i class="fas fa-search"></i>
         </button>
       </div>
     </form>
   </div>
-  <div *ngIf="auth.user.admin">
-    <div *ngFor="let activity of activities" class="col-12 card">
-      <div class="card-body">
-        <h4 class="card-title">
-          <a routerLink="/activities/{{ activity.id }}">{{ activity.name }}</a>
-        </h4>
-        <p class="card-text">{{ activity.description }}</p>
-        <p class="card-text text-muted">{{ activity.createdOn | date: 'full' }}</p> 
-      </div>
-    </div>
-  </div>
-  
-  <div *ngIf="!auth.user.admin">
-    <div *ngFor="let activity of activitiesOfUser" class="col-12 card">
-      <div class="card-body">
-        <h4 class="card-title">
-          <a routerLink="/activities/{{ activity.id }}">{{ activity.name }}</a>
-        </h4>
-        <p class="card-text">{{ activity.description }}</p>
-        <p class="card-text text-muted">{{ activity.createdOn | date: 'full' }}</p>
-      </div>
+  <div *ngFor="let activity of visibleActivities" class="col-12 card">
+    <div class="card-body">
+      <h4 class="card-title">
+        <a routerLink="/activities/{{ activity.id }}">{{ activity.name }}</a>
+      </h4>
+      <p class="card-text">{{ activity.description }}</p>
+      <p class="card-text text-muted">{{ activity.createdOn | date: 'medium' }}</p>
     </div>
   </div>
 </div>
