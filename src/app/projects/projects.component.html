@@ -1,6 +1,18 @@
 <div class="container pt-5">
-  <h1 class="pb-3">Project management</h1>
-  <div class="row">
+  <!-- Content for empty case -->
+  <div *ngIf="auth.user.admin && projects?.length == 0" class="text-center">
+    <h4 class="py-5">No active project at the moment, let's create a new one.</h4>
+    <a class="btn btn-lg btn-success" routerLink="/projects/add">
+      <i class="fas fa-plus"></i> Create new project
+    </a>
+  </div>
+  <div *ngIf="!auth.user.admin && projects?.length == 0" class="text-center">
+    <h4 class="py-5">You are not in any active project, ask the project admin to add you to their project</h4>
+  </div>
+
+  <!-- Content for regular case -->
+  <h1 *ngIf="projects?.length > 0" class="pb-3">Project Management</h1>
+  <div *ngIf="projects?.length > 0" class="row">
     <div class="col-md-4 mb-3" *ngIf="auth.user.admin">
       <a class="btn btn-success" routerLink="/projects/add">
         <i class="fas fa-plus"></i> Create new project

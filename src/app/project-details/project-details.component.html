@@ -55,9 +55,6 @@
             cols="80" rows="10">
   </textarea>
 
-  
-  <p><a routerLink="/funds">TODO: Make this a link to Fund Management page</a></p>
-
   <div *ngIf="isInEditMode" class="dropdown">
     <button aria-expanded="false"
             aria-haspopup="true"
@@ -197,12 +194,11 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Deactivate user account</h4>
+        <h4 class="modal-title">Archive project</h4>
       </div>
 
       <div class="modal-body">
-        Password of the deactivated account will be cleared and that user cannot anymore,
-        please confirm your intention.
+        Archived project will no longer be editable, do you want to archive this project?
       </div>
 
       <div class="modal-footer">
