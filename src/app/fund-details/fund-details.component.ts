@@ -41,7 +41,7 @@ export class FundDetailsComponent implements OnInit {
         this.loadActivities();
         this.loadMembers();
         this.loadTransaction();
-        console.log(response);
+ 
        
       }  
     )
@@ -58,7 +58,6 @@ export class FundDetailsComponent implements OnInit {
     this.projectService.getMember(this.currentProject.id).subscribe(
       response => {
         this.members = response.data;
-        console.log(response);
       }
     )
   }
@@ -72,6 +71,7 @@ export class FundDetailsComponent implements OnInit {
     this.transactionService.getTransaction(this.currentProject.id).subscribe(
       response => {
         this.transactions = response.data;
+        console.log(response);
       },
       error => console.log(error)
     );
@@ -90,7 +90,6 @@ export class FundDetailsComponent implements OnInit {
         };
         this.transactionService.create(data).subscribe(
           response => {
-            console.log(response);
             this.router.navigate([`/funds/${this.currentProject.id}`]);
           },
         );
