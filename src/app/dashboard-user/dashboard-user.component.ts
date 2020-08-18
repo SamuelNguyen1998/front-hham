@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import { Activity } from "../_models/Activity";
 import { ActivityService } from '../_services/activity.service';
 import { AuthService } from '../_services/auth.service';
-
 
 @Component({
   selector: 'app-dashboard-user',
@@ -38,6 +38,4 @@ export class DashboardUserComponent implements OnInit {
       console.log
     );
   }
-
-  
 }

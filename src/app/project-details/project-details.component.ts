@@ -43,7 +43,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   get admins(): User[] {
-    return this.members.filter(member => member.admin);
+    return this.members?.filter(member => member.admin);
   }
 
   get usersNotInProject(): User[] {

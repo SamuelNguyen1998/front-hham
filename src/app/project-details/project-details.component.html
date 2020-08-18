@@ -67,7 +67,8 @@
       Add Admin
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownAdminList">
-      <button class="dropdown-item" *ngFor="let member of members"
+      <button class="dropdown-item"
+              *ngFor="let member of members"
               (click)="addAdmin(member.id)">{{ member.displayName }}</button>
     </div>
   </div>
