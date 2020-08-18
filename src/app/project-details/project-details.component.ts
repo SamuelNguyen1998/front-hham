@@ -65,6 +65,13 @@ export class ProjectDetailsComponent implements OnInit {
     );
   }
 
+  loadAdmins(): void {
+    this.projectService.getAdmins(this.id).subscribe(
+      response => this.admins = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
+    );
+  }
+
   loadAllUsers(): void {
     this.userService.getAll().subscribe(
       response => this.users = response.data,
@@ -88,6 +95,27 @@ export class ProjectDetailsComponent implements OnInit {
         this.successMessage = 'The Member was removed successfully!';
         this.members = this.members.filter(member => member.id === id);
         this.loadMembers();
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
+  }
+
+  addAdmin(id: number): void {
+    this.projectService.addAdmin(this.project.id, id).subscribe(
+      response => {
+        this.successMessage = 'The Admin was added successfully!';
+        this.loadAdmins();
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
+  }
+
+  removeAdmin(id: number): void {
+    this.projectService.removeAdmin(this.project.id, id).subscribe(
+      response => {
+        this.successMessage = 'The Member was removed successfully!';
+        this.admins = this.admins.filter(admin => admin.id === id);
+        this.loadAdmins();
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
@@ -145,33 +173,5 @@ export class ProjectDetailsComponent implements OnInit {
   updateActivityListState(): void {
     const classes = document.getElementById('activityList').classList;
     this.isActivityListExpanded = !classes.contains('show');
-  }
-
-  addAdmin(id: number): void {
-    this.projectService.addAdmin(this.project.id, id).subscribe(
-      response => {
-        this.successMessage = 'The Admin was added successfully!';
-        this.loadAdmins();
-      },
-      errorResponse => this.errorMessage = errorResponse.error.message
-    );
-  }
-
-  loadAdmins(): void {
-    this.projectService.getAdmin(this.id).subscribe(
-      response => this.admins = response.data,
-      errorResponse => this.errorMessage = errorResponse.error.message,
-    );
-  }
-
-  removeAdmin(id: number): void {
-    this.projectService.removeAdmin(this.project.id, id).subscribe(
-      response => {
-        this.successMessage = 'The Member was removed successfully!';
-        this.admins = this.admins.filter(admin => admin.id === id);
-        this.loadAdmins();
-      },
-      errorResponse => this.errorMessage = errorResponse.error.message
-    );
   }
 }
