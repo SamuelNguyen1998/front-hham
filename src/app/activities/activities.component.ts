@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Project } from '../_models/Project';
 import { Activity } from '../_models/Activity';
 import { AuthService } from '../_services/auth.service';
-import { ProjectService } from '../_services/project.service';
 import { ActivityService } from '../_services/activity.service';
 import { ActivatedRoute } from "@angular/router";
 
@@ -13,19 +11,16 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class ActivitiesComponent implements OnInit {
   activities: Activity[];
-  projects: Project[];
+  activitiesOfUser: Activity[];
   searchTerm: string;
-  projectId: number;
 
   constructor(public auth: AuthService,
               private route: ActivatedRoute,
-              private activityService: ActivityService,
-              private projectService: ProjectService) {
-    this.projectId = this.route.snapshot.params.projectId;
-  }
+              private activityService: ActivityService) {}
 
   ngOnInit(): void {
     this.retrieveActivities();
+    this.getActivityOfUser()
   }
 
   retrieveActivities(): void {
@@ -36,14 +31,10 @@ export class ActivitiesComponent implements OnInit {
   }
 
   getActivityOfUser(): void {
-    this.projectService.getAllProjectOfUser(this.auth.user.id).subscribe(
-      response => this.projects = response.data,
+    this.activityService.getAllActivityOfUser(this.auth.user.id).subscribe(
+      response => this.activitiesOfUser = response.data,
+      console.log
     );
-    for (const p of this.projects) {
-      this.activityService.findAllInProject(p.id).subscribe(
-        response => this.activities = response.data,
-      );
-    }
   }
 
   searchByName(): void {

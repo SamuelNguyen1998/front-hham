@@ -19,14 +19,27 @@
       </div>
     </form>
   </div>
-  <div *ngFor="let activity of activities" class="col-12 card">
-    <div class="card-body">
-      <h4 class="card-title">
-        <a routerLink="/activities/{{ activity.id }}">{{ activity.name }}</a>
-      </h4>
-      <p class="card-text">{{ activity.description }}</p>
-      <p class="card-text text-muted">{{ activity.createdOn | date: 'full' }}</p>
-
+  <div *ngIf="auth.user.admin">
+    <div *ngFor="let activity of activities" class="col-12 card">
+      <div class="card-body">
+        <h4 class="card-title">
+          <a routerLink="/activities/{{ activity.id }}">{{ activity.name }}</a>
+        </h4>
+        <p class="card-text">{{ activity.description }}</p>
+        <p class="card-text text-muted">{{ activity.createdOn | date: 'full' }}</p> 
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="!auth.user.admin">
+    <div *ngFor="let activity of activitiesOfUser" class="col-12 card">
+      <div class="card-body">
+        <h4 class="card-title">
+          <a routerLink="/activities/{{ activity.id }}">{{ activity.name }}</a>
+        </h4>
+        <p class="card-text">{{ activity.description }}</p>
+        <p class="card-text text-muted">{{ activity.createdOn | date: 'full' }}</p>
+      </div>
     </div>
   </div>
 </div>

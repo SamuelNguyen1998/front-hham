@@ -12,7 +12,7 @@
       </div>
     </form>
   </div>
-  <div *ngFor="let activity of activities" class="col-12 card">
+  <div *ngFor="let activity of activityHaveOpen" class="col-12 card">
     <div class="card-body">
       <h4 class="card-title">
         <a routerLink="/activities/{{ activity.id }}">{{ activity.name }}</a>
