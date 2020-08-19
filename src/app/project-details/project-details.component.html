@@ -88,7 +88,7 @@
             </div>
           </div>
         </li>
-        <li class="list-group-item text-center">
+        <li *ngIf="auth.user.admin" class="list-group-item text-center">
           <a (click)="idOfTheSelectedMemberToPromote= null"
              class="bg-light"
              data-target="#selectMemberToPromoteToAdminDialog"
@@ -134,7 +134,7 @@
             </div>
           </div>
         </li>
-        <li class="list-group-item text-center">
+        <li *ngIf="auth.user.admin" class="list-group-item text-center">
           <a (click)="idOfTheSelectedUserToAddToProject = null"
              class="bg-light"
              data-target="#selectUserToAddToProjectDialog"
@@ -180,7 +180,7 @@
     </div>
   </div>
 
-  <a class="btn btn-info" routerLink="/activities/add/{{ project?.id }}">
+  <a *ngIf="auth.user.admin" class="btn btn-info" routerLink="/activities/add/{{ project?.id }}">
     Add Activity
   </a>
 </div>
