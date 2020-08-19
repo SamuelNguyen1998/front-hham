@@ -208,4 +208,8 @@ export class ProjectDetailsComponent implements OnInit {
       this.idOfTheSelectedUserToAddToProject = +event.target.value;
     }
   }
+
+  currentUserIsProjectAdmin(): boolean {
+    return !!this.admins?.find(admin => admin.id === this.auth.user.id);
+  }
 }

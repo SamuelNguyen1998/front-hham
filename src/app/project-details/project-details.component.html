@@ -180,7 +180,7 @@
     </div>
   </div>
 
-  <a *ngIf="auth.user.admin" class="btn btn-info" routerLink="/activities/add/{{ project?.id }}">
+  <a *ngIf="currentUserIsProjectAdmin()" class="btn btn-info" routerLink="/activities/add/{{ project?.id }}">
     Add Activity
   </a>
 </div>

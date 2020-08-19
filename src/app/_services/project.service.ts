@@ -18,6 +18,10 @@ export class ProjectService {
     return this.http.get(`${ Constants.API_BASE }/projects?userId=${ this.auth.user.id }`);
   }
 
+  getAllAdministering(): Observable<any> {
+    return this.http.get(`${ Constants.API_BASE }/projects?userId=${ this.auth.user.id }&admin`);
+  }
+
   get(id: number): Observable<any> {
     return this.http.get(`${ Constants.API_BASE }/projects/${ id }`);
   }
