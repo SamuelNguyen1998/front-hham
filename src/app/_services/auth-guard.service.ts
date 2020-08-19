@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from "@angular/router";
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
 import { AuthService } from "./auth.service";
 
 @Injectable({
@@ -10,9 +10,10 @@ export class AuthGuard implements CanActivate {
               private router: Router) {
   }
 
-  canActivate(): boolean {
+  // route is unused but required to override
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (!this.auth.loggedIn) {
-      this.router.navigate([ '/login' ]);
+      this.router.navigate([ 'login' ], { queryParams: { returnUrl: state.url } });
       return false;
     }
     return true;

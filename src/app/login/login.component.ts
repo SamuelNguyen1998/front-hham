@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../_services/auth.service';
 import { LoginRequest } from "../_models/LoginRequest";
@@ -17,14 +17,21 @@ export class LoginComponent implements OnInit {
   };
   touched = { username: false, password: false };
   errorMessage: string;
+  private returnUrl: string;
 
   constructor(private auth: AuthService,
+              private route: ActivatedRoute,
               private router: Router) {
   }
 
   ngOnInit(): void {
     if (this.auth.loggedIn) {
       this.router.navigate([ "/" ]);
+    } else {
+      this.returnUrl = this.route.snapshot.queryParams.returnUrl;
+      if (!this.returnUrl) {
+        this.returnUrl = "/";
+      }
     }
   }
 
@@ -35,7 +42,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.auth.login(this.loginRequest)
-      .then(() => this.router.navigate([ '/' ]))
+      .then(() => this.router.navigate([ this.returnUrl ]))
       .catch(errorResponse => this.errorMessage = errorResponse.error.message);
   }
 
