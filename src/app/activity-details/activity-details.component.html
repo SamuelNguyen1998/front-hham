@@ -57,7 +57,7 @@
       <button (click)="sendNotificationEmails()"
               *ngIf="!isActivityLocked()"
               class="btn btn-secondary"
-              title="Send notification emails to members">
+              title="Send notification emails">
         <i class="fas fa-mail-bulk"></i> Notify
       </button>
     </div>
@@ -272,6 +272,25 @@
           Delete the option
         </button>
         <button class="btn btn-secondary" data-dismiss="modal">No, do not delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div aria-hidden="true" class="modal fade" id="notificationEmailRecipientsDialog" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Notify project members</h4>
+      </div>
+      <div class="modal-body">
+        Notification email about this activity has been sent to the following addresses:
+        <ul>
+          <li *ngFor="let recipient of notificationRecipients">{{ recipient }}</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>

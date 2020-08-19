@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Option } from '../_models/Option';
 import { Activity } from '../_models/Activity';
@@ -6,7 +6,8 @@ import { AuthService } from '../_services/auth.service';
 import { OptionService } from '../_services/option.service';
 import { ActivityService } from '../_services/activity.service';
 import { Vote } from "../_models/Vote";
-import { HttpErrorResponse } from "@angular/common/http";
+
+declare var jQuery: any;
 
 @Component({
   selector: 'app-activity-details',
@@ -33,6 +34,7 @@ export class ActivityDetailsComponent implements OnInit {
   notes = {};
   touched = { name: false, price: false };
   editTouched = { name: false, price: false };
+  notificationRecipients: string[] = null;
 
   createEmptyOption(): Option {
     return {
@@ -235,7 +237,13 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   sendNotificationEmails(): void {
-    // TODO: Write this
+    this.activityService.notify(this.activity.id).subscribe(
+      response => {
+        this.notificationRecipients = response.data;
+        jQuery('#notificationEmailRecipientsDialog').modal('show');
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
   }
 
   isOptionEditing(id: number): boolean {

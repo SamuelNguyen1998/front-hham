@@ -56,4 +56,8 @@ export class ActivityService {
   getAllActivityOfUser(id: number): Observable<any> {
     return this.http.get(`${ Constants.API_BASE }/activities?userId=${ id }`);
   }
+
+  notify(id: number): Observable<any> {
+    return this.http.post(`${ Constants.API_BASE }/activities/${ id }/notify`, {});
+  }
 }
