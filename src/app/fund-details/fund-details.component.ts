@@ -30,6 +30,8 @@ export class FundDetailsComponent implements OnInit {
   transaction: Transaction;
   transactions: Transaction[];
   errorMessage = '';
+  sum: number = 0;
+  type: number = 1;
 
   constructor(public auth: AuthService,
               private projectService: ProjectService,
@@ -91,16 +93,24 @@ export class FundDetailsComponent implements OnInit {
           amount: Number(inputElems[i].getAttribute("value")),
           typeId: 1
         };
+        this.sum += data.amount;
         this.transactionService.create(data).subscribe(
           response => {
             this.router.navigate([`/funds/${this.currentProject.id}`]);
-
           },
         );
       }
-
     }
-    window.location.reload();
+    const data = {
+      id: this.currentProject.funds[0].id,
+      amount: this.sum,
+    };
+    this.transactionService.calc(this.type,data).subscribe(
+      response => {
+        this.router.navigate([`/funds/${this.currentProject.id}`]);
+      },
+    );
+    this.sum = 0;
   }
 
   remind(): void {

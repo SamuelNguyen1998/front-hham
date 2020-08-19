@@ -30,6 +30,10 @@ export class FundService {
     return this.http.post(`${ Constants.API_BASE }/transactions`, data);
   }
 
+  calc(id,data): Observable<any> {
+    return this.http.put(`${ Constants.API_BASE }/transactions/calc/${id}`, data);
+  }
+
   remind(data): Observable<any> {
     return this.http.post(`${ Constants.API_BASE }/transactions/remind`, data);
   }
