@@ -45,7 +45,7 @@ const routes: Routes = [
   { path: 'profile/:username', component: UserProfileComponent, canActivate: [ AuthGuard ] },
 
   { path: '404', component: NotFoundComponent },
-  { path: '*', redirectTo: '404' },
+  { path: '**', redirectTo: '404' },
 ];
 
 @NgModule({
