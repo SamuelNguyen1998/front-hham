@@ -27,6 +27,7 @@ export class UsersComponent implements OnInit {
   };
   jobTitles: JobTitle[];
   touched = { username: false, email: false };
+  userSelectedToDeactivate: User;
 
   constructor(public auth: AuthService,
               private userService: UserService,
@@ -69,11 +70,11 @@ export class UsersComponent implements OnInit {
   }
 
   confirmDeactivate(id: number): void {
-    this.idOfTheUserToDeactivate = id;
+    this.userSelectedToDeactivate = this.users.find(user => user.id === id);
   }
 
   deactivate(): void {
-    this.userService.deactivate(this.idOfTheUserToDeactivate).subscribe(
+    this.userService.deactivate(this.userSelectedToDeactivate.id).subscribe(
       response => {
         this.users = this.users.filter(user => user.id !== response.data.id);
         // Trigger this to update the list of visible users
@@ -82,9 +83,7 @@ export class UsersComponent implements OnInit {
         // Trigger footer repositioning
         document.body.dispatchEvent(new Event('resize'));
       },
-      errorResponse => {
-        this.errorMessage = errorResponse.error.message;
-      }
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 

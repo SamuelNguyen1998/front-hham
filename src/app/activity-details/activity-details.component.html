@@ -1,4 +1,7 @@
 <main class="container pt-5" role="main">
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="alert alert-success" role="alert">{{ successMessage }}</div>
+
   <div class="row">
     <h1 *ngIf="!isInActivityEditMode" class="col-md-8 pb-3">{{ activity.name }}</h1>
     <form *ngIf="isInActivityEditMode" class="col-md-8">
@@ -7,38 +10,57 @@
 
     <div class="col-md-4 text-right" *ngIf="auth.user.admin">
       <button (click)="enterActivityEditMode()"
-              *ngIf="!isInActivityEditMode"
+              *ngIf="!isActivityLocked() && !isInActivityEditMode"
               class="btn btn-info height-limited-button mr-2"
               type="button">
         <i class="fas fa-pen"></i> Edit
       </button>
-      <button (click)="archive()"
-              *ngIf="!isInActivityEditMode"
-              class="btn btn-danger height-limited-button mr-2"
-              type="button">
-        <i class="fas fa-archive"></i> Archive
+      <button (click)="saveActivityEdit()"
+              *ngIf="isInActivityEditMode"
+              class="btn btn-primary height-limited-button mr-2">
+        <i class="fas fa-save"></i> Save
       </button>
-      <button (click)="finishActivity()" class="btn btn-info height-limited-button mr-2" type="button">
-        Finish
-      </button>
-      <button (click)="lockActivity()"
-              *ngIf="!activity.lockedOn"
-              class="btn btn-info height-limited-button mr-2"
-              type="button">
-        Lock
-      </button>
-
-
-      <button (click)="saveActivityEdit()" *ngIf="isInActivityEditMode"
-              class="btn btn-primary height-limited-button mr-3">
-        <i class="fas fa-pen"></i> Save
-      </button>
-      <button (click)="cancelActivityEdit()" *ngIf="isInActivityEditMode"
-              class="btn btn-secondary height-limited-button">
+      <button (click)="cancelActivityEdit()"
+              *ngIf="isInActivityEditMode"
+              class="btn btn-secondary height-limited-button mr-2">
         <i class="fas fa-times-circle"></i> Cancel
       </button>
-    </div>
 
+      <button (click)="finishActivity()"
+              *ngIf="isActivityLocked()"
+              class="btn btn-primary height-limited-button mr-2"
+              type="button">
+        <i class="fas fa-check"></i> Finish
+      </button>
+      <button (click)="cancel()"
+              *ngIf="isActivityLocked()"
+              class="btn btn-danger height-limited-button mr-2"
+              type="button">
+        <i class="fas fa-times-circle"></i> Cancel
+      </button>
+
+      <button (click)="lockActivity()"
+              *ngIf="!isInActivityEditMode && !isActivityLocked()"
+              class="btn btn-primary height-limited-button mr-2"
+              title="Stop receiving voting on this activity"
+              type="button">
+        <i class="fas fa-lock"></i> Lock
+      </button>
+      <button (click)="unlockActivity()"
+              *ngIf="!isInActivityEditMode && isActivityLocked()"
+              class="btn btn-secondary height-limited-button mr-2"
+              title="Resume voting on this activity"
+              type="button">
+        <i class="fas fa-lock-open"></i> Unlock
+      </button>
+
+      <button (click)="sendNotificationEmails()"
+              *ngIf="!isActivityLocked()"
+              class="btn btn-secondary"
+              title="Send notification emails to members">
+        <i class="fas fa-mail-bulk"></i> Notify
+      </button>
+    </div>
   </div>
 
   <div class="text-muted">Created on {{ activity.createdOn | date: 'medium' }}</div>
@@ -58,26 +80,43 @@
     <div *ngFor="let option of options" class="col mb-4">
       <div class="card h-100">
         <div class="card-header">
-          <h4 *ngIf="!isInOptionEditMode || option.id !== idOfTheOptionEditing"
+          <h4 *ngIf="!isOptionEditing(option.id)"
               class="card-title">
             {{ option.name }}
           </h4>
-          <input *ngIf="isInOptionEditMode && option.id === idOfTheOptionEditing"
-                 [(ngModel)]="updatedOption.name"
+          <input (focusout)="editTouched.name = true"
+                 *ngIf="isOptionEditing(option.id)"
+                 [(ngModel)]="editingOptions[option.id].name"
+                 [class.is-invalid]="editTouched.name && !isValidOptionName(editingOptions[option.id])"
+                 [class.is-valid]="editTouched.name && isValidOptionName(editingOptions[option.id])"
                  class="form-control" name="optionName"
                  type="text">
-          <div *ngIf="!isInOptionEditMode || option.id !== idOfTheOptionEditing"
+          <div *ngIf="isEmptyOptionNameInEdit(option)"
+               class="alert alert-danger mt-2" role="alert">
+            Option name must not be empty
+          </div>
+          <div
+            *ngIf="isDuplicatedOptionNameInEdit(option)"
+            class="alert alert-danger mt-2" role="alert">
+            Another option with this name already exists
+          </div>
+
+          <div *ngIf="!isOptionEditing(option.id)"
                class="card-text text-muted">
-            <!-- TODO: Generalize currency -->
             {{ option.price | number }} VND
           </div>
-          <div *ngIf="isInOptionEditMode && option.id === idOfTheOptionEditing" class="input-group">
-            <input [(ngModel)]="updatedOption.price"
+          <div *ngIf="isOptionEditing(option.id)" class="input-group">
+            <input (focusout)="editTouched.price = true"
+                   [(ngModel)]="editingOptions[option.id].price"
                    class="form-control" name="optionPrice"
                    type="number">
             <div class="input-group-append">
               <span class="input-group-text">VND</span>
             </div>
+          </div>
+          <div *ngIf="editTouched.price && !isValidOptionPrice(editingOptions[option.id]?.price)"
+               class="alert alert-danger" role="alert">
+            Price must be 500 or more
           </div>
         </div>
 
@@ -92,14 +131,14 @@
             <!-- TODO: This group is ugly on small screen, redesign needed -->
             <div *ngIf="auth.user.admin">
               <button (click)="beginEditOption(option.id)"
-                      *ngIf="!isInOptionEditMode || option.id !== idOfTheOptionEditing"
+                      *ngIf="!isOptionEditing(option.id)"
                       class="btn btn-info m-1"
-                      title="Edit"
+                      title="Edit activity information"
                       type="button">
                 <i class="fas fa-pen"></i> Edit
               </button>
-              <button (click)="captureOptionIdForDeletion(option.id)"
-                      *ngIf="!isInOptionEditMode || option.id !== idOfTheOptionEditing"
+              <button (click)="captureOptionToDelete(option.id)"
+                      *ngIf="!isOptionEditing(option.id)"
                       class="btn btn-danger m-1"
                       title="Delete"
                       data-toggle="modal"
@@ -108,14 +147,14 @@
                 <i class="fas fa-trash"></i> Delete
               </button>
               <button (click)="finishEditOption(option.id)"
-                      *ngIf="isInOptionEditMode && option.id === idOfTheOptionEditing"
+                      *ngIf="isOptionEditing(option.id)"
                       class="btn btn-success m-1"
                       title="Save"
                       type="button">
                 <i class="fas fa-check"></i> Save
               </button>
               <button (click)="cancelEditOption()"
-                      *ngIf="isInOptionEditMode && option.id === idOfTheOptionEditing"
+                      *ngIf="isOptionEditing(option.id)"
                       class="btn btn-secondary m-1"
                       title="Cancel"
                       type="button">
@@ -127,26 +166,26 @@
               <textarea [(ngModel)]="notes[option.id]"
                         *ngIf="!activity.lockedOn && !voted(option.id)"
                         class="form-control" name="note"
-                        placeholder="Write a note for the project manager about your vote"
+                        placeholder="Write a note for the project admin about your vote"
                         rows="3">
               </textarea>
               <textarea *ngIf="voted(option.id)"
                         class="form-control" name="noteVoted"
-                        placeholder="You didn't leave a note when you voted this option"
                         disabled rows="3">{{ voteMadeInThisActivity.note }}</textarea>
               <div class="mt-3">
                 <button (click)="vote(option.id)"
                         *ngIf="!activity.lockedOn && !voted(option.id)"
-                        class="btn btn-primary"
-                        type="button">
+                        class="btn btn-primary" type="button">
                   Vote
                 </button>
                 <span *ngIf="activity.lockedOn && !voted(option.id)" class="text-danger m-1">
                   Voting has been disabled.
                 </span>
-                <span *ngIf="voted(option.id)" class="text-success m-1">
-                  You voted this
-                </span>
+                <button (click)="withdrawVote(option.id)"
+                        *ngIf="voted(option.id)"
+                        class="btn btn-danger m-1" type="button">
+                  Withdraw your vote
+                </button>
               </div>
             </div>
           </div>
@@ -155,28 +194,46 @@
       </div>
     </div>
 
-    <!-- TODO: Use real state for this card -->
-    <!-- TODO: Add validation -->
     <div class="col mb-4 collapse" [class.collapse]="!isAddOptionFormVisible">
       <form *ngIf="true" class="card h-100">
         <div class="card-header">
-          <input [(ngModel)]="newOption.name"
+          <input (focusout)="touched.name = true"
+                 [(ngModel)]="newOption.name"
+                 [class.is-invalid]="touched.name && !isValidOptionName(newOption)"
+                 [class.is-valid]="touched.name && isValidOptionName(newOption)"
                  class="form-control" name="optionName"
                  placeholder="Name..."
                  type="text">
+          <div *ngIf="touched.name && isEmptyOptionName(newOption.name)"
+               class="alert alert-danger mt-2" role="alert">
+            Option name must not be empty
+          </div>
+          <div *ngIf="touched.name && isDuplicatedOptionName(newOption)"
+               class="alert alert-danger mt-2" role="alert">
+            Another option with this name already exists
+          </div>
+
           <div class="input-group">
-            <input [(ngModel)]="newOption.price"
-                   class="form-control" name="optionPrice"
-                   min="0" type="number">
+            <input (focusout)="touched.price = true"
+                   [(ngModel)]="newOption.price"
+                   [class.is-invalid]="touched.price && !isValidOptionPrice(newOption.price)"
+                   [class.is-valid]="touched.price && isValidOptionPrice(newOption.price)"
+                   class="form-control" min="500"
+                   name="optionPrice" step="500" type="number">
             <div class="input-group-append">
               <div class="input-group-text">VND</div>
             </div>
           </div>
+          <div *ngIf="touched.price && !isValidOptionPrice(newOption.price)"
+               class="alert alert-danger mt-2" role="alert">
+            Price must be 500 or more
+          </div>
         </div>
+
         <div class="card-body"></div>
         <div class="card-footer">
           <div class="text-center">
-            <button (click)="finishAddOption()" class="btn btn-primary m-1">
+            <button (click)="finishAddOption($event)" class="btn btn-primary m-1">
               <i class="fas fa-plus"></i> Create
             </button>
             <button (click)="cancelAddOption()" class="btn btn-secondary m-1">
@@ -187,7 +244,7 @@
       </form>
     </div>
 
-    <div *ngIf="auth.user.admin" class="col mb-4">
+    <div *ngIf="auth.user.admin && !isAddOptionFormVisible" class="col mb-4">
       <div class="card h-100">
         <button (click)="showAddOptionForm()" class="button-add-option h-100" title="Add option">
             <span class="icon-wrapper">
@@ -208,7 +265,7 @@
         <h4 class="modal-title">Delete option</h4>
       </div>
       <div class="modal-body">
-        This operation is unrecoverable, please confirm your intention.
+        Do you want to delete option {{ this.optionSelectedToDelete?.name }}
       </div>
       <div class="modal-footer">
         <button (click)="deleteOption()" class="btn btn-danger" data-dismiss="modal">

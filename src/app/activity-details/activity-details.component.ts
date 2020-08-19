@@ -6,6 +6,7 @@ import { AuthService } from '../_services/auth.service';
 import { OptionService } from '../_services/option.service';
 import { ActivityService } from '../_services/activity.service';
 import { Vote } from "../_models/Vote";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: 'app-activity-details',
@@ -20,24 +21,25 @@ export class ActivityDetailsComponent implements OnInit {
   newActivity: Activity;
   options: Option[];
   newOption: Option = this.createEmptyOption();
-  updatedOption: Option = this.createEmptyOption();
+  editingOptions: { [key: number]: Option } = {};
   errorMessage = '';
   successMessage = '';
   isInActivityEditMode = false;
   isAddOptionFormVisible = false;
   isInOptionEditMode = false;
-  idOfTheOptionToDelete: number;
   idOfTheOptionEditing: number;
   voteMadeInThisActivity: Vote;
-  votedOptionId: number;
+  optionSelectedToDelete: Option;
   notes = {};
+  touched = { name: false, price: false };
+  editTouched = { name: false, price: false };
 
   createEmptyOption(): Option {
     return {
       activityId: this.activity.id,
       name: '',
       image: '',
-      price: 0,
+      price: 500,
     };
   }
 
@@ -76,14 +78,17 @@ export class ActivityDetailsComponent implements OnInit {
     this.optionService.findOptions(activityId).subscribe(
       response => {
         this.options = response.data;
-        this.options.forEach(option => this.notes[option.id] = '');
+        this.options.forEach(option => {
+          this.notes[option.id] = '';
+          this.editingOptions[option.id] = { ...option };
+        });
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
-  archive(): void {
-    this.activityService.archive(this.activity.id).subscribe(
+  cancel(): void {
+    this.activityService.cancel(this.activity.id).subscribe(
       () => this.router.navigate([ '/activities' ]),
       errorResponse => this.errorMessage = errorResponse.error.message
     );
@@ -103,7 +108,7 @@ export class ActivityDetailsComponent implements OnInit {
   saveActivityEdit(): void {
     this.activityService.update(this.newActivity.id, this.newActivity).subscribe(
       response => {
-        this.activity = this.newActivity;
+        this.activity = response.data;
         this.successMessage = 'The activity was updated successfully!';
         this.isInActivityEditMode = false;
       },
@@ -117,16 +122,16 @@ export class ActivityDetailsComponent implements OnInit {
 
 
   beginEditOption(id: number): void {
-    this.updatedOption = { ...this.options.find(element => element.id === id) };
     this.isInOptionEditMode = true;
     this.idOfTheOptionEditing = id;
+    this.editTouched = { name: false, price: false };
   }
 
-  finishEditOption(id: number): void {
-    this.optionService.update(id, this.updatedOption).subscribe(
-      () => {
-        const index = this.options.findIndex(element => element.id === id);
-        this.options[index] = { ...this.updatedOption };
+  finishEditOption(id): void {
+    this.optionService.update(this.editingOptions[id]).subscribe(
+      response => {
+        const index = this.options.findIndex(element => element.id === response.data.id);
+        this.options[index] = response.data;
         this.isInOptionEditMode = false;
       },
       errorResponse => this.errorMessage = errorResponse.error.message
@@ -137,15 +142,15 @@ export class ActivityDetailsComponent implements OnInit {
     this.isInOptionEditMode = false;
   }
 
-  captureOptionIdForDeletion(id: number): void {
-    this.idOfTheOptionToDelete = id;
+  captureOptionToDelete(id: number): void {
+    this.optionSelectedToDelete = this.options.find(option => option.id === id);
   }
 
   deleteOption(): void {
-    this.optionService.delete(this.idOfTheOptionToDelete).subscribe(
+    this.optionService.delete(this.optionSelectedToDelete.id).subscribe(
       response => {
         this.options = this.options.filter(option => option.id !== response.data.id);
-        this.successMessage = 'Successfully deleted option ${response.data.name}';
+        this.successMessage = `Successfully deleted option ${ response.data.name }`;
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
@@ -161,9 +166,32 @@ export class ActivityDetailsComponent implements OnInit {
   showAddOptionForm(): void {
     this.isAddOptionFormVisible = true;
     this.newOption = this.createEmptyOption();
+    this.touched = { name: false, price: false };
   }
 
-  finishAddOption(): void {
+  isEmptyOptionName(name: string): boolean {
+    return name?.length === 0;
+  }
+
+  isDuplicatedOptionName(option: Option): boolean {
+    return !!this.options.find(opt => opt.id !== option.id && opt.name === option.name);
+  }
+
+  isValidOptionName(option: Option): boolean {
+    return !this.isEmptyOptionName(option.name) && !this.isDuplicatedOptionName(option);
+  }
+
+  isValidOptionPrice(price: number): boolean {
+    return price >= 500;
+  }
+
+  finishAddOption(event: Event): void {
+    // Prevent submission when validation error occurs
+    if (!this.isValidOptionName(this.newOption) || !this.isValidOptionPrice(this.newOption.price)) {
+      this.touched = { name: true, price: true };
+      event.stopPropagation();
+      return;
+    }
     this.optionService.create(this.newOption).subscribe(
       response => {
         this.isAddOptionFormVisible = false;
@@ -181,7 +209,17 @@ export class ActivityDetailsComponent implements OnInit {
   lockActivity(): void {
     this.activityService.lock(this.activity.id).subscribe(
       response => {
-        this.successMessage = 'Successfully archived this activity';
+        this.successMessage = 'Successfully locked voting on this activity';
+        this.activity = response.data;
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
+  }
+
+  unlockActivity(): void {
+    this.activityService.unlock(this.activity.id).subscribe(
+      response => {
+        this.successMessage = 'Successfully unlocked voting on this activity';
         this.activity = response.data;
       },
       errorResponse => this.errorMessage = errorResponse.error.message
@@ -190,5 +228,36 @@ export class ActivityDetailsComponent implements OnInit {
 
   voted(optionId: number): boolean {
     return this.voteMadeInThisActivity && this.voteMadeInThisActivity.optionId === optionId;
+  }
+
+  isActivityLocked(): boolean {
+    return this.activity.lockedOn !== null;
+  }
+
+  sendNotificationEmails(): void {
+    // TODO: Write this
+  }
+
+  isOptionEditing(id: number): boolean {
+    return this.isInOptionEditMode && id === this.idOfTheOptionEditing;
+  }
+
+  isEmptyOptionNameInEdit(option: Option): boolean {
+    return this.isOptionEditing(option.id) &&
+      this.editTouched.name &&
+      this.isEmptyOptionName(this.editingOptions[option.id]?.name);
+  }
+
+  isDuplicatedOptionNameInEdit(option: Option): boolean {
+    return this.isOptionEditing(option.id) &&
+      this.editTouched.name &&
+      this.isDuplicatedOptionName(this.editingOptions[option.id]);
+  }
+
+  withdrawVote(optionId: number): void {
+    this.optionService.withdrawVote(this.auth.user.id, optionId).subscribe(
+      response => this.voteMadeInThisActivity = null,
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
   }
 }

@@ -26,8 +26,8 @@ export class ProjectDetailsComponent implements OnInit {
   isActivityListExpanded = false;
   isInEditMode = false;
   id = this.route.snapshot.params.id;
-  idOfTheSelectedMemberToPromote: number;
-  idOfTheSelectedUserToAddToProject: number;
+  membersSelectedToPromote: { [id: number]: boolean } = {};
+  usersSelectedToAddToProject: { [id: number]: boolean } = {};
 
   constructor(public auth: AuthService,
               private projectService: ProjectService,
@@ -164,52 +164,77 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   promoteToAdmin(event: Event): void {
-    const id = this.idOfTheSelectedMemberToPromote;
-    // Don't close dialog when validation error occurs
-    if (id === null) {
-      event.stopPropagation();
-      this.errorMessage = 'You have not chosen any member to promote yet';
-      return;
-    }
-    this.projectService.addAdmin(this.project.id, id).subscribe(
-      response => {
-        this.successMessage = `${ response.data.displayName } has been promoted to project admin`;
-        this.members.find(admin => admin.id === id).admin = true;
-      },
-      errorResponse => this.errorMessage = errorResponse.error.message
-    );
+    Object.keys(this.membersSelectedToPromote).forEach(key => {
+      if (key === null) {
+        return;
+      }
+      const id = +key;
+      // Don't close dialog when validation error occurs
+      if (id === null) {
+        event.stopPropagation();
+        this.errorMessage = 'You have not chosen any member to promote yet';
+        return;
+      }
+      this.projectService.addAdmin(this.project.id, id).subscribe(
+        response => {
+          this.successMessage = `${ response.data.displayName } has been promoted to project admin`;
+          this.members.find(admin => admin.id === id).admin = true;
+        },
+        errorResponse => this.errorMessage = errorResponse.error.message
+      );
+    });
   }
 
   addUserToProject(event: Event): void {
-    const id = this.idOfTheSelectedUserToAddToProject;
-    // Don't close dialog when validation error occurs
-    if (id === null) {
+    // No user is chosen
+    if (!Object.values(this.usersSelectedToAddToProject).find(value => value === true)) {
       event.stopPropagation();
       this.errorMessage = 'You have not chosen any user to add yet';
       return;
     }
-    this.projectService.addMember(this.project.id, id).subscribe(
-      response => {
-        this.successMessage = `${ response.data.displayName } has been added to project`;
-        this.members.push(response.data);
-      },
-      errorResponse => this.errorMessage = errorResponse.error.message
-    );
+    Object.keys(this.usersSelectedToAddToProject).forEach((key) => {
+      if (key === null) {
+        return;
+      }
+      const id: number = +key;
+      // Don't close dialog when no user is chosen
+      if (id === null) {
+        event.stopPropagation();
+        return;
+      }
+      this.projectService.addMember(this.project.id, id).subscribe(
+        response => {
+          this.successMessage = `${ response.data.displayName } has been added to project`;
+          this.members.push(response.data);
+        },
+        errorResponse => this.errorMessage = errorResponse.error.message
+      );
+    });
   }
 
   selectMemberToPromote(event): void {
-    if (event.target.checked) {
-      this.idOfTheSelectedMemberToPromote = +event.target.value;
-    }
+    const id = +event.target.value;
+    this.membersSelectedToPromote[id] = event.target.checked;
   }
 
   selectUserToAddToProject(event): void {
-    if (event.target.checked) {
-      this.idOfTheSelectedUserToAddToProject = +event.target.value;
-    }
+    const id = +event.target.value;
+    this.usersSelectedToAddToProject[id] = event.target.checked;
   }
 
   currentUserIsProjectAdmin(): boolean {
     return !!this.admins?.find(admin => admin.id === this.auth.user.id);
+  }
+
+  beginPromoteMemberToAdmin(): void {
+    this.members.forEach(member => {
+      this.membersSelectedToPromote[member.id] = false;
+    });
+  }
+
+  beginAddUserToProject(): void {
+    this.usersNotInProject.forEach(user => {
+      this.usersSelectedToAddToProject[user.id] = false;
+    });
   }
 }

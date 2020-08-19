@@ -29,12 +29,12 @@ export class ActivityService {
     return this.http.put(`${ Constants.API_BASE }/activities/${ id }`, data);
   }
 
-  archive(id: number): Observable<any> {
-    return this.http.delete(`${ Constants.API_BASE }/activities/${ id }`);
-  }
-
   lock(id: number): Observable<any> {
     return this.http.put(`${ Constants.API_BASE }/activities/${ id }/lock`, {});
+  }
+
+  unlock(id: number): Observable<any> {
+    return this.http.put(`${ Constants.API_BASE }/activities/${ id }/unlock`, {});
   }
 
   finish(id: number): Observable<any> {

@@ -89,7 +89,7 @@
           </div>
         </li>
         <li *ngIf="auth.user.admin" class="list-group-item text-center">
-          <a (click)="idOfTheSelectedMemberToPromote= null"
+          <a (click)="beginPromoteMemberToAdmin()"
              class="bg-light"
              data-target="#selectMemberToPromoteToAdminDialog"
              data-toggle="modal"
@@ -135,7 +135,7 @@
           </div>
         </li>
         <li *ngIf="auth.user.admin" class="list-group-item text-center">
-          <a (click)="idOfTheSelectedUserToAddToProject = null"
+          <a (click)="beginAddUserToProject()"
              class="bg-light"
              data-target="#selectUserToAddToProjectDialog"
              data-toggle="modal"
@@ -178,13 +178,12 @@
         </li>
         <li *ngIf="currentUserIsProjectAdmin()" class="list-group-item text-center">
           <a class="bg-light" routerLink="/activities/add/{{ project?.id }}">
-            <i class="fas fa-plus"></i> Add Activity
+            <i class="fas fa-plus"></i> Add activity
           </a>
         </li>
       </ul>
     </div>
   </div>
-
 </div>
 
 <!-- Dialogs -->
@@ -224,7 +223,7 @@
                  class="form-check-input"
                  id="promoteToAdminRadioId{{ member.username }}"
                  name="memberSelectedToPromoteToAdmin"
-                 type="radio"
+                 type="checkbox"
                  value="{{ member.id }}">
           <label class="form-check-label flex-fill"
                  for="promoteToAdminRadioId{{ member.username }}"
@@ -259,7 +258,7 @@
                  class="form-check-input"
                  id="addUserToProjectRadio{{ user.username }}"
                  name="userSelectedToAddToProject"
-                 type="radio"
+                 type="checkbox"
                  value="{{ user.id }}">
           <label class="form-check-label flex-fill"
                  for="addUserToProjectRadio{{ user.username }}"

@@ -18,7 +18,7 @@
             </div>
             <div class="col-7 col-md-8">
               <div class="numbers">
-                <p class="card-category">Transaction</p>
+                <p class="card-category">Transactions</p>
                 <p class="card-title">{{transactions?.length}}
                 <p>
               </div>
@@ -72,7 +72,7 @@
             </div>
             <div class="col-7 col-md-8">
               <div class="numbers">
-                <p class="card-category">Activity</p>
+                <p class="card-category">Activities</p>
                 <p class="card-title">{{activities?.length}}
                 <p>
               </div>
@@ -100,7 +100,7 @@
             <div class="col-7 col-md-8">
               <div class="numbers">
                 <p class="card-category">Users</p>
-                <p class="card-title">{{ users?.length }} {{ users?.length > 1 ? 'Users' : 'User' }}
+                <p class="card-title">{{ users?.length }}
                 <p>
               </div>
             </div>
@@ -125,13 +125,13 @@
         </div>
         <div class="card-body ">
           <div class="chart-wrapper">
-            <canvas baseChart 
-                [datasets]="lineChartData" 
-                [labels]="lineChartLabels" 
+            <canvas baseChart
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
                 [options]="lineChartOptions"
-                [colors]="lineChartColors" 
-                [legend]="lineChartLegend" 
-                [chartType]="lineChartType" 
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
                 [plugins]="lineChartPlugins">
             </canvas>
           </div>

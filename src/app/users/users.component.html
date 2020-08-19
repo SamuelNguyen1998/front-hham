@@ -1,5 +1,5 @@
 <div class="container pt-5" *ngIf="auth.user.admin">
-  <h1 class="pb-3">User management</h1>
+  <h1 class="pb-3">User Management</h1>
   <div class="row mb-3">
     <div class="col-md-4">
       <a class="btn btn-success" routerLink="/users/add">
@@ -41,10 +41,6 @@
           <td>{{ user.email }}</td>
           <td>{{ user.jobTitle ? user.jobTitle.name : "Not available" }}</td>
           <td>
-            <!-- TODO: Re-add this when Profile page is ready -->
-            <!--<a class="btn btn-primary m-1" routerLink="/profile/{{ user.id }}">-->
-            <!--  <i class="fas fa-eye"></i> View-->
-            <!--</a>-->
             <button (click)="beginEdit(user.id)"
                     class="btn btn-info m-1"
                     data-backdrop="static"
@@ -82,8 +78,8 @@
       </div>
 
       <div class="modal-body">
-        Password of the deactivated account will be cleared and that user cannot anymore,
-        please confirm your intention.
+        Do you want to deactivate user {{ userSelectedToDeactivate?.username }}
+        ({{ userSelectedToDeactivate?.displayName }})?
       </div>
 
       <div class="modal-footer">
