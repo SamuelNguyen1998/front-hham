@@ -67,19 +67,19 @@
           <li class="dropdown-item">
             <a class="nav-link"
                data-target="#navbarContent.collapse.show" data-toggle="collapse"
-               routerLink="/profile">
+               routerLink="/profile/{{ auth.user.id }}">
               Profile
             </a>
           </li>
-          <li class="dropdown-item">
+          <li *ngIf="false" class="dropdown-item">
             <a class="nav-link"
                data-target="#navbarContent.collapse.show" data-toggle="collapse"
                routerLink="/profile">
-              Account settings
+              Account Settings
             </a>
           </li>
           <li class="dropdown-item">
-            <a (click)="auth.logout()" class="nav-link" href="#">Log out</a>
+            <a (click)="auth.logout()" class="nav-link" href="#">Log Out</a>
           </li>
         </ul>
       </div>

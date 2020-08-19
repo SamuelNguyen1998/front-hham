@@ -10,17 +10,16 @@ import { LoginRequest } from '../_models/LoginRequest';
   providedIn: 'root'
 })
 export class AuthService {
-  // tslint:disable-next-line:variable-name
+  // tslint:disable:variable-name
   private m_loggedIn = false;
-  // tslint:disable-next-line:variable-name
   private m_session: Session = {
     createdOn: undefined,
     expiredOn: undefined,
     token: "",
     userId: 0
   };
-  // tslint:disable-next-line:variable-name
   private m_user: User;
+  // tslint:enable
 
   private static getStorageItem(key): string {
     const item = sessionStorage.getItem(key);
@@ -74,10 +73,10 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.clear();
-    sessionStorage.clear();
     this.m_loggedIn = undefined;
     this.m_session = undefined;
     this.m_user = undefined;
+    localStorage.clear();
+    sessionStorage.clear();
   }
 }

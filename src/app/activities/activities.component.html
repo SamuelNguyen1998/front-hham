@@ -13,7 +13,7 @@
   <!-- Content for regular case -->
   <h1 *ngIf="activities?.length > 0" class="pb-3">Activity management</h1>
   <div *ngIf="activities?.length > 0" class="row">
-    <div class="col-md-4 mb-3" *ngIf="auth.user.admin">
+    <div class="col-md-4 mb-3">
       <a class="btn btn-success" routerLink="/activities/add">
         <i class="fas fa-plus"></i> Create new activity
       </a>

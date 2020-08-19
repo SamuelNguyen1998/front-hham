@@ -167,7 +167,7 @@ export class ActivityDetailsComponent implements OnInit {
     this.optionService.create(this.newOption).subscribe(
       response => {
         this.isAddOptionFormVisible = false;
-        this.options.push({ ...this.newOption });
+        this.options.push(response.data);
         this.successMessage = 'New option created successfully';
       },
       errorResponse => this.errorMessage = errorResponse.error.message

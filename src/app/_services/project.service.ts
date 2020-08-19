@@ -4,16 +4,22 @@ import { Observable } from 'rxjs';
 
 import { Constants } from '../Constants';
 import { Project } from "../_models/Project";
+import { AuthService } from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private auth: AuthService) {
   }
 
   getAll(): Observable<any> {
-    return this.http.get(`${ Constants.API_BASE }/projects`);
+    return this.http.get(`${ Constants.API_BASE }/projects?userId=${ this.auth.user.id }`);
+  }
+
+  getAllAdministering(): Observable<any> {
+    return this.http.get(`${ Constants.API_BASE }/projects?adminId=${ this.auth.user.id }`);
   }
 
   get(id: number): Observable<any> {
@@ -28,20 +34,12 @@ export class ProjectService {
     return this.http.put(`${ Constants.API_BASE }/projects/${ id }`, data);
   }
 
-  delete(id: number): Observable<any> {
+  archive(id: number): Observable<any> {
     return this.http.delete(`${ Constants.API_BASE }/projects/${ id }`);
-  }
-
-  findByName(name: string): Observable<any> {
-    return this.http.get(`${ Constants.API_BASE }/projects?name=${ name }`);
   }
 
   getMembers(id: number): Observable<any> {
     return this.http.get(`${ Constants.API_BASE }/projects/${ id }/members`);
-  }
-
-  getAllProjectOfUser(id: number): Observable<any> {
-    return this.http.get(`${ Constants.API_BASE }/projects?userId=${ id }`);
   }
 
   addMember(id: number, userId: number): Observable<any> {
@@ -52,12 +50,12 @@ export class ProjectService {
     return this.http.delete(`${ Constants.API_BASE }/projects/${ id }/members/${ memberId }`);
   }
 
-  addAdmin(id: number, userId: number): Observable<any> {
-    return this.http.post(`${ Constants.API_BASE }/projects/${ id }/admins`, { id: userId });
-  }
-
   getAdmins(id: number): Observable<any> {
     return this.http.get(`${ Constants.API_BASE }/projects/${ id }/admins`);
+  }
+
+  addAdmin(id: number, userId: number): Observable<any> {
+    return this.http.post(`${ Constants.API_BASE }/projects/${ id }/admins`, { id: userId });
   }
 
   removeAdmin(id: number, adminId: number): Observable<any> {

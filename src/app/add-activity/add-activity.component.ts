@@ -52,7 +52,7 @@ export class AddActivityComponent implements OnInit {
   }
 
   loadProjects(): void {
-    this.projectService.getAll().subscribe(
+    this.projectService.getAllAdministering().subscribe(
       response => this.projects = response.data,
       errorResponse => this.errorMessage = errorResponse.error.message
     );

@@ -55,24 +55,9 @@
             cols="80" rows="10">
   </textarea>
 
-  <div *ngIf="isInEditMode" class="dropdown">
-    <button aria-expanded="false"
-            aria-haspopup="true"
-            class="btn btn-info dropdown-toggle" id="dropdownAdminList"
-            data-toggle="dropdown"
-            type="button">
-      Add Admin
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownAdminList">
-      <button class="dropdown-item"
-              *ngFor="let member of members"
-              (click)="addAdmin(member.id)">{{ member.displayName }}</button>
-    </div>
-  </div>
-
   <!-- Admins -->
   <div class="row">
-    <div class="members col-12">
+    <div class="userList col-12">
       <a (click)="updateAdminListState()"
          aria-expanded="true"
          class="btn text-left p-3 d-block bg-light"
@@ -89,38 +74,36 @@
 
       <ul class="list-group collapse" id="adminList">
         <li *ngFor="let admin of admins" class="list-group-item">
-          <a routerLink="/users/{{ admin.id }}">{{ admin.displayName }}</a>
-          <span (click)="removeAdmin(admin.id)"
-                *ngIf="auth.user.admin"
-                class="btn btn-danger m-2">
-            Delete
-          </span>
+          <div class="row">
+            <div class="col-md-9">
+              <a type="button">{{ admin.displayName }}</a>
+            </div>
+            <div class="col-md-3 text-right">
+              <button (click)="removeAdmin(admin.id)"
+                      *ngIf="auth.user.admin"
+                      class="btn btn-danger m-2"
+                      type="button">
+                Delete
+              </button>
+            </div>
+          </div>
+        </li>
+        <li *ngIf="auth.user.admin" class="list-group-item text-center">
+          <a (click)="idOfTheSelectedMemberToPromote= null"
+             class="bg-light"
+             data-target="#selectMemberToPromoteToAdminDialog"
+             data-toggle="modal"
+             type="button">
+            <i class="fas fa-plus"></i> Promote a member to project admin
+          </a>
         </li>
       </ul>
     </div>
   </div>
 
-  <div *ngIf="isInEditMode" class="dropdown">
-    <button aria-expanded="false"
-            aria-haspopup="true"
-            class="btn btn-info dropdown-toggle" id="dropdownMenuButton"
-            data-toggle="dropdown"
-            type="button">
-      Add Member
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <button (click)="addMember(user.id)"
-              *ngFor="let user of usersNotInProject"
-              class="dropdown-item"
-              type="button">
-        {{ user.displayName }}
-      </button>
-    </div>
-  </div>
-
   <!-- Members -->
   <div class="row">
-    <div class="members col-12">
+    <div class="userList col-12">
       <a (click)="updateMemberListState()"
          aria-expanded="true"
          class="btn text-left p-3 d-block bg-light"
@@ -137,23 +120,32 @@
 
       <ul class="list-group collapse" id="memberList">
         <li *ngFor="let member of members" class="list-group-item">
-          <a routerLink="/users/{{ member.id }}">{{ member.displayName }}</a>
-          <button (click)="removeMember(member.id)"
-                  *ngIf="auth.user.admin"
-                  class="btn btn-danger m-2"
-                  type="button">
-            Delete
-          </button>
+          <div class="row">
+            <div class="col-md-9">
+              <a type="button">{{ member.displayName }}</a>
+            </div>
+            <div class="col-md-3 text-right">
+              <button (click)="removeMember(member.id)"
+                      *ngIf="auth.user.admin"
+                      class="btn btn-danger m-2"
+                      type="button">
+                Delete
+              </button>
+            </div>
+          </div>
+        </li>
+        <li *ngIf="auth.user.admin" class="list-group-item text-center">
+          <a (click)="idOfTheSelectedUserToAddToProject = null"
+             class="bg-light"
+             data-target="#selectUserToAddToProjectDialog"
+             data-toggle="modal"
+             type="button">
+            <i class="fas fa-plus"></i> Add user to project
+          </a>
         </li>
       </ul>
     </div>
   </div>
-
-  <a *ngIf="isInEditMode"
-     class="btn btn-info"
-     routerLink="/activities/add/{{ project.id }}">
-    Add Activity
-  </a>
 
   <!-- Activities -->
   <div class="row">
@@ -184,9 +176,15 @@
           </h4>
           <div>{{ activity.description }}</div>
         </li>
+        <li *ngIf="currentUserIsProjectAdmin()" class="list-group-item text-center">
+          <a class="bg-light" routerLink="/activities/add/{{ project?.id }}">
+            <i class="fas fa-plus"></i> Add Activity
+          </a>
+        </li>
       </ul>
     </div>
   </div>
+
 </div>
 
 <!-- Dialogs -->
@@ -212,3 +210,75 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="selectMemberToPromoteToAdminDialog" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Promote member to project admin</h4>
+      </div>
+
+      <form class="modal-body">
+        <div *ngFor="let member of regularMembers" class="form-check d-flex">
+          <input (change)="selectMemberToPromote($event)"
+                 class="form-check-input"
+                 id="promoteToAdminRadioId{{ member.username }}"
+                 name="memberSelectedToPromoteToAdmin"
+                 type="radio"
+                 value="{{ member.id }}">
+          <label class="form-check-label flex-fill"
+                 for="promoteToAdminRadioId{{ member.username }}"
+                 title="{{ member.username }}">
+            {{ member.displayName }}
+          </label>
+        </div>
+      </form>
+
+      <div class="modal-footer">
+        <button (click)="promoteToAdmin($event)" class="btn btn-primary" data-dismiss="modal" type="button">
+          Set to project admin
+        </button>
+        <button class="btn btn-secondary" data-dismiss="modal" type="button">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="selectUserToAddToProjectDialog" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add user to project</h4>
+      </div>
+
+      <form class="modal-body">
+        <div *ngFor="let user of usersNotInProject" class="form-check d-flex">
+          <input (change)="selectUserToAddToProject($event)"
+                 class="form-check-input"
+                 id="addUserToProjectRadio{{ user.username }}"
+                 name="userSelectedToAddToProject"
+                 type="radio"
+                 value="{{ user.id }}">
+          <label class="form-check-label flex-fill"
+                 for="addUserToProjectRadio{{ user.username }}"
+                 title="{{ user.username }}">
+            {{ user.displayName }}
+          </label>
+        </div>
+      </form>
+
+      <div class="modal-footer">
+        <button (click)="addUserToProject($event)" class="btn btn-primary" data-dismiss="modal" type="button">
+          Add to project
+        </button>
+        <button class="btn btn-secondary" data-dismiss="modal" type="button">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

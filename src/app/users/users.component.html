@@ -41,9 +41,10 @@
           <td>{{ user.email }}</td>
           <td>{{ user.jobTitle ? user.jobTitle.name : "Not available" }}</td>
           <td>
-            <a class="btn btn-primary m-1" routerLink="/profile/{{ user.id }}">
-              <i class="fas fa-eye"></i> View
-            </a>
+            <!-- TODO: Re-add this when Profile page is ready -->
+            <!--<a class="btn btn-primary m-1" routerLink="/profile/{{ user.id }}">-->
+            <!--  <i class="fas fa-eye"></i> View-->
+            <!--</a>-->
             <button (click)="beginEdit(user.id)"
                     class="btn btn-info m-1"
                     data-backdrop="static"

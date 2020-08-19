@@ -187,7 +187,7 @@
       </form>
     </div>
 
-    <div class="col mb-4">
+    <div *ngIf="auth.user.admin" class="col mb-4">
       <div class="card h-100">
         <button (click)="showAddOptionForm()" class="button-add-option h-100" title="Add option">
             <span class="icon-wrapper">
