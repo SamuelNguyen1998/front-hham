@@ -75,7 +75,6 @@ export class FundDetailsComponent implements OnInit {
     this.transactionService.getTransaction(this.currentProject.id).subscribe(
       response => {
         this.transactions = response.data;
-        console.log(response);
       },
       error => console.log(error)
     );
