@@ -57,7 +57,7 @@
 
   <!-- Admins -->
   <div class="row">
-    <div class="members col-12">
+    <div class="userList col-12">
       <a (click)="updateAdminListState()"
          aria-expanded="true"
          class="btn text-left p-3 d-block bg-light"
@@ -103,7 +103,7 @@
 
   <!-- Members -->
   <div class="row">
-    <div class="members col-12">
+    <div class="userList col-12">
       <a (click)="updateMemberListState()"
          aria-expanded="true"
          class="btn text-left p-3 d-block bg-light"
@@ -176,13 +176,15 @@
           </h4>
           <div>{{ activity.description }}</div>
         </li>
+        <li *ngIf="currentUserIsProjectAdmin()" class="list-group-item text-center">
+          <a class="bg-light" routerLink="/activities/add/{{ project?.id }}">
+            <i class="fas fa-plus"></i> Add Activity
+          </a>
+        </li>
       </ul>
     </div>
   </div>
 
-  <a *ngIf="currentUserIsProjectAdmin()" class="btn btn-info" routerLink="/activities/add/{{ project?.id }}">
-    Add Activity
-  </a>
 </div>
 
 <!-- Dialogs -->
