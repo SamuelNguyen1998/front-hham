@@ -108,7 +108,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   archive(): void {
-    this.projectService.delete(this.project.id).subscribe(
+    this.projectService.archive(this.project.id).subscribe(
       () => this.router.navigate([ '/projects' ]),
       errorResponse => this.errorMessage = errorResponse.error.message
     );
