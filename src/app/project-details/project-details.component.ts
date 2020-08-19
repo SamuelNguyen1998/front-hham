@@ -26,6 +26,8 @@ export class ProjectDetailsComponent implements OnInit {
   isActivityListExpanded = false;
   isInEditMode = false;
   id = this.route.snapshot.params.id;
+  idOfTheSelectedMemberToPromote: number;
+  idOfTheSelectedUserToAddToProject: number;
 
   constructor(public auth: AuthService,
               private projectService: ProjectService,
@@ -44,6 +46,10 @@ export class ProjectDetailsComponent implements OnInit {
 
   get admins(): User[] {
     return this.members?.filter(member => member.admin);
+  }
+
+  get regularMembers(): User[] {
+    return this.members?.filter(member => !member.admin);
   }
 
   get usersNotInProject(): User[] {
@@ -80,32 +86,11 @@ export class ProjectDetailsComponent implements OnInit {
     );
   }
 
-  addMember(id: number): void {
-    this.projectService.addMember(this.project.id, id).subscribe(
-      response => {
-        this.successMessage = 'The Member was added successfully!';
-        this.members.push(this.users.find(user => user.id === id));
-      },
-      errorResponse => this.errorMessage = errorResponse.error.message
-    );
-  }
-
   removeMember(id: number): void {
     this.projectService.removeMember(this.project.id, id).subscribe(
       response => {
-        this.successMessage = 'The Member was removed successfully!';
-        this.members = this.members.filter(member => member.id === id);
-      },
-      errorResponse => this.errorMessage = errorResponse.error.message
-    );
-  }
-
-  addAdmin(id: number): void {
-    this.projectService.addAdmin(this.project.id, id).subscribe(
-      response => {
-        this.successMessage = 'The Admin was added successfully!';
-        const index = this.members.findIndex(admin => admin.id === id);
-        this.members[index].admin = true;
+        this.successMessage = `${ response.data.displayName } has been successfully removed from the project`;
+        this.members = this.members.filter(member => member.id !== id);
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
@@ -114,7 +99,7 @@ export class ProjectDetailsComponent implements OnInit {
   removeAdmin(id: number): void {
     this.projectService.removeAdmin(this.project.id, id).subscribe(
       response => {
-        this.successMessage = 'The Member was removed successfully!';
+        this.successMessage = `${ response.data.displayName } has been set to regular member in the project`;
         const index = this.members.findIndex(admin => admin.id === id);
         this.members[index].admin = false;
       },
@@ -172,7 +157,55 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   updateActivityListState(): void {
+    // Click events are fired before the state change, so we need to
+    // check for the absence of the class 'show' instead of its presence
     const classes = document.getElementById('activityList').classList;
     this.isActivityListExpanded = !classes.contains('show');
+  }
+
+  promoteToAdmin(event: Event): void {
+    const id = this.idOfTheSelectedMemberToPromote;
+    // Don't close dialog when validation error occurs
+    if (id === null) {
+      event.stopPropagation();
+      this.errorMessage = 'You have not chosen any member to promote yet';
+      return;
+    }
+    this.projectService.addAdmin(this.project.id, id).subscribe(
+      response => {
+        this.successMessage = `${ response.data.displayName } has been promoted to project admin`;
+        this.members.find(admin => admin.id === id).admin = true;
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
+  }
+
+  addUserToProject(event: Event): void {
+    const id = this.idOfTheSelectedUserToAddToProject;
+    // Don't close dialog when validation error occurs
+    if (id === null) {
+      event.stopPropagation();
+      this.errorMessage = 'You have not chosen any user to add yet';
+      return;
+    }
+    this.projectService.addMember(this.project.id, id).subscribe(
+      response => {
+        this.successMessage = `${ response.data.displayName } has been added to project`;
+        this.members.push(response.data);
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
+  }
+
+  selectMemberToPromote(event): void {
+    if (event.target.checked) {
+      this.idOfTheSelectedMemberToPromote = +event.target.value;
+    }
+  }
+
+  selectUserToAddToProject(event): void {
+    if (event.target.checked) {
+      this.idOfTheSelectedUserToAddToProject = +event.target.value;
+    }
   }
 }
