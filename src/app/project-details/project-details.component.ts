@@ -44,7 +44,6 @@ export class ProjectDetailsComponent implements OnInit {
     this.loadAdmins();
     this.loadAllUsers();
     this.loadActivities();
-    setTimeout(() => console.log(this), 100);
   }
 
   get regularMembers(): User[] {

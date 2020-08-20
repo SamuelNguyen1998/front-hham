@@ -50,6 +50,9 @@ export class ActivityDetailsComponent implements OnInit {
   editingOptionsImageUrl: { [key: number]: string } = {};
   editingOptionsImageUrlEnabled: { [key: number]: boolean } = {};
 
+  votes: Vote[];
+  members: User[];
+
   createEmptyOption(): Option {
     return {
       activityId: this.activity.id,
@@ -70,6 +73,8 @@ export class ActivityDetailsComponent implements OnInit {
     const activityId: number = this.route.snapshot.params.id;
     this.loadActivity(activityId);
     this.loadProjectAdmins(activityId);
+    this.loadMembers(activityId);
+    this.loadVotes(activityId);
     this.optionService.getVoteInActivity(activityId, this.auth.user.id).subscribe(
       response => {
         const votes: Vote[] = response.data;
@@ -81,8 +86,39 @@ export class ActivityDetailsComponent implements OnInit {
     );
   }
 
+  get membersNotVoted(): User[] {
+    return this.members?.filter(member => !this.votes.some(vote => vote.userId === member.id))
+      ?.filter(member => !member.admin);
+  }
+
+  getUserById(id: number): User {
+    return this.members?.find(member => member.id === id);
+  }
+
+  getOptionById(id: number): Option {
+    return this.options?.find(option => option.id === id);
+  }
+
   currentUserCanEdit(): boolean {
     return this.admins?.some(admin => admin.id === this.auth.user.id);
+  }
+
+  isOptionVotedByCurrentUser(optionId: number): boolean {
+    return this.votes?.some(vote => vote.optionId === optionId && vote.userId === this.auth.user.id);
+  }
+
+  loadVotes(activityId: number): void {
+    this.activityService.getVotes(activityId).subscribe(
+      response => this.votes = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
+    );
+  }
+
+  loadMembers(activityId: number): void {
+    this.activityService.getMembers(activityId).subscribe(
+      response => this.members = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
+    );
   }
 
   loadProjectAdmins(activityId: number): void {

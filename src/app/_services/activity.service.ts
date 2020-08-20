@@ -64,4 +64,12 @@ export class ActivityService {
   notify(id: number): Observable<any> {
     return this.http.post(`${ Constants.API_BASE }/activities/${ id }/notify`, {});
   }
+
+  getVotes(id: number): Observable<any> {
+    return this.http.get(`${ Constants.API_BASE }/votes?activityId=${ id }`);
+  }
+
+  getMembers(id: number): Observable<any> {
+    return this.http.get(`${ Constants.API_BASE }/activities/${ id }/members`);
+  }
 }
