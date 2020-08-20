@@ -29,7 +29,7 @@
           <td>{{ member.jobTitle ? member.jobTitle.name : "Not found"}}</td>
           <td>{{ member.jobTitle ? member.jobTitle.monthlyAmount : 0 }} VND</td>
           <td *ngIf="auth.user.admin">
-            <input type="checkbox" class="form-check-input"
+            <input type="checkbox" class="form-check-input" id={{member.id}}
                    value="{{member.jobTitle ? member.jobTitle.monthlyAmount : 0 }}">
           </td>
         </tr>

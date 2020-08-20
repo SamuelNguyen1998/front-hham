@@ -18,11 +18,11 @@ import { AuthService } from '../_services/auth.service';
 @Component({
   selector: 'app-fund-details',
   templateUrl: './fund-details.component.html',
-  styleUrls: [ './fund-details.component.scss' ]
+  styleUrls: ['./fund-details.component.scss']
 })
 export class FundDetailsComponent implements OnInit {
   currentProject: Project;
-  
+
   activities: Activity[];
   activity: Activity;
   members: User[];
@@ -34,24 +34,25 @@ export class FundDetailsComponent implements OnInit {
   type: number = 1;
 
   constructor(public auth: AuthService,
-              private projectService: ProjectService,
-              private activityService: ActivityService,
-              private route: ActivatedRoute,
-              private transactionService: FundService,
-              private router: Router,
-              private jobTitleService: JobTitleService) { }
+    private projectService: ProjectService,
+    private activityService: ActivityService,
+    private route: ActivatedRoute,
+    private transactionService: FundService,
+    private router: Router,
+    private jobTitleService: JobTitleService) { }
 
 
   ngOnInit(): void {
+    this.loadProject();
+  }
+  loadProject(): void {
     this.projectService.get(this.route.snapshot.params.id).subscribe(
       response => {
         this.currentProject = response.data;
         this.loadActivities();
         this.loadMembers();
         this.loadTransaction();
- 
-       
-      }  
+      }
     )
   }
 
@@ -72,7 +73,7 @@ export class FundDetailsComponent implements OnInit {
   }
 
 
-  loadTransaction(): void{
+  loadTransaction(): void {
 
     this.transactionService.getTransaction(this.currentProject.id).subscribe(
       response => {
@@ -85,7 +86,7 @@ export class FundDetailsComponent implements OnInit {
   saveTransaction(): void {
     var inputElems = document.getElementsByTagName("input");
     for (var i = 0; i < inputElems.length; i++) {
-    
+
       if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
         const data = {
           userId: Number(inputElems[i].getAttribute("id")),
@@ -96,7 +97,7 @@ export class FundDetailsComponent implements OnInit {
         this.sum += data.amount;
         this.transactionService.create(data).subscribe(
           response => {
-            this.router.navigate([`/funds/${this.currentProject.id}`]);
+            this.loadProject();
           },
         );
       }
@@ -105,9 +106,9 @@ export class FundDetailsComponent implements OnInit {
       id: this.currentProject.funds[0].id,
       amount: this.sum,
     };
-    this.transactionService.calc(this.type,data).subscribe(
+    this.transactionService.calc(this.type, data).subscribe(
       response => {
-        this.router.navigate([`/funds/${this.currentProject.id}`]);
+        this.loadProject();
       },
     );
     this.sum = 0;
@@ -131,6 +132,6 @@ export class FundDetailsComponent implements OnInit {
         );
       }
     }
-    window.location.reload();
+    this.loadTransaction();
   }
 }
