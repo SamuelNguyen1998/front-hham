@@ -23,7 +23,7 @@
     </form>
 
     <div class="col-md-3 btn-group">
-      <div *ngIf="auth.user.admin && !isInEditMode" class="ml-auto">
+      <div *ngIf="currentUserIsProjectAdmin() && !isInEditMode" class="ml-auto">
         <button (click)="enterEditMode()"
                 class="btn btn-info height-limited-button mr-3"
                 type="button">
@@ -36,7 +36,7 @@
         </button>
       </div>
 
-      <div *ngIf="auth.user.admin && isInEditMode" class="ml-auto">
+      <div *ngIf="currentUserIsProjectAdmin() && isInEditMode" class="ml-auto">
         <button (click)="saveEdit()" class="btn btn-primary height-limited-button mr-3" type="button">
           <i class="fas fa-pen"></i> Save
         </button>
@@ -78,9 +78,10 @@
             <div class="col-md-9">
               <a type="button">{{ admin.displayName }}</a>
             </div>
-            <div class="col-md-3 text-right">
+            <div class="col-md-3 text-right" title="System admin cannot be demoted">
               <button (click)="removeAdmin(admin.id)"
-                      *ngIf="auth.user.admin"
+                      *ngIf="currentUserIsProjectAdmin()"
+                      [disabled]="admin.admin"
                       class="btn btn-danger m-2"
                       type="button">
                 Delete
@@ -88,7 +89,7 @@
             </div>
           </div>
         </li>
-        <li *ngIf="auth.user.admin" class="list-group-item text-center">
+        <li *ngIf="currentUserIsProjectAdmin()" class="list-group-item text-center">
           <a (click)="beginPromoteMemberToAdmin()"
              class="bg-light"
              data-target="#selectMemberToPromoteToAdminDialog"
@@ -124,9 +125,10 @@
             <div class="col-md-9">
               <a type="button">{{ member.displayName }}</a>
             </div>
-            <div class="col-md-3 text-right">
+            <div class="col-md-3 text-right" title="System admin cannot be removed from project">
               <button (click)="removeMember(member.id)"
-                      *ngIf="auth.user.admin"
+                      *ngIf="currentUserIsProjectAdmin()"
+                      [disabled]="member.admin"
                       class="btn btn-danger m-2"
                       type="button">
                 Delete
@@ -134,7 +136,7 @@
             </div>
           </div>
         </li>
-        <li *ngIf="auth.user.admin" class="list-group-item text-center">
+        <li *ngIf="currentUserIsProjectAdmin()" class="list-group-item text-center">
           <a (click)="beginAddUserToProject()"
              class="bg-light"
              data-target="#selectUserToAddToProjectDialog"
@@ -195,7 +197,8 @@
       </div>
 
       <div class="modal-body">
-        Archived project will no longer be editable, do you want to archive this project?
+        Archived project will no longer be editable and is hidden by default,
+        do you want to archive this project?
       </div>
 
       <div class="modal-footer">
@@ -218,6 +221,13 @@
       </div>
 
       <form class="modal-body">
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+          <button (click)="clearErrorMessage()" aria-label="Close" class="close" type="button">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
         <div *ngFor="let member of regularMembers" class="form-check d-flex">
           <input (change)="selectMemberToPromote($event)"
                  class="form-check-input"
@@ -253,6 +263,13 @@
       </div>
 
       <form class="modal-body">
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+          <button (click)="clearErrorMessage()" aria-label="Close" class="close" type="button">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+
         <div *ngFor="let user of usersNotInProject" class="form-check d-flex">
           <input (change)="selectUserToAddToProject($event)"
                  class="form-check-input"

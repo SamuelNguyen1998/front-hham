@@ -18,6 +18,7 @@ export class ProjectDetailsComponent implements OnInit {
   newProject: Project;
   activities: Activity[];
   members: User[];
+  admins: User[];
   users: User[];
   successMessage = '';
   errorMessage = '';
@@ -40,16 +41,16 @@ export class ProjectDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.loadProject();
     this.loadMembers();
+    this.loadAdmins();
     this.loadAllUsers();
     this.loadActivities();
-  }
-
-  get admins(): User[] {
-    return this.members?.filter(member => member.admin);
+    setTimeout(() => console.log(this), 100);
   }
 
   get regularMembers(): User[] {
-    return this.members?.filter(member => !member.admin);
+    return this.members?.filter(member =>
+      !this.admins?.find(admin => admin.id === member.id)
+    );
   }
 
   get usersNotInProject(): User[] {
@@ -79,6 +80,13 @@ export class ProjectDetailsComponent implements OnInit {
     );
   }
 
+  loadAdmins(): void {
+    this.projectService.getAdmins(this.id).subscribe(
+      response => this.admins = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
+    );
+  }
+
   loadAllUsers(): void {
     this.userService.getAll().subscribe(
       response => this.users = response.data,
@@ -100,8 +108,7 @@ export class ProjectDetailsComponent implements OnInit {
     this.projectService.removeAdmin(this.project.id, id).subscribe(
       response => {
         this.successMessage = `${ response.data.displayName } has been set to regular member in the project`;
-        const index = this.members.findIndex(admin => admin.id === id);
-        this.members[index].admin = false;
+        this.admins = this.admins.filter(admin => admin.id !== id);
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
@@ -164,42 +171,42 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   promoteToAdmin(event: Event): void {
-    Object.keys(this.membersSelectedToPromote).forEach(key => {
-      if (key === null) {
-        return;
-      }
+    // All members are not chosen
+    if (Object.values(this.membersSelectedToPromote).every(value => !value)) {
+      event.stopPropagation();
+      this.errorMessage = 'No member selected yet';
+      return;
+    }
+    for (const key of Object.keys(this.membersSelectedToPromote)) {
       const id = +key;
-      // Don't close dialog when validation error occurs
-      if (id === null) {
-        event.stopPropagation();
-        this.errorMessage = 'You have not chosen any member to promote yet';
-        return;
+      if (this.membersSelectedToPromote[id]) {
+        this.projectService.addAdmin(this.project.id, id).subscribe(
+          response => {
+            this.successMessage = `${ response.data.displayName } has been promoted to project admin`;
+            this.admins.push(this.members.find(admin => admin.id === id));
+          },
+          errorResponse => this.errorMessage = errorResponse.error.message
+        );
       }
-      this.projectService.addAdmin(this.project.id, id).subscribe(
-        response => {
-          this.successMessage = `${ response.data.displayName } has been promoted to project admin`;
-          this.members.find(admin => admin.id === id).admin = true;
-        },
-        errorResponse => this.errorMessage = errorResponse.error.message
-      );
-    });
+    }
   }
 
   addUserToProject(event: Event): void {
     // No user is chosen
     if (!Object.values(this.usersSelectedToAddToProject).find(value => value === true)) {
       event.stopPropagation();
-      this.errorMessage = 'You have not chosen any user to add yet';
+      this.errorMessage = 'No user selected yet';
       return;
     }
     Object.keys(this.usersSelectedToAddToProject).forEach((key) => {
+      // Don't close dialog when no user is chosen
       if (key === null) {
+        event.stopPropagation();
         return;
       }
       const id: number = +key;
-      // Don't close dialog when no user is chosen
-      if (id === null) {
-        event.stopPropagation();
+      // Not checked, just skip it
+      if (!this.usersSelectedToAddToProject[id]) {
         return;
       }
       this.projectService.addMember(this.project.id, id).subscribe(
@@ -223,7 +230,7 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   currentUserIsProjectAdmin(): boolean {
-    return !!this.admins?.find(admin => admin.id === this.auth.user.id);
+    return this.admins?.some(admin => admin.id === this.auth.user.id);
   }
 
   beginPromoteMemberToAdmin(): void {

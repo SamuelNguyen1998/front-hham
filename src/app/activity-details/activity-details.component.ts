@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Vote } from "../_models/Vote";
+import { User } from '../_models/User';
 import { Option } from '../_models/Option';
 import { Activity } from '../_models/Activity';
 import { AuthService } from '../_services/auth.service';
 import { OptionService } from '../_services/option.service';
 import { ActivityService } from '../_services/activity.service';
-import { Vote } from "../_models/Vote";
 import { ImageService } from "../_services/image.service";
+import { Constants } from "../Constants";
 
 declare var jQuery: any;
 
@@ -16,10 +18,12 @@ declare var jQuery: any;
   styleUrls: [ './activity-details.component.scss' ]
 })
 export class ActivityDetailsComponent implements OnInit {
+  backendServer = Constants.BACKEND_SERVER;
   activity: Activity = {
     name: '',
     description: ''
   };
+  admins: User[];
 
   errorMessage = '';
   successMessage = '';
@@ -65,6 +69,7 @@ export class ActivityDetailsComponent implements OnInit {
   ngOnInit(): void {
     const activityId: number = this.route.snapshot.params.id;
     this.loadActivity(activityId);
+    this.loadProjectAdmins(activityId);
     this.optionService.getVoteInActivity(activityId, this.auth.user.id).subscribe(
       response => {
         const votes: Vote[] = response.data;
@@ -76,7 +81,18 @@ export class ActivityDetailsComponent implements OnInit {
     );
   }
 
-  loadActivity(id): void {
+  currentUserCanEdit(): boolean {
+    return this.admins?.some(admin => admin.id === this.auth.user.id);
+  }
+
+  loadProjectAdmins(activityId: number): void {
+    this.activityService.getAdmins(activityId).subscribe(
+      response => this.admins = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
+  }
+
+  loadActivity(id: number): void {
     this.activityService.get(id).subscribe(
       response => {
         this.activity = response.data;

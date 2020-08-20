@@ -1,28 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { Project } from '../_models/Project';
-import { Activity } from '../_models/Activity';
-import { User } from '../_models/User';
-import { Transaction } from '../_models/Transaction';
-import { ProjectService } from '../_services/project.service';
-import { ActivityService } from '../_services/activity.service';
-import { FundService } from 'src/app/_services/fund.service'
 import { ActivatedRoute } from '@angular/router';
 
-import { Router } from '@angular/router';
-import { timer } from 'rxjs';
-import { JobTitleService } from "../_services/job-title.service";
+import { User } from '../_models/User';
+import { Project } from '../_models/Project';
+import { Activity } from '../_models/Activity';
 import { JobTitle } from '../_models/JobTitle';
+import { Transaction } from '../_models/Transaction';
 import { AuthService } from '../_services/auth.service';
+import { FundService } from '../_services/fund.service';
+import { ProjectService } from '../_services/project.service';
+import { ActivityService } from '../_services/activity.service';
 
 
 @Component({
   selector: 'app-fund-details',
   templateUrl: './fund-details.component.html',
-  styleUrls: ['./fund-details.component.scss']
+  styleUrls: [ './fund-details.component.scss' ]
 })
 export class FundDetailsComponent implements OnInit {
   currentProject: Project;
-
   activities: Activity[];
   activity: Activity;
   members: User[];
@@ -30,21 +26,20 @@ export class FundDetailsComponent implements OnInit {
   transaction: Transaction;
   transactions: Transaction[];
   errorMessage = '';
-  sum: number = 0;
-  type: number = 1;
+  sum = 0;
+  type = 1;
 
   constructor(public auth: AuthService,
-    private projectService: ProjectService,
-    private activityService: ActivityService,
-    private route: ActivatedRoute,
-    private transactionService: FundService,
-    private router: Router,
-    private jobTitleService: JobTitleService) { }
-
+              private projectService: ProjectService,
+              private activityService: ActivityService,
+              private route: ActivatedRoute,
+              private transactionService: FundService) {
+  }
 
   ngOnInit(): void {
     this.loadProject();
   }
+
   loadProject(): void {
     this.projectService.get(this.route.snapshot.params.id).subscribe(
       response => {
@@ -52,18 +47,19 @@ export class FundDetailsComponent implements OnInit {
         this.loadActivities();
         this.loadMembers();
         this.loadTransaction();
-      }
-    )
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
   }
 
   loadActivities(): void {
     this.activityService.findAllInProject(this.currentProject.id).subscribe(
+
       response => {
         this.activities = response.data;
       }
 
     );
-
   }
 
   loadMembers(): void {
@@ -77,21 +73,16 @@ export class FundDetailsComponent implements OnInit {
       
   }
 
-
   loadTransaction(): void {
-
     this.transactionService.getTransaction(this.currentProject.id).subscribe(
-      response => {
-        this.transactions = response.data;
-      },
-      error => console.log(error)
+      response => this.transactions = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.messsage
     );
   }
 
   saveTransaction(): void {
-    var inputElems = document.getElementsByTagName("input");
-    for (var i = 0; i < inputElems.length; i++) {
-
+    const inputElems = document.getElementsByTagName("input");
+    for (let i = 0; i < inputElems.length; i++) {
       if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
         const data = {
           userId: Number(inputElems[i].getAttribute("id")),
@@ -102,9 +93,8 @@ export class FundDetailsComponent implements OnInit {
         };
         this.sum += data.amount;
         this.transactionService.create(data).subscribe(
-          response => {
-            this.loadProject();
-          },
+          response => this.loadProject(),
+          errorResponse => this.errorMessage = errorResponse.error.message
         );
       }
     }
@@ -113,16 +103,15 @@ export class FundDetailsComponent implements OnInit {
       amount: this.sum,
     };
     this.transactionService.calc(this.type, data).subscribe(
-      response => {
-        this.loadProject();
-      },
+      response => this.loadProject(),
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
     this.sum = 0;
   }
 
   remind(): void {
-    var inputElems = document.getElementsByTagName("input");
-    for (var i = 0; i < inputElems.length; i++) {
+    const inputElems = document.getElementsByTagName("input");
+    for (let i = 0; i < inputElems.length; i++) {
       if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
         const data = {
           userId: Number(inputElems[i].getAttribute("id")),
@@ -131,10 +120,8 @@ export class FundDetailsComponent implements OnInit {
           typeId: 1
         };
         this.transactionService.remind(data).subscribe(
-          response => {
-            console.log(response);
-
-          },
+          response => console.log(response),
+          errorResponse => this.errorMessage = errorResponse.error.message
         );
       }
     }
