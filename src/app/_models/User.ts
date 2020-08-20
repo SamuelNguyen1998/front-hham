@@ -1,5 +1,6 @@
 import { JobTitle } from "./JobTitle";
 import { Image } from "./Image";
+import { Transaction } from './Transaction';
 
 export class User {
   id?: number;
@@ -12,4 +13,5 @@ export class User {
   image?: Image;
   createdOn?: Date;
   deactivatedOn?: Date;
+  transDtos?: Transaction[];
 }

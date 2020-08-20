@@ -19,6 +19,7 @@
           <th scope="col">Member Name</th>
           <th scope="col">Job</th>
           <th scope="col">Monthly Amount</th>
+          <th> Last Funding</th>
           <th scope="col" *ngIf="auth.user.admin">Check</th>
         </tr>
       </thead>
@@ -55,6 +56,7 @@
           <th scope="col">Member Name</th>
           <th scope="col">Job</th>
           <th scope="col">Amount</th>
+          <th>Created On </th>
           <th scope="col">Note</th>
         </tr>
       </thead>
@@ -64,6 +66,7 @@
             <th>{{ t.username }}</th>
             <td>{{ t?.jobTitleDtos[0] ? t?.jobTitleDtos[0].name : "Not found" }}</td>
             <td>{{ t.amount }} VND</td>
+            <td>{{t.createdOn | date: 'medium'}}</td>
             <td>{{ t?.memo }}</td>
           </ng-container>
         </tr>

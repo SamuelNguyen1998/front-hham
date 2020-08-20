@@ -61,15 +61,20 @@ export class FundDetailsComponent implements OnInit {
       response => {
         this.activities = response.data;
       }
+
     );
 
   }
 
   loadMembers(): void {
     this.projectService.getMembers(this.currentProject.id).subscribe(
-      response => this.members = response.data,
-      errorResponse => this.errorMessage = errorResponse.error.message,
+      response =>{ this.members = response.data;
+      errorResponse => this.errorMessage = errorResponse.error.message;
+      console.log(response);
+      }
+
     );
+      
   }
 
 
@@ -92,7 +97,8 @@ export class FundDetailsComponent implements OnInit {
           userId: Number(inputElems[i].getAttribute("id")),
           fundId: this.currentProject.funds[0].id,
           amount: Number(inputElems[i].getAttribute("value")),
-          typeId: 1
+          typeId: 1,
+          memo: "Funding"
         };
         this.sum += data.amount;
         this.transactionService.create(data).subscribe(
