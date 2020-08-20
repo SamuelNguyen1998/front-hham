@@ -19,6 +19,7 @@ export class AuthService {
     userId: 0
   };
   private m_user: User;
+
   // tslint:enable
 
   private static getStorageItem(key): string {
@@ -57,7 +58,7 @@ export class AuthService {
   }
 
   login(loginRequest: LoginRequest): Promise<void> {
-    const endpoint = `${ Constants.DOC_BASE }/auth/login`;
+    const endpoint = `${ Constants.BACKEND_SERVER }/auth/login`;
     return this.http
       .post(endpoint, loginRequest, Constants.DEFAULT_HTTP_OPTIONS)
       .toPromise()
