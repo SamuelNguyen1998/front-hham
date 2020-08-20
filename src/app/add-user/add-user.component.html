@@ -5,6 +5,10 @@
     <form class="col-md-6">
       <h1 class="pb-3">Create new user</h1>
 
+      <!-- Messages -->
+      <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+      <!-- Form fields -->
       <div class="form-group">
         <label class="required-field" for="user">Username</label>
         <input [(ngModel)]="user.username"
