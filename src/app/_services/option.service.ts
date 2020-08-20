@@ -20,8 +20,8 @@ export class OptionService {
     return this.http.get(`${ Constants.API_BASE }/options?activityId=${ id }`);
   }
 
-  create(data: Option): Observable<any> {
-    return this.http.post(`${ Constants.API_BASE }/options`, data);
+  create(activityId: number, data: Option): Observable<any> {
+    return this.http.post(`${ Constants.API_BASE }/options`, { ...data, activityId });
   }
 
   update(data: Option): Observable<any> {
@@ -40,7 +40,7 @@ export class OptionService {
     return this.http.get(`${ Constants.API_BASE }/votes?userId=${ userId }&activityId=${ activityId }`);
   }
 
-  withdrawVote(userId: number, optionId: number): Observable<any> {
+  unvote(userId: number, optionId: number): Observable<any> {
     return this.http.delete(`${ Constants.API_BASE }/votes/${ userId }/${ optionId }`);
   }
 }

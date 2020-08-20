@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Option } from '../_models/Option';
 import { Activity } from '../_models/Activity';
@@ -6,6 +6,7 @@ import { AuthService } from '../_services/auth.service';
 import { OptionService } from '../_services/option.service';
 import { ActivityService } from '../_services/activity.service';
 import { Vote } from "../_models/Vote";
+import { ImageService } from "../_services/image.service";
 
 declare var jQuery: any;
 
@@ -19,28 +20,36 @@ export class ActivityDetailsComponent implements OnInit {
     name: '',
     description: ''
   };
-  newActivity: Activity;
-  options: Option[];
-  newOption: Option = this.createEmptyOption();
-  editingOptions: { [key: number]: Option } = {};
+
   errorMessage = '';
   successMessage = '';
-  isInActivityEditMode = false;
-  isAddOptionFormVisible = false;
-  isInOptionEditMode = false;
-  idOfTheOptionEditing: number;
+
+  options: Option[];
+  notes: { [key: number]: string } = {};
   voteMadeInThisActivity: Vote;
   optionSelectedToDelete: Option;
-  notes = {};
-  touched = { name: false, price: false };
-  editTouched = { name: false, price: false };
   notificationRecipients: string[] = null;
+
+  isInActivityEditMode = false;
+  newActivity: Activity;
+
+  createTouched = { name: false, price: false };
+  isAddOptionFormVisible = false;
+  newOption: Option = this.createEmptyOption();
+  newOptionImageUrl = '';
+  newOptionImageUrlTouched = false;
+
+  editTouched = { name: false, price: false, url: false };
+  isInOptionEditMode = false;
+  idOfTheOptionEditing: number;
+  editingOptions: { [key: number]: Option } = {};
+  editingOptionsImageUrl: { [key: number]: string } = {};
+  editingOptionsImageUrlEnabled: { [key: number]: boolean } = {};
 
   createEmptyOption(): Option {
     return {
       activityId: this.activity.id,
       name: '',
-      image: '',
       price: 500,
     };
   }
@@ -48,6 +57,7 @@ export class ActivityDetailsComponent implements OnInit {
   constructor(public auth: AuthService,
               private activityService: ActivityService,
               private optionService: OptionService,
+              private imageService: ImageService,
               private route: ActivatedRoute,
               private router: Router) {
   }
@@ -83,6 +93,8 @@ export class ActivityDetailsComponent implements OnInit {
         this.options.forEach(option => {
           this.notes[option.id] = '';
           this.editingOptions[option.id] = { ...option };
+          this.editingOptionsImageUrl[option.id] = '';
+          this.editingOptionsImageUrlEnabled[option.id] = false;
         });
       },
       errorResponse => this.errorMessage = errorResponse.error.message
@@ -111,7 +123,7 @@ export class ActivityDetailsComponent implements OnInit {
     this.activityService.update(this.newActivity.id, this.newActivity).subscribe(
       response => {
         this.activity = response.data;
-        this.successMessage = 'The activity was updated successfully!';
+        this.successMessage = 'The activity has been updated successfully';
         this.isInActivityEditMode = false;
       },
       errorResponse => this.errorMessage = errorResponse.error.message
@@ -126,15 +138,38 @@ export class ActivityDetailsComponent implements OnInit {
   beginEditOption(id: number): void {
     this.isInOptionEditMode = true;
     this.idOfTheOptionEditing = id;
-    this.editTouched = { name: false, price: false };
+    this.editTouched = { name: false, price: false, url: false };
+    // Clear old inputs
+    this.editingOptions[id] = { ...this.options.find(option => option.id === id) };
+    this.editingOptionsImageUrl[id] = '';
+    this.editingOptionsImageUrlEnabled[id] = false;
   }
 
-  finishEditOption(id): void {
+  finishEditOption(id: number): void {
+    if (this.editingOptionsImageUrlEnabled[id] && !this.isValidUrl(this.editingOptionsImageUrl[id])) {
+      return;
+    }
     this.optionService.update(this.editingOptions[id]).subscribe(
       response => {
         const index = this.options.findIndex(element => element.id === response.data.id);
-        this.options[index] = response.data;
         this.isInOptionEditMode = false;
+        if (!this.editingOptionsImageUrlEnabled[id]) {
+          this.options[index] = response.data;
+        } else {
+          const url = this.editingOptionsImageUrl[id];
+          this.imageService.postForOption(id, url).subscribe(
+            imageResponse => {
+              // Need to duplicate this line here to wait for the upload
+              // to finish before updating the option on the screen
+              this.options[index] = response.data;
+              this.options[index].image = imageResponse.data;
+            },
+            errorImageResponse => {
+              this.options[index] = response.data;
+              this.errorMessage = errorImageResponse.error.message;
+            }
+          );
+        }
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
@@ -168,7 +203,8 @@ export class ActivityDetailsComponent implements OnInit {
   showAddOptionForm(): void {
     this.isAddOptionFormVisible = true;
     this.newOption = this.createEmptyOption();
-    this.touched = { name: false, price: false };
+    this.newOptionImageUrl = '';
+    this.createTouched = { name: false, price: false };
   }
 
   isEmptyOptionName(name: string): boolean {
@@ -187,18 +223,39 @@ export class ActivityDetailsComponent implements OnInit {
     return price >= 500;
   }
 
+  inputForCreateOptionFormIsValid(): boolean {
+    return this.isValidOptionName(this.newOption) &&
+      this.isValidOptionPrice(this.newOption.price) &&
+      (this.newOptionImageUrl === '' || this.isValidUrl(this.newOptionImageUrl));
+  }
+
   finishAddOption(event: Event): void {
     // Prevent submission when validation error occurs
-    if (!this.isValidOptionName(this.newOption) || !this.isValidOptionPrice(this.newOption.price)) {
-      this.touched = { name: true, price: true };
+    if (!this.inputForCreateOptionFormIsValid()) {
+      this.createTouched = { name: true, price: true };
       event.stopPropagation();
       return;
     }
-    this.optionService.create(this.newOption).subscribe(
+    this.optionService.create(this.activity.id, this.newOption).subscribe(
       response => {
         this.isAddOptionFormVisible = false;
-        this.options.push(response.data);
         this.successMessage = 'New option created successfully';
+        if (this.newOptionImageUrl === '') {
+          this.options.push(response.data);
+        } else {
+          this.imageService.postForOption(response.data.id, this.newOptionImageUrl).subscribe(
+            imageResponse => {
+              const newOption = response.data;
+              newOption.image = imageResponse.data;
+              this.options.push(newOption);
+            },
+            errorImageResponse => {
+              // Duplicated here to make the option visible only after the image is ready
+              this.options.push(response.data);
+              this.errorMessage = errorImageResponse.error.message;
+            }
+          );
+        }
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
@@ -262,10 +319,26 @@ export class ActivityDetailsComponent implements OnInit {
       this.isDuplicatedOptionName(this.editingOptions[option.id]);
   }
 
-  withdrawVote(optionId: number): void {
-    this.optionService.withdrawVote(this.auth.user.id, optionId).subscribe(
+  unvote(optionId: number): void {
+    this.optionService.unvote(this.auth.user.id, optionId).subscribe(
       response => this.voteMadeInThisActivity = null,
       errorResponse => this.errorMessage = errorResponse.error.message
     );
+  }
+
+  isValidUrl(url: string): boolean {
+    return /^(ftp|https?):\/\/.+$/.test(url);
+  }
+
+  isUrlEditInputValid(id: number): boolean {
+    return this.editTouched.url &&
+      this.editingOptionsImageUrlEnabled[id] &&
+      this.isValidUrl(this.editingOptionsImageUrl[id]);
+  }
+
+  isUrlEditInputInvalid(id: number): boolean {
+    return this.editTouched.url &&
+      this.editingOptionsImageUrlEnabled[id] &&
+      !this.isValidUrl(this.editingOptionsImageUrl[id]);
   }
 }

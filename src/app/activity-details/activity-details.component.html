@@ -121,13 +121,45 @@
         </div>
 
         <div class="card-body h-100">
-          <img *ngIf="option.image" alt="" class="card-img-bottom" src="{{ option.image }}">
-          <!--TODO: Add field to choose new image, need to keep existing one if no new image is chosen -->
+          <img *ngIf="option.image"
+               alt="" class="card-img-bottom option-image"
+               src="data:{{ option.image.type }};base64,{{ option.image.base64Content }}">
+          <div *ngIf="!isOptionEditing(option.id) && !option.image" class="h-100 d-flex">
+            <div class="h4 m-auto">No image</div>
+          </div>
+
+          <div *ngIf="isOptionEditing(option.id)">
+            <div class="custom-control custom-checkbox py-2">
+              <input [(ngModel)]="editingOptionsImageUrlEnabled[option.id]"
+                     class="custom-control-input"
+                     type="checkbox"
+                     name="replaceOptionImage{{ option.id }}"
+                     id="replaceOptionImage{{ option.id }}">
+              <label class="custom-control-label" for="replaceOptionImage{{ option.id }}">
+                Change image
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label for="imageForOption{{ option.id }}">Image URL</label>
+              <input (focusout)="editTouched.url = editingOptionsImageUrlEnabled[option.id]"
+                     [(ngModel)]="editingOptionsImageUrl[option.id]"
+                     [class.is-invalid]="isUrlEditInputInvalid(option.id)"
+                     [class.is-valid]="isUrlEditInputValid(option.id)"
+                     [readOnly]="!editingOptionsImageUrlEnabled[option.id]"
+                     class="form-control"
+                     id="imageForOption{{ option.id }}"
+                     name="imageForOption{{ option.id }}"
+                     type="url">
+            </div>
+            <div *ngIf="isUrlEditInputInvalid(option.id)" class="alert alert-danger" role="alert">
+              A valid URL is required when <b>Change image</b> is checked
+            </div>
+          </div>
         </div>
 
         <div class="card-footer">
           <div class="text-center">
-
             <!-- TODO: This group is ugly on small screen, redesign needed -->
             <div *ngIf="auth.user.admin">
               <button (click)="beginEditOption(option.id)"
@@ -166,7 +198,7 @@
               <textarea [(ngModel)]="notes[option.id]"
                         *ngIf="!activity.lockedOn && !voted(option.id)"
                         class="form-control" name="note"
-                        placeholder="Write a note for the project admin about your vote"
+                        placeholder="Write a note for the project admin"
                         rows="3">
               </textarea>
               <textarea *ngIf="voted(option.id)"
@@ -181,10 +213,10 @@
                 <span *ngIf="activity.lockedOn && !voted(option.id)" class="text-danger m-1">
                   Voting has been disabled.
                 </span>
-                <button (click)="withdrawVote(option.id)"
+                <button (click)="unvote(option.id)"
                         *ngIf="voted(option.id)"
                         class="btn btn-danger m-1" type="button">
-                  Withdraw your vote
+                  Unvote
                 </button>
               </div>
             </div>
@@ -197,40 +229,48 @@
     <div class="col mb-4 collapse" [class.collapse]="!isAddOptionFormVisible">
       <form *ngIf="true" class="card h-100">
         <div class="card-header">
-          <input (focusout)="touched.name = true"
+          <input (focusout)="createTouched.name = true"
                  [(ngModel)]="newOption.name"
-                 [class.is-invalid]="touched.name && !isValidOptionName(newOption)"
-                 [class.is-valid]="touched.name && isValidOptionName(newOption)"
+                 [class.is-invalid]="createTouched.name && !isValidOptionName(newOption)"
+                 [class.is-valid]="createTouched.name && isValidOptionName(newOption)"
                  class="form-control" name="optionName"
                  placeholder="Name..."
                  type="text">
-          <div *ngIf="touched.name && isEmptyOptionName(newOption.name)"
+          <div *ngIf="createTouched.name && isEmptyOptionName(newOption.name)"
                class="alert alert-danger mt-2" role="alert">
             Option name must not be empty
           </div>
-          <div *ngIf="touched.name && isDuplicatedOptionName(newOption)"
+          <div *ngIf="createTouched.name && isDuplicatedOptionName(newOption)"
                class="alert alert-danger mt-2" role="alert">
             Another option with this name already exists
           </div>
 
           <div class="input-group">
-            <input (focusout)="touched.price = true"
+            <input (focusout)="createTouched.price = true"
                    [(ngModel)]="newOption.price"
-                   [class.is-invalid]="touched.price && !isValidOptionPrice(newOption.price)"
-                   [class.is-valid]="touched.price && isValidOptionPrice(newOption.price)"
+                   [class.is-invalid]="createTouched.price && !isValidOptionPrice(newOption.price)"
+                   [class.is-valid]="createTouched.price && isValidOptionPrice(newOption.price)"
                    class="form-control" min="500"
                    name="optionPrice" step="500" type="number">
             <div class="input-group-append">
               <div class="input-group-text">VND</div>
             </div>
           </div>
-          <div *ngIf="touched.price && !isValidOptionPrice(newOption.price)"
+          <div *ngIf="createTouched.price && !isValidOptionPrice(newOption.price)"
                class="alert alert-danger mt-2" role="alert">
             Price must be 500 or more
           </div>
         </div>
 
-        <div class="card-body"></div>
+        <div class="card-body">
+          <label for="newOptionImageUrl">Image URL (optional)</label>
+          <input [(ngModel)]="newOptionImageUrl"
+                 [class.is-invalid]="newOptionImageUrl !== '' && !isValidUrl(newOptionImageUrl)"
+                 [class.is-valid]="newOptionImageUrl !== '' && isValidUrl(newOptionImageUrl)"
+                 class="form-control" id="newOptionImageUrl" name="newOptionImageUrl"
+                 type="url">
+        </div>
+
         <div class="card-footer">
           <div class="text-center">
             <button (click)="finishAddOption($event)" class="btn btn-primary m-1">

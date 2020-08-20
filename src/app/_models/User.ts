@@ -1,4 +1,5 @@
 import { JobTitle } from "./JobTitle";
+import { Image } from "./Image";
 
 export class User {
   id?: number;
@@ -8,6 +9,7 @@ export class User {
   email: string;
   admin: boolean;
   jobTitle?: JobTitle;
+  image?: Image;
   createdOn?: Date;
   deactivatedOn?: Date;
 }
