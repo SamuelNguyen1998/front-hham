@@ -399,4 +399,25 @@ export class ActivityDetailsComponent implements OnInit {
       this.editingOptionsImageUrlEnabled[id] &&
       !this.isValidUrl(this.editingOptionsImageUrl[id]);
   }
+
+  keyPressOnNumberField(event: KeyboardEvent, oldValueAsString: string): void {
+    // Decimal digits are accepted
+    if (/\d/.test(event.key)) {
+      return;
+    }
+    // Decimal point is allowed, but only once
+    if (event.key === "." && oldValueAsString.indexOf(".") < 0) {
+      return;
+    }
+    // All other keys are rejected
+    event.preventDefault();
+  }
+
+  onPriceAddKeyPress(event: KeyboardEvent): void {
+    this.keyPressOnNumberField(event, this.newOption.price.toString());
+  }
+
+  onPriceEditKeyPress(event: KeyboardEvent, id: number): void {
+    this.keyPressOnNumberField(event, this.editingOptions[id].price.toString());
+  }
 }

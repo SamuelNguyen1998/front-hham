@@ -107,6 +107,7 @@
           </div>
           <div *ngIf="isOptionEditing(option.id)" class="input-group">
             <input (focusout)="editTouched.price = true"
+                   (keypress)="onPriceEditKeyPress($event, option.id)"
                    [(ngModel)]="editingOptions[option.id].price"
                    [class.is-invalid]="editTouched.price && !isValidOptionPrice(editingOptions[option.id].price)"
                    [class.is-valid]="editTouched.price && isValidOptionPrice(editingOptions[option.id].price)"
@@ -251,6 +252,7 @@
           <div class="input-group">
             <input (focusout)="createTouched.price = true"
                    [(ngModel)]="newOption.price"
+                   (keypress)="onPriceAddKeyPress($event)"
                    [class.is-invalid]="createTouched.price && !isValidOptionPrice(newOption.price)"
                    [class.is-valid]="createTouched.price && isValidOptionPrice(newOption.price)"
                    class="form-control" min="500"
