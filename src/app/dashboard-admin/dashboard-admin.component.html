@@ -117,33 +117,33 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
-      <div class="card ">
-        <div class="card-header ">
-          <h5 class="card-title">Users Behavior</h5>
-          <p class="card-category">24 Hours performance</p>
-        </div>
-        <div class="card-body ">
-          <div class="chart-wrapper">
-            <canvas baseChart
-                [datasets]="lineChartData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                [colors]="lineChartColors"
-                [legend]="lineChartLegend"
-                [chartType]="lineChartType"
-                [plugins]="lineChartPlugins">
-            </canvas>
+      <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title">Fund Behavior</h5>
           </div>
-        </div>
-        <div class="card-footer ">
-          <hr>
-          <div class="stats">
-            <i class="fa fa-history"></i> Updated 3 minutes ago
+          <div class="card-body ">
+            <div class="chart-wrapper">
+              <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+                [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType"> 
+              </canvas>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
+      <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title">Transactions Behavior</h5>
+          </div>
+          <div class="card-body ">
+            <div class="chart-wrapper">
+              <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+                [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"
+                [plugins]="lineChartPlugins">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
-</div>

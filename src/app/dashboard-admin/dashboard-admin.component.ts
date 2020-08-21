@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from "../_services/user.service";
-import { ChartDataSets } from 'chart.js';
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { FundService } from '../_services/fund.service';
 import { Transaction } from '../_models/Transaction';
@@ -13,10 +13,11 @@ import { ProjectService } from '../_services/project.service';
 @Component({
   selector: 'app-dashboard-admin',
   templateUrl: './dashboard-admin.component.html',
-  styleUrls: [ './dashboard-admin.component.scss' ]
+  styleUrls: ['./dashboard-admin.component.scss']
 })
 export class DashboardAdminComponent implements OnInit {
   errorMessage = '';
+
   lineChartData: ChartDataSets[];
   lineChartLabels: Label[];
   lineChartOptions: any;
@@ -26,48 +27,96 @@ export class DashboardAdminComponent implements OnInit {
   lineChartType: string;
   sum = 0;
 
+  barChartOptions: ChartOptions;
+  barChartLabels: Label[] = [];
+  barChartType: ChartType;
+  barChartLegend: boolean;
+  barChartPlugins: any;
+  barChartData: ChartDataSets[] = [{
+    data: [], backgroundColor: ['rgba(255, 99, 132, 0.2)'], borderColor: [
+      'rgba(255, 99, 132, 1)'], label: "Fund"
+  }];
+
+
   transactions: Transaction[];
   activities: Activity[];
   users: User[];
   projects: Project[];
 
   constructor(private userService: UserService,
-              private activityService: ActivityService,
-              private fundService: FundService,
-              private projectService: ProjectService) {
+    private activityService: ActivityService,
+    private fundService: FundService,
+    private projectService: ProjectService) {
   }
 
   ngOnInit(): void {
-    this.loadChart();
     this.getAllFund();
     this.getAllTransaction();
     this.getAllActivity();
     this.getAllUser();
+    this.loadLineChart();
+    this.loadBarChart();
   }
 
-  loadChart(): void {
+  loadBarChart(): void {
+    this.barChartOptions = {
+      responsive: true,
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }],
+        xAxes: [{
+          gridLines: {
+            offsetGridLines: true
+          }
+        }]
+      }
+    };
+    this.projectService.getAll().subscribe(
+      response => {
+        this.projects = response.data;
+        this.projects.forEach(p => this.barChartLabels.push(p.name))
+        this.projects.forEach(p => this.barChartData[0].data.push(p.funds[0].amount))
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
+    this.barChartType = 'bar';
+    this.barChartLegend = true;
+    this.barChartPlugins = [];
+
+  }
+
+  loadLineChart(): void {
     this.lineChartData = [
       {
         borderColor: "#6bd098",
-        backgroundColor: "#6bd098",
-        pointRadius: 0,
-        pointHoverRadius: 0,
+        backgroundColor: 'transparent',
+        pointRadius: 4,
+        pointHoverRadius: 4,
+        pointBorderWidth: 8,
+        pointBorderColor: '#6bd098',
         borderWidth: 3,
-        data: [ 85, 72, 78, 75, 77, 75, 75, 77, 78, 60 ],
-        label: 'Hello'
+        fill: false,
+        data: [85, 72, 78, 75, 77, 75, 75, 77, 78, 60],
+        label: 'Funding'
       },
       {
         borderColor: "#f17e5d",
-        backgroundColor: "#f17e5d",
-        pointRadius: 0,
-        pointHoverRadius: 0,
+        pointRadius: 4,
+        pointHoverRadius: 4,
+        pointBorderWidth: 8,
+        pointBorderColor: '#f17e5d',
         borderWidth: 3,
-        data: [ 60, 75, 70, 62, 60, 70, 65, 60, 80, 72 ],
-        label: 'Hello 2'
+        backgroundColor: 'transparent',
+        fill: false,
+        data: [60, 75, 70, 62, 60, 70, 65, 60, 80, 72],
+        label: 'Spending'
       },
     ];
 
-    this.lineChartLabels = [ 'January', 'February', 'March', 'April', 'May', 'June', "Jul", "Aug", "Sep", "Oct" ];
+    this.lineChartLabels = ['January', 'February', 'March', 'April', 'May', 'June', "Jul", "Aug", "Sep", "Oct"];
 
     this.lineChartOptions = {
       responsive: true,
@@ -75,7 +124,11 @@ export class DashboardAdminComponent implements OnInit {
 
     this.lineChartColors = [
       {
-        borderColor: 'black',
+        borderColor: '#6bd098',
+        backgroundColor: 'rgba(255,255,0,0.28)',
+      },
+      {
+        borderColor: '#f17e5d',
         backgroundColor: 'rgba(255,255,0,0.28)',
       },
     ];
