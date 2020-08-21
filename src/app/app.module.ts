@@ -29,11 +29,12 @@ import { JobTitlesComponent } from './job-titles/job-titles.component';
 import { AddJobTitleComponent } from './add-job-title/add-job-title.component';
 
 import { UsersComponent } from './users/users.component';
-import { AddUserComponent } from './add-user/add-user.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 import { FundComponent } from './fund/fund.component';
 import { FundDetailsComponent } from './fund-details/fund-details.component';
+import { AddUserComponent } from './add-user/add-user.component';
 
 
 
@@ -60,11 +61,12 @@ import { FundDetailsComponent } from './fund-details/fund-details.component';
     ProjectDetailsComponent,
 
     UsersComponent,
-    AddUserComponent,
+    CreateAccountComponent,
     UserProfileComponent,
 
     FundComponent,
     FundDetailsComponent,
+    AddUserComponent,
   ],
   imports: [
     AppRoutingModule,

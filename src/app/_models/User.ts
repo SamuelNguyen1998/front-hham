@@ -13,5 +13,6 @@ export class User {
   image?: Image;
   createdOn?: Date;
   deactivatedOn?: Date;
+  activationToken?: string;
   transDtos?: Transaction[];
 }

@@ -38,7 +38,7 @@
             Funds
           </a>
         </li>
-        <li *ngIf="auth.user.admin" class="nav-item">
+        <li *ngIf="auth.user.admin || projectsAdministering.length > 0" class="nav-item">
           <a class="nav-link"
              data-target="#navbarContent.collapse.show" data-toggle="collapse"
              routerLink="/users" routerLinkActive="active">
@@ -79,7 +79,7 @@
             </a>
           </li>
           <li class="dropdown-item">
-            <a (click)="auth.logout()" class="nav-link" href="#">Log Out</a>
+            <a (click)="logout()" class="nav-link" href="#">Log Out</a>
           </li>
         </ul>
       </div>

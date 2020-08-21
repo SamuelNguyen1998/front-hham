@@ -20,10 +20,6 @@ export class UserService {
     return this.http.get(`${ Constants.API_BASE }/users/${ id }`);
   }
 
-  create(data: User): Observable<any> {
-    return this.http.post(`${ Constants.API_BASE }/users`, data);
-  }
-
   update(data: User): Observable<any> {
     return this.http.put(`${ Constants.API_BASE }/users/${ data.id }`, data);
   }
@@ -32,7 +28,15 @@ export class UserService {
     return this.http.delete(`${ Constants.API_BASE }/users/${ id }`);
   }
 
-  findByName(name: string): Observable<any> {
-    return this.http.get(`${ Constants.API_BASE }/users?username=${ name }`);
+  getInvitation(token: string): Observable<any> {
+    return this.http.get(`${ Constants.BACKEND_SERVER }/invitation/${ token }`);
+  }
+
+  invite(email: string): Observable<any> {
+    return this.http.post(`${ Constants.API_BASE }/users/invite`, { email });
+  }
+
+  activate(data: User): Observable<any> {
+    return this.http.post(`${ Constants.BACKEND_SERVER }/activate`, data);
   }
 }

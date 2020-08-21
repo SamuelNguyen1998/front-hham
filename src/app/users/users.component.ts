@@ -4,6 +4,8 @@ import { JobTitle } from "../_models/JobTitle";
 import { AuthService } from '../_services/auth.service';
 import { UserService } from '../_services/user.service';
 import { JobTitleService } from "../_services/job-title.service";
+import { ProjectService } from "../_services/project.service";
+import { Project } from "../_models/Project";
 
 @Component({
   selector: 'app-users',
@@ -28,15 +30,21 @@ export class UsersComponent implements OnInit {
   jobTitles: JobTitle[];
   touched = { username: false, email: false };
   userSelectedToDeactivate: User;
+  projectsAdministering: Project[] = [];
 
   constructor(public auth: AuthService,
               private userService: UserService,
+              private projectService: ProjectService,
               private jobTitleService: JobTitleService) {
   }
 
   ngOnInit(): void {
     this.loadUsers();
     this.loadJobTitles();
+    this.projectService.getAllAdministering().subscribe(
+      response => this.projectsAdministering = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
   }
 
   loadUsers(): void {

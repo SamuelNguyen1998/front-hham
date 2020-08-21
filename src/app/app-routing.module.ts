@@ -9,7 +9,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { ActivitiesComponent } from './activities/activities.component';
 import { JobTitlesComponent } from './job-titles/job-titles.component';
 import { UsersComponent } from './users/users.component';
-import { AddUserComponent } from './add-user/add-user.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ProjectDetailsComponent } from './project-details/project-details.component';
 import { ActivityDetailsComponent } from './activity-details/activity-details.component';
@@ -18,10 +18,12 @@ import { AddActivityComponent } from './add-activity/add-activity.component';
 import { AddJobTitleComponent } from './add-job-title/add-job-title.component';
 import { FundComponent } from './fund/fund.component';
 import { FundDetailsComponent } from './fund-details/fund-details.component';
+import { AddUserComponent } from "./add-user/add-user.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'activation', component: CreateAccountComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [ AuthGuard ] },
 
   { path: 'projects', component: ProjectsComponent, canActivate: [ AuthGuard ] },
