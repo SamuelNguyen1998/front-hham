@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { User } from '../_models/User';
 import { Project } from '../_models/Project';
@@ -10,6 +10,7 @@ import { AuthService } from '../_services/auth.service';
 import { FundService } from '../_services/fund.service';
 import { ProjectService } from '../_services/project.service';
 import { ActivityService } from '../_services/activity.service';
+
 declare var jQuery: any;
 
 @Component({
@@ -28,19 +29,19 @@ export class FundDetailsComponent implements OnInit {
   errorMessage = '';
   sum = 0;
   type = 1;
-  checkboxRemind: number[]=[];
-
+  checkboxRemind: number[] = [];
 
 
   constructor(public auth: AuthService,
               private projectService: ProjectService,
               private activityService: ActivityService,
               private route: ActivatedRoute,
+              private router: Router,
               private transactionService: FundService) {
   }
 
   ngOnInit(): void {
-    
+
     this.loadProject();
   }
 
@@ -53,29 +54,25 @@ export class FundDetailsComponent implements OnInit {
         this.loadTransaction();
         this.checkboxRemind = [];
       },
-      errorResponse => this.errorMessage = errorResponse.error.message
+      errorResponse => {
+        this.router.navigate([ '/404' ]);
+      }
     );
   }
 
   loadActivities(): void {
     this.activityService.findAllInProject(this.currentProject.id).subscribe(
-
-      response => {
-        this.activities = response.data;
-      }
-
+      response => this.activities = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
     );
   }
 
   loadMembers(): void {
     this.projectService.getMembers(this.currentProject.id).subscribe(
-      response =>{ this.members = response.data;
-      errorResponse => this.errorMessage = errorResponse.error.message;
-      console.log(response);
-      }
-      
+      response => this.members = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
     );
-      
+
   }
 
   loadTransaction(): void {
@@ -118,14 +115,14 @@ export class FundDetailsComponent implements OnInit {
     const inputElems = document.getElementsByTagName("input");
     for (let i = 0; i < inputElems.length; i++) {
       if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
-   //     this.checkboxRemind[i] = 1;
+        //     this.checkboxRemind[i] = 1;
         const data = {
           userId: Number(inputElems[i].getAttribute("id")),
           projectId: this.currentProject.id,
           amount: Number(inputElems[i].getAttribute("value")),
           typeId: 1
         };
-       
+
         this.transactionService.remind(data).subscribe(
           response => {
             this.checkboxRemind.push(data.userId);
@@ -133,9 +130,9 @@ export class FundDetailsComponent implements OnInit {
           }
         );
       }
-     // this.checkboxRemind[i] = 0;
+      // this.checkboxRemind[i] = 0;
     }
     this.loadProject();
   }
-  
+
 }

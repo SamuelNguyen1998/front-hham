@@ -61,7 +61,9 @@ export class ProjectDetailsComponent implements OnInit {
   loadProject(): void {
     this.projectService.get(this.id).subscribe(
       response => this.project = response.data,
-      errorResponse => this.errorMessage = errorResponse.error.message
+      errorResponse => {
+        this.router.navigate([ '/404' ]);
+      }
     );
   }
 
@@ -183,6 +185,7 @@ export class ProjectDetailsComponent implements OnInit {
           response => {
             this.successMessage = `${ response.data.displayName } has been promoted to project admin`;
             this.admins.push(this.members.find(admin => admin.id === id));
+            delete this.membersSelectedToPromote[id];
           },
           errorResponse => this.errorMessage = errorResponse.error.message
         );
@@ -197,12 +200,7 @@ export class ProjectDetailsComponent implements OnInit {
       this.errorMessage = 'No user selected yet';
       return;
     }
-    Object.keys(this.usersSelectedToAddToProject).forEach((key) => {
-      // Don't close dialog when no user is chosen
-      if (key === null) {
-        event.stopPropagation();
-        return;
-      }
+    for (const key of Object.keys(this.usersSelectedToAddToProject)) {
       const id: number = +key;
       // Not checked, just skip it
       if (!this.usersSelectedToAddToProject[id]) {
@@ -212,10 +210,11 @@ export class ProjectDetailsComponent implements OnInit {
         response => {
           this.successMessage = `${ response.data.displayName } has been added to project`;
           this.members.push(response.data);
+          delete this.usersSelectedToAddToProject[id];
         },
         errorResponse => this.errorMessage = errorResponse.error.message
       );
-    });
+    }
   }
 
   selectMemberToPromote(event): void {
@@ -228,8 +227,12 @@ export class ProjectDetailsComponent implements OnInit {
     this.usersSelectedToAddToProject[id] = event.target.checked;
   }
 
+  userIsProjectAdmin(id: number): boolean {
+    return this.admins?.some(admin => admin.id === id);
+  }
+
   currentUserIsProjectAdmin(): boolean {
-    return this.admins?.some(admin => admin.id === this.auth.user.id);
+    return this.userIsProjectAdmin(this.auth.user.id);
   }
 
   beginPromoteMemberToAdmin(): void {

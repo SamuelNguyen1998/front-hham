@@ -87,7 +87,7 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   get membersNotVoted(): User[] {
-    return this.members?.filter(member => !this.votes.some(vote => vote.userId === member.id))
+    return this.members?.filter(member => !this.votes?.some(vote => vote.userId === member.id))
       ?.filter(member => !member.admin);
   }
 
@@ -134,7 +134,10 @@ export class ActivityDetailsComponent implements OnInit {
         this.activity = response.data;
         this.loadOptions(id);
       },
-      errorResponse => this.errorMessage = errorResponse.error.message
+      errorResponse => {
+        this.errorMessage = errorResponse.error.message;
+        this.router.navigate([ '/404' ]);
+      }
     );
   }
 
@@ -198,7 +201,10 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   finishEditOption(id: number): void {
-    if (this.editingOptionsImageUrlEnabled[id] && !this.isValidUrl(this.editingOptionsImageUrl[id])) {
+    if (this.editingOptionsImageUrlEnabled[id] && !this.isValidUrl(this.editingOptionsImageUrl[id]) ||
+      !this.isValidOptionName(this.editingOptions[id]) ||
+      !this.isValidOptionPrice(this.editingOptions[id].price)) {
+      this.editTouched = { url: true, price: true, name: true };
       return;
     }
     this.optionService.update(this.editingOptions[id]).subscribe(
@@ -392,5 +398,26 @@ export class ActivityDetailsComponent implements OnInit {
     return this.editTouched.url &&
       this.editingOptionsImageUrlEnabled[id] &&
       !this.isValidUrl(this.editingOptionsImageUrl[id]);
+  }
+
+  keyPressOnNumberField(event: KeyboardEvent, oldValueAsString: string): void {
+    // Decimal digits are accepted
+    if (/\d/.test(event.key)) {
+      return;
+    }
+    // Decimal point is allowed, but only once
+    if (event.key === "." && oldValueAsString.indexOf(".") < 0) {
+      return;
+    }
+    // All other keys are rejected
+    event.preventDefault();
+  }
+
+  onPriceAddKeyPress(event: KeyboardEvent): void {
+    this.keyPressOnNumberField(event, this.newOption.price.toString());
+  }
+
+  onPriceEditKeyPress(event: KeyboardEvent, id: number): void {
+    this.keyPressOnNumberField(event, this.editingOptions[id].price.toString());
   }
 }

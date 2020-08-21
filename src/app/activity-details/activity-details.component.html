@@ -76,8 +76,8 @@
   </textarea>
 
   <h2>Options</h2>
-  <form class="row row-cols-md-3">
-    <div *ngFor="let option of options" class="col mb-4">
+  <div class="row row-cols-md-3">
+    <form *ngFor="let option of options" class="col mb-4">
       <div class="card h-100">
         <div class="card-header">
           <h4 *ngIf="!isOptionEditing(option.id)"
@@ -107,7 +107,10 @@
           </div>
           <div *ngIf="isOptionEditing(option.id)" class="input-group">
             <input (focusout)="editTouched.price = true"
+                   (keypress)="onPriceEditKeyPress($event, option.id)"
                    [(ngModel)]="editingOptions[option.id].price"
+                   [class.is-invalid]="editTouched.price && !isValidOptionPrice(editingOptions[option.id].price)"
+                   [class.is-valid]="editTouched.price && isValidOptionPrice(editingOptions[option.id].price)"
                    class="form-control" name="optionPrice"
                    type="number">
             <div class="input-group-append">
@@ -159,7 +162,14 @@
         </div>
 
         <div class="card-footer">
-          <div class="text-center">
+          <div *ngIf="activity.lockedOn && currentUserCanEdit()" class="text-center text-danger">
+            Activity is locked, cannot edit
+          </div>
+          <div *ngIf="activity.lockedOn && !currentUserCanEdit()" class="text-center text-danger">
+            Activity is locked, cannot vote
+          </div>
+
+          <div *ngIf="!activity.lockedOn" class="text-center">
             <!-- TODO: This group is ugly on small screen, redesign needed -->
             <div *ngIf="currentUserCanEdit()">
               <button (click)="beginEditOption(option.id)"
@@ -224,9 +234,20 @@
         </div>
 
       </div>
+    </form>
+
+    <!-- Create option -->
+    <div *ngIf="!activity.lockedOn && currentUserCanEdit() && !isAddOptionFormVisible" class="col mb-4">
+      <div class="card h-100">
+        <button (click)="showAddOptionForm()" class="button-add-option h-100" title="Add option">
+            <span class="icon-wrapper">
+              <i class="fas fa-plus"></i>
+            </span>
+        </button>
+      </div>
     </div>
 
-    <div class="col mb-4 collapse" [class.collapse]="!isAddOptionFormVisible">
+    <div [class.collapse]="!isAddOptionFormVisible" class="col mb-4 collapse">
       <form *ngIf="true" class="card h-100">
         <div class="card-header">
           <input (focusout)="createTouched.name = true"
@@ -248,6 +269,7 @@
           <div class="input-group">
             <input (focusout)="createTouched.price = true"
                    [(ngModel)]="newOption.price"
+                   (keypress)="onPriceAddKeyPress($event)"
                    [class.is-invalid]="createTouched.price && !isValidOptionPrice(newOption.price)"
                    [class.is-valid]="createTouched.price && isValidOptionPrice(newOption.price)"
                    class="form-control" min="500"
@@ -273,10 +295,10 @@
 
         <div class="card-footer">
           <div class="text-center">
-            <button (click)="finishAddOption($event)" class="btn btn-primary m-1">
+            <button (click)="finishAddOption($event)" class="btn btn-primary m-1" type="button">
               <i class="fas fa-plus"></i> Create
             </button>
-            <button (click)="cancelAddOption()" class="btn btn-secondary m-1">
+            <button (click)="cancelAddOption()" class="btn btn-secondary m-1" type="button">
               <i class="fas fa-times-circle"></i> Cancel
             </button>
           </div>
@@ -284,17 +306,7 @@
       </form>
     </div>
 
-    <div *ngIf="currentUserCanEdit() && !isAddOptionFormVisible" class="col mb-4">
-      <div class="card h-100">
-        <button (click)="showAddOptionForm()" class="button-add-option h-100" title="Add option">
-            <span class="icon-wrapper">
-              <i class="fas fa-plus"></i>
-            </span>
-        </button>
-      </div>
-    </div>
-
-  </form>
+  </div>
 
   <div class="mt-5">
     <h4>Votes</h4>
