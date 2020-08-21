@@ -54,7 +54,7 @@ export class DashboardAdminComponent implements OnInit {
     this.getAllTransaction();
     this.getAllActivity();
     this.getAllUser();
-    this.loadLineChart();
+    // this.loadLineChart();
     this.loadBarChart();
   }
 
@@ -88,55 +88,55 @@ export class DashboardAdminComponent implements OnInit {
 
   }
 
-  loadLineChart(): void {
-    this.lineChartData = [
-      {
-        borderColor: "#6bd098",
-        backgroundColor: 'transparent',
-        pointRadius: 4,
-        pointHoverRadius: 4,
-        pointBorderWidth: 8,
-        pointBorderColor: '#6bd098',
-        borderWidth: 3,
-        fill: false,
-        data: [85, 72, 78, 75, 77, 75, 75, 77, 78, 60],
-        label: 'Funding'
-      },
-      {
-        borderColor: "#f17e5d",
-        pointRadius: 4,
-        pointHoverRadius: 4,
-        pointBorderWidth: 8,
-        pointBorderColor: '#f17e5d',
-        borderWidth: 3,
-        backgroundColor: 'transparent',
-        fill: false,
-        data: [60, 75, 70, 62, 60, 70, 65, 60, 80, 72],
-        label: 'Spending'
-      },
-    ];
+  // loadLineChart(): void {
+  //   this.lineChartData = [
+  //     {
+  //       borderColor: "#6bd098",
+  //       backgroundColor: 'transparent',
+  //       pointRadius: 4,
+  //       pointHoverRadius: 4,
+  //       pointBorderWidth: 8,
+  //       pointBorderColor: '#6bd098',
+  //       borderWidth: 3,
+  //       fill: false,
+  //       data: [85, 72, 78, 75, 77, 75, 75, 77, 78, 60],
+  //       label: 'Funding'
+  //     },
+  //     {
+  //       borderColor: "#f17e5d",
+  //       pointRadius: 4,
+  //       pointHoverRadius: 4,
+  //       pointBorderWidth: 8,
+  //       pointBorderColor: '#f17e5d',
+  //       borderWidth: 3,
+  //       backgroundColor: 'transparent',
+  //       fill: false,
+  //       data: [60, 75, 70, 62, 60, 70, 65, 60, 80, 72],
+  //       label: 'Spending'
+  //     },
+  //   ];
 
-    this.lineChartLabels = ['January', 'February', 'March', 'April', 'May', 'June', "Jul", "Aug", "Sep", "Oct"];
+  //   this.lineChartLabels = ['January', 'February', 'March', 'April', 'May', 'June', "Jul", "Aug", "Sep", "Oct"];
 
-    this.lineChartOptions = {
-      responsive: true,
-    };
+  //   this.lineChartOptions = {
+  //     responsive: true,
+  //   };
 
-    this.lineChartColors = [
-      {
-        borderColor: '#6bd098',
-        backgroundColor: 'rgba(255,255,0,0.28)',
-      },
-      {
-        borderColor: '#f17e5d',
-        backgroundColor: 'rgba(255,255,0,0.28)',
-      },
-    ];
+  //   this.lineChartColors = [
+  //     {
+  //       borderColor: '#6bd098',
+  //       backgroundColor: 'rgba(255,255,0,0.28)',
+  //     },
+  //     {
+  //       borderColor: '#f17e5d',
+  //       backgroundColor: 'rgba(255,255,0,0.28)',
+  //     },
+  //   ];
 
-    this.lineChartLegend = true;
-    this.lineChartPlugins = [];
-    this.lineChartType = 'line';
-  }
+  //   this.lineChartLegend = true;
+  //   this.lineChartPlugins = [];
+  //   this.lineChartType = 'line';
+  // }
 
   getAllTransaction(): void {
     this.fundService.getAll().subscribe(

@@ -38,7 +38,8 @@ export class CreateAccountComponent implements OnInit {
           this.user.email = this.invitation.email;
           this.user.activationToken = response.data.token;
         },
-        errorResponse => this.errorMessage = errorResponse.error.message
+        errorResponse => {this.errorMessage = errorResponse.error.message;
+        console.log(errorResponse)}
       );
     });
   }
@@ -60,6 +61,7 @@ export class CreateAccountComponent implements OnInit {
     }
     this.userService.activate(this.user).subscribe(
       response => {
+        console.log(response);
         this.router.navigate([ `/users` ]);
       },
       errorResponse => this.errorMessage = errorResponse.error.message

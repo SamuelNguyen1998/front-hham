@@ -1,12 +1,15 @@
-<div class="container pt-5">
+<div *ngIf="deactivated" class="container pt-5">
+  Deactivated Account successful !!!
+</div>
+<div *ngIf="!deactivated" class="container pt-5">
   <div class="jumbotron">
     <div class="row">
       <div class="col-sm-3">
         <div class="text-center">
           <h1>{{ user.username }}</h1>
-          <img alt="Avatar" class="avatar rounded-circle img-thumbnail" src="/assets/user.webp"/>
+          <img alt="Avatar" class="avatar rounded-circle img-thumbnail" src="/assets/user.webp" />
           <h6>Upload a different photo...</h6>
-          <input type="file" accept="image/*" class="text-center center-block file-upload"/>
+          <input type="file" accept="image/*" class="text-center center-block file-upload" />
         </div>
       </div>
 
@@ -29,7 +32,7 @@
 
         <div class="tab-content">
           <div class="tab-pane active" id="home">
-            <hr/>
+            <hr />
 
             <div class="row">
               <div class="col-lg-6 mr-auto">
@@ -49,69 +52,95 @@
           <!--/tab-pane-->
           <div class="tab-pane" id="messages">
             <h2></h2>
-            <hr/>
+            <hr />
             <div class="row">
               <div class="col-lg-6 mr-auto">
                 <label for="displayName">
                   <h4>Display name</h4>
                 </label>
-                <input [(ngModel)]="user.displayName"
-                       class="form-control" id="displayName" name="displayName"
-                       placeholder="Display name"
-                       type="text"/>
+                <input [(ngModel)]="user.displayName" class="form-control" id="displayName" name="displayName"
+                  placeholder="Display name" type="text" />
               </div>
               <div class="col-lg-6 mr-auto">
                 <label for="email">
                   <h4>Email</h4>
                 </label>
-                <input type="text" class="form-control" name="email" id="email"
-                       placeholder="enter email" title="enter your email if any."
-                       [(ngModel)]="user.email"/>
+                <input type="text" class="form-control" name="email" id="email" placeholder="enter email"
+                  title="enter your email if any." [(ngModel)]="user.email" />
               </div>
               <div class="col-lg-6 mr-auto">
                 <label for="username">
                   <h4>Username</h4>
                 </label>
-                <input type="text" class="form-control" name="username" id="username"
-                       placeholder="enter username" title="enter your username if any."
-                       [(ngModel)]="user.username"/>
+                <input type="text" class="form-control" name="username" id="username" placeholder="enter username"
+                  title="enter your username if any." [(ngModel)]="user.username" />
               </div>
             </div>
 
             <div class="form-group">
               <div class="col-xs-12">
-                <br/>
+                <br />
                 <button class="btn btn-lg btn-success" type="submit" (click)="updateUser()">
                   <i class="fa fa-save fa-1x"></i> Save
                 </button>
                 <button class="btn btn-lg" type="reset">
                   <i class="fa fa-reply fa-1x"></i> Reset
                 </button>
+                <div class="d-inline-block" data-toggle="tooltip" tabindex="0"
+                  title="Account of the system admin cannot be deactivated">
+                  <button [disabled]="user.admin" class="btn btn-danger m-1"
+                    data-target="#deactivateUserConfirmDialog" data-toggle="modal" type="button">
+                    <i class="fas fa-lock fa-1x"></i> Deactivate
+                  </button>
+                </div>
               </div>
             </div>
-            <hr/>
+            <hr />
+          </div>
+          <!-- Dialogs -->
+          <div class="modal fade" id="deactivateUserConfirmDialog" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Deactivate account</h4>
+                </div>
+
+                <div class="modal-body">
+                  Do you want to deactivate user {{ user?.username }}
+                  ({{ user?.displayName }})?
+                </div>
+
+                <div class="modal-footer">
+                  <button (click)="deactivate()" class="btn btn-danger" data-dismiss="modal" type="button">
+                    Deactivate account
+                  </button>
+                  <button class="btn btn-secondary" data-dismiss="modal" type="button">
+                    No, do not deactivate
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           <!--/tab-pane-->
           <div class="tab-pane" id="changepass">
             <h2>CHANGE PASSWORD</h2>
-            <hr/>
+            <hr />
             <form>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text" style="width: 130px;">New Password:</span>
                 </div>
                 <input [(ngModel)]="user.password" type="password" class="form-control" name="newpassword"
-                       id="newpassword" title="enter new password if any." placeholder="enter new password"
-                       aria-label="newpassword" aria-describedby="basic-addon1" #modelPassword="ngModel">
+                  id="newpassword" title="enter new password if any." placeholder="enter new password"
+                  aria-label="newpassword" aria-describedby="basic-addon1" #modelPassword="ngModel">
               </div>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text" style="width: 130px;">Verify:</span>
                 </div>
-                <input type="password" class="form-control" name="verify"
-                       id="verify" title="enter vetify password if any."
-                       placeholder="enter vetify password" aria-label="vetify"
-                       aria-describedby="basic-addon1" ngValidateEqual="newpassword">
+                <input type="password" class="form-control" name="verify" id="verify"
+                  title="enter vetify password if any." placeholder="enter vetify password" aria-label="vetify"
+                  aria-describedby="basic-addon1" ngValidateEqual="newpassword">
               </div>
             </form>
             <div class="form-group">
@@ -121,7 +150,7 @@
                 </button>
               </div>
             </div>
-            <hr/>
+            <hr />
           </div>
           <!--/tab-pane-->
         </div>
