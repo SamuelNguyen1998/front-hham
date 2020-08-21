@@ -87,7 +87,7 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   get membersNotVoted(): User[] {
-    return this.members?.filter(member => !this.votes.some(vote => vote.userId === member.id))
+    return this.members?.filter(member => !this.votes?.some(vote => vote.userId === member.id))
       ?.filter(member => !member.admin);
   }
 
@@ -198,7 +198,10 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   finishEditOption(id: number): void {
-    if (this.editingOptionsImageUrlEnabled[id] && !this.isValidUrl(this.editingOptionsImageUrl[id])) {
+    if (this.editingOptionsImageUrlEnabled[id] && !this.isValidUrl(this.editingOptionsImageUrl[id]) ||
+      !this.isValidOptionName(this.editingOptions[id]) ||
+      !this.isValidOptionPrice(this.editingOptions[id].price)) {
+      this.editTouched = { url: true, price: true, name: true };
       return;
     }
     this.optionService.update(this.editingOptions[id]).subscribe(

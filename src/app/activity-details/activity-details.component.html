@@ -108,6 +108,8 @@
           <div *ngIf="isOptionEditing(option.id)" class="input-group">
             <input (focusout)="editTouched.price = true"
                    [(ngModel)]="editingOptions[option.id].price"
+                   [class.is-invalid]="editTouched.price && !isValidOptionPrice(editingOptions[option.id].price)"
+                   [class.is-valid]="editTouched.price && isValidOptionPrice(editingOptions[option.id].price)"
                    class="form-control" name="optionPrice"
                    type="number">
             <div class="input-group-append">
