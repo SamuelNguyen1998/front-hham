@@ -162,8 +162,11 @@
         </div>
 
         <div class="card-footer">
-          <div *ngIf="activity.lockedOn" class="text-center text-danger">
+          <div *ngIf="activity.lockedOn && currentUserCanEdit()" class="text-center text-danger">
             Activity is locked, cannot edit
+          </div>
+          <div *ngIf="activity.lockedOn && !currentUserCanEdit()" class="text-center text-danger">
+            Activity is locked, cannot vote
           </div>
 
           <div *ngIf="!activity.lockedOn" class="text-center">
