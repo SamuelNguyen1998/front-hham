@@ -16,6 +16,8 @@
         <i class="fas fa-plus"></i> Create new job title
       </a>
     </div>
+    <!-- Messages -->
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
     <!-- Search -->
     <form class="col-md-8 form-inline">

@@ -11,10 +11,8 @@
     <!-- TODO: Add advanced filters here instead of a general search field -->
     <form class="col-md-8 form-inline">
       <div class="btn-group ml-auto searchBox">
-        <input [(ngModel)]="searchTerm"
-               (change)="turnOffFiltering()"
-               class="form-control ml-auto" name="searchTerm"
-               placeholder="Search by name..." type="text">
+        <input [(ngModel)]="searchTerm" (change)="turnOffFiltering()" class="form-control ml-auto" name="searchTerm"
+          placeholder="Search by name..." type="text">
         <button (click)="searchByName()" class="btn btn-secondary" type="button">
           <i class="fas fa-search"></i>
         </button>
@@ -22,6 +20,8 @@
     </form>
   </div>
 
+  <!-- Messages -->
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
   <!-- Data -->
   <form>
     <table class="table table-striped">
@@ -41,24 +41,14 @@
           <td>{{ user.email }}</td>
           <td>{{ user.jobTitle ? user.jobTitle.name : "Not available" }}</td>
           <td>
-            <button (click)="beginEdit(user.id)"
-                    class="btn btn-info m-1"
-                    data-backdrop="static"
-                    data-target="#editUserDialog"
-                    data-toggle="modal"
-                    type="button">
+            <button (click)="beginEdit(user.id)" class="btn btn-info m-1" data-backdrop="static"
+              data-target="#editUserDialog" data-toggle="modal" type="button">
               <i class="fas fa-pen"></i> Edit
             </button>
-            <div class="d-inline-block"
-                 data-toggle="tooltip"
-                 tabindex="0"
-                 title="Account of the system admin cannot be deactivated">
-              <button (click)="confirmDeactivate(user.id)"
-                      [disabled]="user.admin"
-                      class="btn btn-danger m-1"
-                      data-target="#deactivateUserConfirmDialog"
-                      data-toggle="modal"
-                      type="button">
+            <div class="d-inline-block" data-toggle="tooltip" tabindex="0"
+              title="Account of the system admin cannot be deactivated">
+              <button (click)="confirmDeactivate(user.id)" [disabled]="user.admin" class="btn btn-danger m-1"
+                data-target="#deactivateUserConfirmDialog" data-toggle="modal" type="button">
                 <i class="fas fa-lock"></i> Deactivate
               </button>
             </div>
@@ -105,56 +95,46 @@
       <form class="modal-body">
         <div class="form-group">
           <label class="required-field" for="username">Username</label>
-          <input (focusout)="touched.username = true"
-                 [(ngModel)]="editingUser.username"
-                 [class.is-invalid]="touched.username && !usernameIsValid()"
-                 [class.is-valid]="touched.username && usernameIsValid()"
-                 class="form-control" id="username" name="username"
-                 type="text">
+          <input (focusout)="touched.username = true" [(ngModel)]="editingUser.username"
+            [class.is-invalid]="touched.username && !usernameIsValid()"
+            [class.is-valid]="touched.username && usernameIsValid()" class="form-control" id="username" name="username"
+            type="text">
         </div>
-        <div *ngIf="touched.username && usernameIsEmpty()"
-             class="alert alert-danger" role="alert">
+        <div *ngIf="touched.username && usernameIsEmpty()" class="alert alert-danger" role="alert">
           Username is required
         </div>
-        <div *ngIf="touched.username && !usernameIsEmpty() && !usernameIsValid()"
-             class="alert alert-danger" role="alert">
+        <div *ngIf="touched.username && !usernameIsEmpty() && !usernameIsValid()" class="alert alert-danger"
+          role="alert">
           Only alphanumeric characters and dots are allowed.
         </div>
 
         <div class="form-group">
           <label for="displayName">Display name</label>
-          <input [(ngModel)]="editingUser.displayName"
-                 class="form-control" id="displayName" name="displayName"
-                 type="text">
+          <input [(ngModel)]="editingUser.displayName" class="form-control" id="displayName" name="displayName"
+            type="text">
         </div>
 
         <div class="form-group">
           <label class="required-field" for="email">Email</label>
-          <input [(ngModel)]="editingUser.email"
-                 (focusout)="touched.email = true"
-                 [class.is-invalid]="touched.email && !emailIsValid()"
-                 [class.is-valid]="touched.email && emailIsValid()"
-                 class="form-control" id="email" name="email"
-                 type="email">
+          <input [(ngModel)]="editingUser.email" (focusout)="touched.email = true"
+            [class.is-invalid]="touched.email && !emailIsValid()" [class.is-valid]="touched.email && emailIsValid()"
+            class="form-control" id="email" name="email" type="email">
         </div>
         <div *ngIf="touched.email && emailIsEmpty()" class="alert alert-danger" role="alert">
           Email is required
         </div>
-        <div *ngIf="touched.email && !emailIsEmpty() && !emailIsValid()"
-             class="alert alert-danger" role="alert">
+        <div *ngIf="touched.email && !emailIsEmpty() && !emailIsValid()" class="alert alert-danger" role="alert">
           Invalid email
         </div>
 
         <div class="form-group">
           <label for="jobTitle">Job title</label>
-          <select [(ngModel)]="editingUser.jobTitle.id"
-                  class="form-control" id="jobTitle" name="jobTitle">
+          <select [(ngModel)]="editingUser.jobTitle.id" class="form-control" id="jobTitle" name="jobTitle">
             <option [selected]="editingUser.jobTitle" value="null">
               --- Not available ---
             </option>
-            <option *ngFor="let jobTitle of jobTitles"
-                    [selected]="editingUser.jobTitle.id === jobTitle.id"
-                    value="{{ jobTitle.id }}">
+            <option *ngFor="let jobTitle of jobTitles" [selected]="editingUser.jobTitle.id === jobTitle.id"
+              value="{{ jobTitle.id }}">
               {{ jobTitle.name }}
             </option>
           </select>
