@@ -28,7 +28,9 @@ export class FundDetailsComponent implements OnInit {
   errorMessage = '';
   sum = 0;
   type = 1;
-  checkboxRemind: any;
+  checkboxRemind: number[]=[];
+
+
 
   constructor(public auth: AuthService,
               private projectService: ProjectService,
@@ -38,6 +40,7 @@ export class FundDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.loadProject();
   }
 
@@ -48,6 +51,7 @@ export class FundDetailsComponent implements OnInit {
         this.loadActivities();
         this.loadMembers();
         this.loadTransaction();
+        this.checkboxRemind = [];
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
@@ -69,7 +73,7 @@ export class FundDetailsComponent implements OnInit {
       errorResponse => this.errorMessage = errorResponse.error.message;
       console.log(response);
       }
-
+      
     );
       
   }
@@ -121,15 +125,17 @@ export class FundDetailsComponent implements OnInit {
           amount: Number(inputElems[i].getAttribute("value")),
           typeId: 1
         };
+       
         this.transactionService.remind(data).subscribe(
           response => {
+            this.checkboxRemind.push(data.userId);
             jQuery('#reminderEmailRecipientsDialog').modal('show');
           }
-        
         );
       }
      // this.checkboxRemind[i] = 0;
     }
+    this.loadProject();
   }
   
 }
