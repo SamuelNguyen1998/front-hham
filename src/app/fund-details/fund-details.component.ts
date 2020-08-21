@@ -10,7 +10,7 @@ import { AuthService } from '../_services/auth.service';
 import { FundService } from '../_services/fund.service';
 import { ProjectService } from '../_services/project.service';
 import { ActivityService } from '../_services/activity.service';
-
+declare var jQuery: any;
 
 @Component({
   selector: 'app-fund-details',
@@ -28,6 +28,7 @@ export class FundDetailsComponent implements OnInit {
   errorMessage = '';
   sum = 0;
   type = 1;
+  checkboxRemind: any;
 
   constructor(public auth: AuthService,
               private projectService: ProjectService,
@@ -113,6 +114,7 @@ export class FundDetailsComponent implements OnInit {
     const inputElems = document.getElementsByTagName("input");
     for (let i = 0; i < inputElems.length; i++) {
       if (inputElems[i].type === "checkbox" && inputElems[i].checked === true) {
+   //     this.checkboxRemind[i] = 1;
         const data = {
           userId: Number(inputElems[i].getAttribute("id")),
           projectId: this.currentProject.id,
@@ -120,11 +122,14 @@ export class FundDetailsComponent implements OnInit {
           typeId: 1
         };
         this.transactionService.remind(data).subscribe(
-          response => console.log(response),
-          errorResponse => this.errorMessage = errorResponse.error.message
+          response => {
+            jQuery('#reminderEmailRecipientsDialog').modal('show');
+          }
+        
         );
       }
+     // this.checkboxRemind[i] = 0;
     }
-    this.loadTransaction();
   }
+  
 }
