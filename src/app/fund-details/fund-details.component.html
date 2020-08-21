@@ -116,9 +116,17 @@
         <h4 class="modal-title">Remind project members for funding</h4>
       </div>
       <div class="modal-body">
-        Reminder email for funding has been sent !
+        Reminder email for funding has been sent to the following addresses:
         <ul>
-          <!-- <li *ngFor="let recipient of notificationRecipients">{{ recipient }}</li> -->
+          <li *ngFor="let m of checkboxRemind">    
+
+            <ng-container *ngFor="let member of members">
+            <ng-container *ngIf="m === member.id">
+              {{member.email}}
+            </ng-container>
+            </ng-container>
+
+          </li>
         </ul>
       </div>
       <div class="modal-footer">
