@@ -134,7 +134,10 @@ export class ActivityDetailsComponent implements OnInit {
         this.activity = response.data;
         this.loadOptions(id);
       },
-      errorResponse => this.errorMessage = errorResponse.error.message
+      errorResponse => {
+        this.errorMessage = errorResponse.error.message;
+        this.router.navigate([ '/404' ]);
+      }
     );
   }
 

@@ -61,7 +61,9 @@ export class ProjectDetailsComponent implements OnInit {
   loadProject(): void {
     this.projectService.get(this.id).subscribe(
       response => this.project = response.data,
-      errorResponse => this.errorMessage = errorResponse.error.message
+      errorResponse => {
+        this.router.navigate([ '/404' ]);
+      }
     );
   }
 
