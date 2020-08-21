@@ -162,7 +162,11 @@
         </div>
 
         <div class="card-footer">
-          <div class="text-center">
+          <div *ngIf="activity.lockedOn" class="text-center text-danger">
+            Activity is locked, cannot edit
+          </div>
+
+          <div *ngIf="!activity.lockedOn" class="text-center">
             <!-- TODO: This group is ugly on small screen, redesign needed -->
             <div *ngIf="currentUserCanEdit()">
               <button (click)="beginEditOption(option.id)"
@@ -230,7 +234,17 @@
     </form>
 
     <!-- Create option -->
-    <div class="col mb-4 collapse" [class.collapse]="!isAddOptionFormVisible">
+    <div *ngIf="!activity.lockedOn && currentUserCanEdit() && !isAddOptionFormVisible" class="col mb-4">
+      <div class="card h-100">
+        <button (click)="showAddOptionForm()" class="button-add-option h-100" title="Add option">
+            <span class="icon-wrapper">
+              <i class="fas fa-plus"></i>
+            </span>
+        </button>
+      </div>
+    </div>
+
+    <div [class.collapse]="!isAddOptionFormVisible" class="col mb-4 collapse">
       <form *ngIf="true" class="card h-100">
         <div class="card-header">
           <input (focusout)="createTouched.name = true"
@@ -287,16 +301,6 @@
           </div>
         </div>
       </form>
-    </div>
-
-    <div *ngIf="currentUserCanEdit() && !isAddOptionFormVisible" class="col mb-4">
-      <div class="card h-100">
-        <button (click)="showAddOptionForm()" class="button-add-option h-100" title="Add option">
-            <span class="icon-wrapper">
-              <i class="fas fa-plus"></i>
-            </span>
-        </button>
-      </div>
     </div>
 
   </div>
