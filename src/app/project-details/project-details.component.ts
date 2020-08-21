@@ -227,8 +227,12 @@ export class ProjectDetailsComponent implements OnInit {
     this.usersSelectedToAddToProject[id] = event.target.checked;
   }
 
+  userIsProjectAdmin(id: number): boolean {
+    return this.admins?.some(admin => admin.id === id);
+  }
+
   currentUserIsProjectAdmin(): boolean {
-    return this.admins?.some(admin => admin.id === this.auth.user.id);
+    return this.userIsProjectAdmin(this.auth.user.id);
   }
 
   beginPromoteMemberToAdmin(): void {

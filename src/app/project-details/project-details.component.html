@@ -128,7 +128,7 @@
             <div class="col-md-3 text-right" title="System admin cannot be removed from project">
               <button (click)="removeMember(member.id)"
                       *ngIf="currentUserIsProjectAdmin()"
-                      [disabled]="member.admin"
+                      [disabled]="userIsProjectAdmin(member.id)"
                       class="btn btn-danger m-2"
                       type="button">
                 Delete
