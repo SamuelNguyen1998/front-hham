@@ -108,12 +108,22 @@
             <td>{{ t.activityName }}</td>
             <td>{{ t.createdOn | date: 'medium' }}</td>
             <td>{{ t.amount }}</td>
-            <td>{{ t?.memo }}</td>
+            <td>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#memo" aria-expanded="false" aria-controls="memo">
+                  More Detail 
+                </button>
+              <div class="collapse" id="memo">
+                <div class="card card-body">
+                  {{t.memo}}
+                </div>
+              </div>
+
+            </td>
           </ng-container>
         </tr>
       </tbody>
     </table> 
-  </div>
+  </div>  
   </div>
 
 
