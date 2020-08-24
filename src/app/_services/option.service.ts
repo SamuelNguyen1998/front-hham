@@ -21,7 +21,8 @@ export class OptionService {
   }
 
   create(activityId: number, data: Option): Observable<any> {
-    return this.http.post(`${ Constants.API_BASE }/options`, { ...data, activityId });
+    data.activityId = activityId;
+    return this.http.post(`${ Constants.API_BASE }/options`, data);
   }
 
   update(data: Option): Observable<any> {

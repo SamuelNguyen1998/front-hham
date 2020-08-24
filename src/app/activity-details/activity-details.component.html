@@ -326,9 +326,9 @@
   </div>
 
   <div class="mt-5">
-    <p *ngIf="votes?.length === members?.length">All members have voted</p>
-
-    <div *ngIf="votes?.length < members?.length">
+    <!-- Subtract 1 because system admin can't vote -->
+    <h4 *ngIf="votes?.length === members?.length - 1">All members have voted</h4>
+    <div *ngIf="votes?.length < members?.length - 1">
       <h4>The following members has not voted yet:</h4>
       <ul class="list-group">
         <li *ngFor="let member of membersNotVoted" class="list-group-item">

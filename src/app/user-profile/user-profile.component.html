@@ -8,8 +8,8 @@
         <div class="text-center">
           <h1>{{ user.username }}</h1>
           <img alt="Avatar" class="avatar rounded-circle img-thumbnail" src="/assets/user.webp" />
-          <h6>Upload a different photo...</h6>
-          <input type="file" accept="image/*" class="text-center center-block file-upload" />
+<!--          <h6>Upload a different photo...</h6>-->
+<!--          <input type="file" accept="image/*" class="text-center center-block file-upload" />-->
         </div>
       </div>
 
@@ -32,7 +32,7 @@
 
         <div class="tab-content">
           <div class="tab-pane active" id="home">
-            <hr />
+            <hr>
 
             <div class="row">
               <div class="col-lg-6 mr-auto">
@@ -124,7 +124,10 @@
           <!--/tab-pane-->
           <div class="tab-pane" id="changepass">
             <h2>CHANGE PASSWORD</h2>
-            <hr />
+            <hr>
+            <div *ngIf="passwordChanged" class="alert alert-success" role="alert">
+              Password changed successfully
+            </div>
             <form>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -145,7 +148,7 @@
             </form>
             <div class="form-group">
               <div class="col-xs-12 text-center">
-                <button class="btn btn-lg btn-success" type="submit" (click)="updateUser()">
+                <button class="btn btn-lg btn-success" type="submit" (click)="changePassword()">
                   <i class="fa fa-save fa-1x"></i> Change Password
                 </button>
               </div>

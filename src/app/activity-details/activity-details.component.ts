@@ -237,6 +237,7 @@ export class ActivityDetailsComponent implements OnInit {
 
   cancelEditOption(): void {
     this.isInOptionEditMode = false;
+    this.editTouched = { price: false, name: false, url: false };
   }
 
   captureOptionToDelete(id: number): void {
@@ -408,18 +409,19 @@ export class ActivityDetailsComponent implements OnInit {
       return;
     }
     // Decimal point is allowed, but only once
-    if (event.key === "." && oldValueAsString.indexOf(".") < 0) {
-      return;
-    }
+    // if (event.key === "." && oldValueAsString?.indexOf(".") < 0) {
+    //   return;
+    // }
     // All other keys are rejected
     event.preventDefault();
+    event.stopPropagation();
   }
 
   onPriceAddKeyPress(event: KeyboardEvent): void {
-    this.keyPressOnNumberField(event, this.newOption.price.toString());
+    this.keyPressOnNumberField(event, this.newOption.price?.toString());
   }
 
   onPriceEditKeyPress(event: KeyboardEvent, id: number): void {
-    this.keyPressOnNumberField(event, this.editingOptions[id].price.toString());
+    this.keyPressOnNumberField(event, this.editingOptions[id].price?.toString());
   }
 }
