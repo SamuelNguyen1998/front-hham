@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { JobTitle } from "../_models/JobTitle";
 import { JobTitleService } from '../_services/job-title.service';
+import { DataValidatorService } from "../_services/data-validator.service";
 
 @Component({
   selector: 'app-add-job-title',
@@ -18,7 +19,8 @@ export class AddJobTitleComponent implements OnInit {
   touched = { name: false, amount: false };
 
   constructor(private jobTitleService: JobTitleService,
-              private router: Router) {
+              private router: Router,
+              private validate: DataValidatorService) {
   }
 
   ngOnInit(): void {
@@ -49,20 +51,10 @@ export class AddJobTitleComponent implements OnInit {
   }
 
   keyPressOnAmount(event: KeyboardEvent): void {
-    // Decimal digits are accepted
-    if (/\d/.test(event.key)) {
-      return;
-    }
-    // Decimal point is allowed, but only once
-    const amountStr = this.jobTitle.monthlyAmount.toString();
-    if (event.key === "." && amountStr.indexOf(".") < 0) {
-      return;
-    }
-    // All other keys are rejected
-    event.preventDefault();
+    this.validate.numberKeyPress(event, this.jobTitle.monthlyAmount?.toString());
   }
 
   isValidAmount(): boolean {
-    return this.jobTitle.monthlyAmount >= 0;
+    return this.validate.nonNegative(this.jobTitle.monthlyAmount);
   }
 }

@@ -5,6 +5,7 @@ import { Project } from '../_models/Project';
 import { Activity } from "../_models/Activity";
 import { ProjectService } from '../_services/project.service';
 import { ActivityService } from '../_services/activity.service';
+import { DataValidatorService } from "../_services/data-validator.service";
 
 @Component({
   selector: 'app-add-activity',
@@ -24,7 +25,8 @@ export class AddActivityComponent implements OnInit {
   constructor(private activityService: ActivityService,
               private projectService: ProjectService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private validate: DataValidatorService) {
     this.activity.projectId = this.route.snapshot.params.projectId;
   }
 
@@ -33,7 +35,7 @@ export class AddActivityComponent implements OnInit {
   }
 
   isNameValid(): boolean {
-    return this.activity.name?.length > 0;
+    return this.validate.nonEmpty(this.activity.name);
   }
 
   isProjectIdValid(): boolean {
@@ -52,10 +54,6 @@ export class AddActivityComponent implements OnInit {
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
-  }
-
-  nameIsValid(): boolean {
-    return this.activity.name.length > 0;
   }
 
   reset(): void {

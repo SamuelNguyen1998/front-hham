@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { Project } from "../_models/Project";
 import { ProjectService } from '../_services/project.service';
+import { DataValidatorService } from "../_services/data-validator.service";
 
 @Component({
   selector: 'app-add-project',
@@ -18,7 +19,8 @@ export class AddProjectComponent implements OnInit {
   errorMessage = '';
 
   constructor(private projectService: ProjectService,
-              private router: Router) {
+              private router: Router,
+              private validate: DataValidatorService) {
   }
 
   ngOnInit(): void {
@@ -39,7 +41,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   isValidName(): boolean {
-    return this.project.name.length > 0;
+    return this.validate.nonEmpty(this.project.name);
   }
 
   reset(): void {

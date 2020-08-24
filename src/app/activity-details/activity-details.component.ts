@@ -9,6 +9,7 @@ import { OptionService } from '../_services/option.service';
 import { ActivityService } from '../_services/activity.service';
 import { ImageService } from "../_services/image.service";
 import { Constants } from "../Constants";
+import { DataValidatorService } from "../_services/data-validator.service";
 
 declare var jQuery: any;
 
@@ -66,7 +67,8 @@ export class ActivityDetailsComponent implements OnInit {
               private optionService: OptionService,
               private imageService: ImageService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private validate: DataValidatorService) {
   }
 
   ngOnInit(): void {
@@ -203,7 +205,7 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   finishEditOption(id: number): void {
-    if (this.editingOptionsImageUrlEnabled[id] && !this.isValidUrl(this.editingOptionsImageUrl[id]) ||
+    if (this.editingOptionsImageUrlEnabled[id] && !this.validate.url(this.editingOptionsImageUrl[id]) ||
       !this.isValidOptionName(this.editingOptions[id]) ||
       !this.isValidOptionPrice(this.editingOptions[id].price)) {
       this.editTouched = { url: true, price: true, name: true };
@@ -269,7 +271,7 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   isEmptyOptionName(name: string): boolean {
-    return name?.length === 0;
+    return !this.validate.nonEmpty(name);
   }
 
   isDuplicatedOptionName(option: Option): boolean {
@@ -281,13 +283,13 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   isValidOptionPrice(price: number): boolean {
-    return price >= 500;
+    return this.validate.atLeast(price, 500);
   }
 
   inputForCreateOptionFormIsValid(): boolean {
     return this.isValidOptionName(this.newOption) &&
       this.isValidOptionPrice(this.newOption.price) &&
-      (this.newOptionImageUrl === '' || this.isValidUrl(this.newOptionImageUrl));
+      (this.newOptionImageUrl === '' || this.validate.url(this.newOptionImageUrl));
   }
 
   finishAddOption(event: Event): void {
@@ -387,41 +389,23 @@ export class ActivityDetailsComponent implements OnInit {
     );
   }
 
-  isValidUrl(url: string): boolean {
-    return /^(ftp|https?):\/\/.+$/.test(url);
-  }
-
   isUrlEditInputValid(id: number): boolean {
     return this.editTouched.url &&
       this.editingOptionsImageUrlEnabled[id] &&
-      this.isValidUrl(this.editingOptionsImageUrl[id]);
+      this.validate.url(this.editingOptionsImageUrl[id]);
   }
 
   isUrlEditInputInvalid(id: number): boolean {
     return this.editTouched.url &&
       this.editingOptionsImageUrlEnabled[id] &&
-      !this.isValidUrl(this.editingOptionsImageUrl[id]);
-  }
-
-  keyPressOnNumberField(event: KeyboardEvent, oldValueAsString: string): void {
-    // Decimal digits are accepted
-    if (/\d/.test(event.key)) {
-      return;
-    }
-    // Decimal point is allowed, but only once
-    // if (event.key === "." && oldValueAsString?.indexOf(".") < 0) {
-    //   return;
-    // }
-    // All other keys are rejected
-    event.preventDefault();
-    event.stopPropagation();
+      !this.validate.url(this.editingOptionsImageUrl[id]);
   }
 
   onPriceAddKeyPress(event: KeyboardEvent): void {
-    this.keyPressOnNumberField(event, this.newOption.price?.toString());
+    this.validate.numberKeyPress(event, this.newOption.price?.toString());
   }
 
   onPriceEditKeyPress(event: KeyboardEvent, id: number): void {
-    this.keyPressOnNumberField(event, this.editingOptions[id].price?.toString());
+    this.validate.numberKeyPress(event, this.editingOptions[id].price?.toString());
   }
 }

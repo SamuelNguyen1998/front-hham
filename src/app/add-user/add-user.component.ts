@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from "../_services/user.service";
 import { ProjectService } from "../_services/project.service";
+import { DataValidatorService } from "../_services/data-validator.service";
 import { Project } from "../_models/Project";
 
 @Component({
@@ -17,7 +18,8 @@ export class AddUserComponent implements OnInit {
   projects: Project[];
 
   constructor(private userService: UserService,
-              private projectService: ProjectService) {
+              private projectService: ProjectService,
+              private validate: DataValidatorService) {
   }
 
   ngOnInit(): void {
@@ -32,8 +34,7 @@ export class AddUserComponent implements OnInit {
   }
 
   isValidEmail(): boolean {
-    return 
-    /(^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$|^(?![\s\S]))/.test(this.email);
+    return this.validate.email(this.email);
   }
 
   submit(): void {

@@ -5,6 +5,7 @@ import { User } from "../_models/User";
 import { UserService } from '../_services/user.service';
 import { JobTitleService } from "../_services/job-title.service";
 import { Invitation } from "../_models/Invitation";
+import { DataValidatorService } from "../_services/data-validator.service";
 
 @Component({
   selector: 'app-add-user',
@@ -29,7 +30,8 @@ export class CreateAccountComponent implements OnInit {
   constructor(private userService: UserService,
               private jobTitleService: JobTitleService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private validate: DataValidatorService) {
     this.route.queryParams.subscribe(params => {
       this.userService.getInvitation(params.token).subscribe(
         response => {
@@ -38,17 +40,18 @@ export class CreateAccountComponent implements OnInit {
           this.user.email = this.invitation.email;
           this.user.activationToken = response.data.token;
         },
-        errorResponse => {this.errorMessage = errorResponse.error.message;
-        console.log(errorResponse)}
+        errorResponse => {
+          this.errorMessage = errorResponse.error.message;
+        }
       );
     });
   }
 
-  isInvitationValid(): boolean {
-    return this.invitation?.expiredOn > new Date();
+  ngOnInit(): void {
   }
 
-  ngOnInit(): void {
+  isInvitationValid(): boolean {
+    return this.invitation?.expiredOn > new Date();
   }
 
   create(): void {
@@ -61,7 +64,6 @@ export class CreateAccountComponent implements OnInit {
     }
     this.userService.activate(this.user).subscribe(
       response => {
-        console.log(response);
         this.router.navigate([ `/users` ]);
       },
       errorResponse => this.errorMessage = errorResponse.error.message
@@ -84,15 +86,15 @@ export class CreateAccountComponent implements OnInit {
   }
 
   usernameIsEmpty(): boolean {
-    return this.user.username.length === 0;
+    return !this.validate.nonEmpty(this.user.username);
   }
 
   usernameIsValid(): boolean {
-    return /^[A-Za-z0-9.]+$/.test(this.user.username);
+    return this.validate.username(this.user.username);
   }
 
   passwordIsEmpty(): boolean {
-    return this.user.password.length === 0;
+    return this.validate.nonEmpty(this.user.password);
   }
 
   passwordIsValid(): boolean {
@@ -100,10 +102,6 @@ export class CreateAccountComponent implements OnInit {
   }
 
   emailIsEmpty(): boolean {
-    return this.user.email.length === 0;
-  }
-
-  emailIsValid(): boolean {
-    return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$|^(?![\s\S])/.test(this.user.email);
+    return this.validate.nonEmpty(this.user.email);
   }
 }

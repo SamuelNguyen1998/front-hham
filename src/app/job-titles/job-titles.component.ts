@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { JobTitle } from '../_models/JobTitle';
 import { AuthService } from '../_services/auth.service';
 import { JobTitleService } from '../_services/job-title.service';
+import { DataValidatorService } from "../_services/data-validator.service";
 
 @Component({
   selector: 'app-jobs',
@@ -21,7 +22,8 @@ export class JobTitlesComponent implements OnInit {
   touched = { name: false, monthlyAmount: false };
 
   constructor(public auth: AuthService,
-              private jobService: JobTitleService) {
+              private jobService: JobTitleService,
+              private validate: DataValidatorService) {
   }
 
   ngOnInit(): void {
@@ -56,25 +58,15 @@ export class JobTitlesComponent implements OnInit {
   }
 
   isValidName(): boolean {
-    return this.editingJobTitle.name.length > 0;
+    return this.validate.nonEmpty(this.editingJobTitle.name);
   }
 
   keyPressOnAmount(event: KeyboardEvent): void {
-    // Decimal digits are accepted
-    if (/\d/.test(event.key)) {
-      return;
-    }
-    // Decimal point is allowed, but only once
-    const amountStr = this.editingJobTitle.monthlyAmount.toString();
-    if (event.key === "." && amountStr.indexOf(".") < 0) {
-      return;
-    }
-    // All other keys are rejected
-    event.preventDefault();
+    this.validate.numberKeyPress(event, this.editingJobTitle.monthlyAmount?.toString());
   }
 
   isValidAmount(): boolean {
-    return this.editingJobTitle.monthlyAmount && this.editingJobTitle.monthlyAmount >= 0;
+    return this.validate.nonNegative(this.editingJobTitle.monthlyAmount);
   }
 
   cancelEdit(): void {

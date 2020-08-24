@@ -6,6 +6,7 @@ import { UserService } from '../_services/user.service';
 import { JobTitleService } from "../_services/job-title.service";
 import { ProjectService } from "../_services/project.service";
 import { Project } from "../_models/Project";
+import { DataValidatorService } from "../_services/data-validator.service";
 
 @Component({
   selector: 'app-users',
@@ -35,7 +36,8 @@ export class UsersComponent implements OnInit {
   constructor(public auth: AuthService,
               private userService: UserService,
               private projectService: ProjectService,
-              private jobTitleService: JobTitleService) {
+              private jobTitleService: JobTitleService,
+              private validate: DataValidatorService) {
   }
 
   ngOnInit(): void {
@@ -128,20 +130,18 @@ export class UsersComponent implements OnInit {
   }
 
   usernameIsEmpty(): boolean {
-    return this.editingUser.username.length === 0;
+    return !this.validate.nonEmpty(this.editingUser.username);
   }
 
   usernameIsValid(): boolean {
-    return /^[A-Za-z0-9.]+$/.test(this.editingUser.username);
+    return this.validate.username(this.editingUser.username);
   }
 
   emailIsEmpty(): boolean {
-    return this.editingUser.email.length === 0;
+    return !this.validate.nonEmpty(this.editingUser.email);
   }
 
   emailIsValid(): boolean {
-    return this.editingUser.email.length > 3 &&
-      this.editingUser.email.indexOf('@') >= 0 &&
-      this.editingUser.email.indexOf('@') === this.editingUser.email.lastIndexOf('@');
+    return this.validate.email(this.editingUser.email);
   }
 }

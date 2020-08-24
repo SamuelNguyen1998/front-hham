@@ -9,12 +9,12 @@
         <label class="required-field" for="name">Name:</label>
         <input (focusout)="touched.name = true"
                [(ngModel)]="activity.name"
-               [class.is-invalid]="touched.name && !nameIsValid()"
-               [class.is-valid]="touched.name && nameIsValid()"
+               [class.is-invalid]="touched.name && !isNameValid()"
+               [class.is-valid]="touched.name && isNameValid()"
                class="form-control" id="name" name="name"
                required type="text">
       </div>
-      <div *ngIf="touched.name && !nameIsValid()" class="alert alert-danger" role="alert">
+      <div *ngIf="touched.name && !isNameValid()" class="alert alert-danger" role="alert">
         Activity name is required
       </div>
 
