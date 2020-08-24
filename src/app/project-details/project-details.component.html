@@ -89,7 +89,7 @@
             </div>
           </div>
         </li>
-        <li *ngIf="currentUserIsProjectAdmin()" class="list-group-item text-center">
+        <li *ngIf="auth.user.admin" class="list-group-item text-center">
           <a (click)="beginPromoteMemberToAdmin()"
              class="bg-light"
              data-target="#selectMemberToPromoteToAdminDialog"

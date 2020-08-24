@@ -13,6 +13,7 @@
   </div>
 
   <div class="col-sm">
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr class="accordion-toggle">
@@ -37,6 +38,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
 
     <div class="position-absolute top-left">
       <button *ngIf="auth.user.admin" (click)="saveTransaction()" class="btn btn-primary">
@@ -57,6 +59,7 @@
   </div>
 
   <div class="col-sm">
+    <div class="table-wrapper-scroll-y my-custom-scrollbar"> 
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -79,12 +82,17 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
+
+  
 
   <div class="col-sm">
     <h2 class="badge badge-danger">HISTORY SPENDING</h2>
   </div>
+
   <div class="col-sm">
+    <div class="table-wrapper-scroll-y my-custom-scrollbar"> 
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -100,12 +108,25 @@
             <td>{{ t.activityName }}</td>
             <td>{{ t.createdOn | date: 'medium' }}</td>
             <td>{{ t.amount }}</td>
-            <td>{{ t?.memo }}</td>
+            <td>
+                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#memo" aria-expanded="false" aria-controls="memo">
+                  More Detail 
+                </button>
+              <div class="collapse" id="memo">
+                <div class="card card-body">
+                  {{t.memo}}
+                </div>
+              </div>
+
+            </td>
           </ng-container>
         </tr>
       </tbody>
-    </table>
+    </table> 
+  </div>  
   </div>
+
+
 </div>
 
 
@@ -135,3 +156,4 @@
     </div>
   </div>
 </div>
+

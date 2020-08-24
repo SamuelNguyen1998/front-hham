@@ -7,3 +7,5 @@ export class Activity {
   lockedOn?: Date;
   archivedOn?: Date;
 }
+
+
