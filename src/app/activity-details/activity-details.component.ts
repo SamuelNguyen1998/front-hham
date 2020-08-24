@@ -179,6 +179,10 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   saveActivityEdit(): void {
+    // Do nothing if name is empty
+    if (!this.validate.nonEmpty(this.newActivity.name)) {
+      return;
+    }
     this.activityService.update(this.newActivity.id, this.newActivity).subscribe(
       response => {
         this.activity = response.data;

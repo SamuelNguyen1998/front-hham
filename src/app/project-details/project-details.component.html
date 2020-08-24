@@ -18,7 +18,10 @@
     <h1 *ngIf="!isInEditMode" class="col-md-9">{{ project?.name }}</h1>
     <div *ngIf="isInEditMode" class="col-md-9">
       <input [(ngModel)]="newProject.name"
+             [class.is-invalid]="!validate.nonEmpty(newProject.name)"
+             [class.is-valid]="validate.nonEmpty(newProject.name)"
              class="form-control h1" id="name" name="name"
+             placeholder="Project name can't be empty"
              type="text">
     </div>
 

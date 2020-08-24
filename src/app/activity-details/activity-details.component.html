@@ -5,7 +5,11 @@
   <form class="row">
     <h1 *ngIf="!isActivityEditing" class="col-md-8 pb-3">{{ activity.name }}</h1>
     <div *ngIf="isActivityEditing" class="col-md-8">
-      <input [(ngModel)]="newActivity.name" class="form-control" name="name" type="text">
+      <input [(ngModel)]="newActivity.name"
+             [class.is-invalid]="!validate.nonEmpty(newActivity.name)"
+             [class.is-valid]="validate.nonEmpty(newActivity.name)"
+             class="form-control" name="name" type="text"
+             placeholder="Activity name can't be empty">
     </div>
 
     <div class="col-md-4 text-right" *ngIf="currentUserCanEdit()">

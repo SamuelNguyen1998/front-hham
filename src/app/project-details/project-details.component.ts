@@ -7,6 +7,7 @@ import { ActivityService } from '../_services/activity.service';
 import { User } from "../_models/User";
 import { UserService } from "../_services/user.service";
 import { AuthService } from '../_services/auth.service';
+import { DataValidatorService } from "../_services/data-validator.service";
 
 @Component({
   selector: 'app-project-details',
@@ -35,7 +36,8 @@ export class ProjectDetailsComponent implements OnInit {
               private activityService: ActivityService,
               private userService: UserService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private validate: DataValidatorService) {
   }
 
   ngOnInit(): void {
@@ -128,6 +130,10 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   saveEdit(): void {
+    // Do nothing if name is empty
+    if (!this.validate.nonEmpty(this.newProject.name)) {
+      return;
+    }
     this.projectService.update(this.project.id, this.newProject).subscribe(
       () => {
         this.successMessage = 'Successfully updated project information';
