@@ -34,7 +34,7 @@
           <th scope="col">Display name</th>
           <th scope="col">Email</th>
           <th scope="col">Job title</th>
-          <th scope="col">Action</th>
+          <th *ngIf="auth.user.admin" scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -43,7 +43,7 @@
           <td>{{ user.displayName }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.jobTitle ? user.jobTitle.name : "Not available" }}</td>
-          <td>
+          <td *ngIf="auth.user.admin">
             <button (click)="beginEdit(user.id)" class="btn btn-info m-1" data-backdrop="static"
                     data-target="#editUserDialog" data-toggle="modal" type="button">
               <i class="fas fa-pen"></i> Edit
