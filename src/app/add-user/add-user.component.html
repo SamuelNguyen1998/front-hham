@@ -6,7 +6,7 @@
       <h3>Invite</h3>
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label class="required-field" for="email">Email</label>
         <input (focusout)="touched = true"
                [(ngModel)]="email"
                [class.is-invalid]="touched && !isValidEmail()"
@@ -21,6 +21,14 @@
       <div *ngIf="touched && email.length > 0 && !isValidEmail()"
            class="alert alert-danger" role="alert">
         Invalid email
+      </div>
+
+      <div class="form-group">
+        <label for="project">Project:</label>
+        <select [(ngModel)]="projectId" class="form-control" id="project" name="projectId">
+          <option value="null">--- None ---</option>
+          <option *ngFor="let project of projects" value="{{ project.id }}">{{ project.name }}</option>
+        </select>
       </div>
 
       <div class="form-group text-center">

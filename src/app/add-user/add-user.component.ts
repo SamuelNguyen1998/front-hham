@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from "../_services/user.service";
+import { ProjectService } from "../_services/project.service";
+import { Project } from "../_models/Project";
 
 @Component({
   selector: 'app-add-user',
@@ -8,14 +10,25 @@ import { UserService } from "../_services/user.service";
 })
 export class AddUserComponent implements OnInit {
   email = '';
+  projectId: number = null;
   touched = false;
   errorMessage = '';
   submitted = false;
+  projects: Project[];
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+              private projectService: ProjectService) {
   }
 
   ngOnInit(): void {
+    this.loadProjects();
+  }
+
+  loadProjects(): void {
+    this.projectService.getAllAdministering().subscribe(
+      response => this.projects = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
   }
 
   isValidEmail(): boolean {
@@ -28,7 +41,7 @@ export class AddUserComponent implements OnInit {
       this.touched = true;
       return;
     }
-    this.userService.invite(this.email).subscribe(
+    this.userService.invite(this.email, this.projectId).subscribe(
       response => this.submitted = true,
       errorResponse => this.errorMessage = errorResponse.error.message
     );

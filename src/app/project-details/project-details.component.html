@@ -14,13 +14,13 @@
   </div>
 
   <!-- Project info -->
-  <div class="row">
+  <form class="row">
     <h1 *ngIf="!isInEditMode" class="col-md-9">{{ project?.name }}</h1>
-    <form *ngIf="isInEditMode" class="col-md-9">
+    <div *ngIf="isInEditMode" class="col-md-9">
       <input [(ngModel)]="newProject.name"
              class="form-control h1" id="name" name="name"
              type="text">
-    </form>
+    </div>
 
     <div class="col-md-3 btn-group">
       <div *ngIf="currentUserIsProjectAdmin() && !isInEditMode" class="ml-auto">
@@ -37,7 +37,7 @@
       </div>
 
       <div *ngIf="currentUserIsProjectAdmin() && isInEditMode" class="ml-auto">
-        <button (click)="saveEdit()" class="btn btn-primary height-limited-button mr-3" type="button">
+        <button (click)="saveEdit()" class="btn btn-primary height-limited-button mr-3" type="submit">
           <i class="fas fa-pen"></i> Save
         </button>
         <button (click)="cancelEdit()" class="btn btn-secondary height-limited-button" type="button">
@@ -45,7 +45,7 @@
         </button>
       </div>
     </div>
-  </div>
+  </form>
 
   <p class="text-muted">Created on {{ project?.createdOn | date: 'medium' }}</p>
   <p class="description" *ngIf="!isInEditMode">{{ project?.description }}</p>
@@ -228,6 +228,9 @@
           </button>
         </div>
 
+        <div *ngIf="regularMembers?.length === 0">
+          No regular member to promote
+        </div>
         <div *ngFor="let member of regularMembers" class="form-check d-flex">
           <input (change)="selectMemberToPromote($event)"
                  class="form-check-input"
@@ -243,7 +246,7 @@
         </div>
       </form>
 
-      <div class="modal-footer">
+      <div *ngIf="regularMembers?.length !== 0" class="modal-footer">
         <button (click)="promoteToAdmin($event)" class="btn btn-primary" data-dismiss="modal" type="button">
           Set to project admin
         </button>
@@ -270,6 +273,9 @@
           </button>
         </div>
 
+        <div *ngIf="usersNotInProject?.length === 0">
+          No user remaining to add into this project
+        </div>
         <div *ngFor="let user of usersNotInProject" class="form-check d-flex">
           <input (change)="selectUserToAddToProject($event)"
                  class="form-check-input"
@@ -285,7 +291,7 @@
         </div>
       </form>
 
-      <div class="modal-footer">
+      <div *ngIf="usersNotInProject?.length !== 0" class="modal-footer">
         <button (click)="addUserToProject($event)" class="btn btn-primary" data-dismiss="modal" type="button">
           Add to project
         </button>

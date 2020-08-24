@@ -180,40 +180,45 @@ export class ProjectDetailsComponent implements OnInit {
     }
     for (const key of Object.keys(this.membersSelectedToPromote)) {
       const id = +key;
-      if (this.membersSelectedToPromote[id]) {
-        this.projectService.addAdmin(this.project.id, id).subscribe(
-          response => {
-            this.successMessage = `${ response.data.displayName } has been promoted to project admin`;
-            this.admins.push(this.members.find(admin => admin.id === id));
-            delete this.membersSelectedToPromote[id];
-          },
-          errorResponse => this.errorMessage = errorResponse.error.message
-        );
+      if (!this.membersSelectedToPromote[id]) {
+        continue;
       }
+      this.projectService.addAdmin(this.project.id, id).subscribe(
+        response => {
+          this.successMessage = "Successfully granted project admin right";
+          this.admins.push(this.members.find(admin => admin.id === id));
+          this.membersSelectedToPromote[id] = false;
+        },
+        errorResponse => this.errorMessage = errorResponse.error.message
+      );
     }
   }
 
   addUserToProject(event: Event): void {
-    // No user is chosen
-    if (!Object.values(this.usersSelectedToAddToProject).find(value => value === true)) {
-      event.stopPropagation();
-      this.errorMessage = 'No user selected yet';
-      return;
-    }
-    for (const key of Object.keys(this.usersSelectedToAddToProject)) {
+    let added = false;
+    for (const key in this.usersSelectedToAddToProject) {
+      if (!this.usersSelectedToAddToProject.hasOwnProperty(key)) {
+        continue;
+      }
       const id: number = +key;
       // Not checked, just skip it
       if (!this.usersSelectedToAddToProject[id]) {
-        return;
+        continue;
       }
+      added = true;
       this.projectService.addMember(this.project.id, id).subscribe(
         response => {
-          this.successMessage = `${ response.data.displayName } has been added to project`;
+          this.successMessage = `Successfully added users to project`;
           this.members.push(response.data);
-          delete this.usersSelectedToAddToProject[id];
+          this.usersSelectedToAddToProject[id] = false;
         },
         errorResponse => this.errorMessage = errorResponse.error.message
       );
+    }
+    // No user is chosen
+    if (!added) {
+      this.errorMessage = 'No user selected yet';
+      event.stopPropagation();
     }
   }
 

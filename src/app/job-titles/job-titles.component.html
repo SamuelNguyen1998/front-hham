@@ -17,7 +17,7 @@
       </a>
     </div>
     <!-- Messages -->
-  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
     <!-- Search -->
     <form class="col-md-8 form-inline">
@@ -106,7 +106,7 @@
 
             <button (click)="saveEdit()"
                     *ngIf="isInEditMode && jobTitle.id === editingJobTitleId"
-                    class="btn btn-primary m-1" type="button">
+                    class="btn btn-primary m-1" type="submit">
               <i class="fas fa-save"></i> Save
             </button>
             <button (click)="cancelEdit()"
@@ -133,7 +133,7 @@
         <!-- TODO: Ask user to change job title of existing users to another one before archiving -->
       </div>
       <div class="modal-footer">
-        <button (click)="archive()" class="btn btn-danger" data-dismiss="modal" type="button">
+        <button (click)="archive()" class="btn btn-danger" data-dismiss="modal" type="submit">
           Archive this job title
         </button>
         <button class="btn btn-secondary" data-dismiss="modal" type="button">

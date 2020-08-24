@@ -32,8 +32,14 @@ export class UserService {
     return this.http.get(`${ Constants.BACKEND_SERVER }/invitation/${ token }`);
   }
 
-  invite(email: string): Observable<any> {
-    return this.http.post(`${ Constants.API_BASE }/users/invite`, { email });
+  invite(email: string, projectId: number): Observable<any> {
+    let endpoint;
+    if (projectId !== null) {
+      endpoint = `/users/invite/${ projectId }`;
+    } else {
+      endpoint = `/users/invite`;
+    }
+    return this.http.post(`${ Constants.API_BASE }${ endpoint }`, { email });
   }
 
   activate(data: User): Observable<any> {

@@ -34,7 +34,7 @@ export class ActivityDetailsComponent implements OnInit {
   optionSelectedToDelete: Option;
   notificationRecipients: string[] = null;
 
-  isInActivityEditMode = false;
+  isActivityEditing = false;
   newActivity: Activity;
 
   createTouched = { name: false, price: false };
@@ -87,7 +87,8 @@ export class ActivityDetailsComponent implements OnInit {
   }
 
   get membersNotVoted(): User[] {
-    return this.members?.filter(member => !this.votes?.some(vote => vote.userId === member.id))
+    return this.members
+      ?.filter(member => !this.votes?.some(vote => vote.userId === member.id))
       ?.filter(member => !member.admin);
   }
 
@@ -166,11 +167,12 @@ export class ActivityDetailsComponent implements OnInit {
   finishActivity(): void {
     this.activityService.finish(this.activity.id).subscribe(
       () => this.router.navigate([ "/activities" ]),
+      errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
   enterActivityEditMode(): void {
-    this.isInActivityEditMode = true;
+    this.isActivityEditing = true;
     this.newActivity = { ...this.activity };
   }
 
@@ -179,14 +181,14 @@ export class ActivityDetailsComponent implements OnInit {
       response => {
         this.activity = response.data;
         this.successMessage = 'The activity has been updated successfully';
-        this.isInActivityEditMode = false;
+        this.isActivityEditing = false;
       },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
   }
 
   cancelActivityEdit(): void {
-    this.isInActivityEditMode = false;
+    this.isActivityEditing = false;
   }
 
 
@@ -235,6 +237,7 @@ export class ActivityDetailsComponent implements OnInit {
 
   cancelEditOption(): void {
     this.isInOptionEditMode = false;
+    this.editTouched = { price: false, name: false, url: false };
   }
 
   captureOptionToDelete(id: number): void {
@@ -406,18 +409,19 @@ export class ActivityDetailsComponent implements OnInit {
       return;
     }
     // Decimal point is allowed, but only once
-    if (event.key === "." && oldValueAsString.indexOf(".") < 0) {
-      return;
-    }
+    // if (event.key === "." && oldValueAsString?.indexOf(".") < 0) {
+    //   return;
+    // }
     // All other keys are rejected
     event.preventDefault();
+    event.stopPropagation();
   }
 
   onPriceAddKeyPress(event: KeyboardEvent): void {
-    this.keyPressOnNumberField(event, this.newOption.price.toString());
+    this.keyPressOnNumberField(event, this.newOption.price?.toString());
   }
 
   onPriceEditKeyPress(event: KeyboardEvent, id: number): void {
-    this.keyPressOnNumberField(event, this.editingOptions[id].price.toString());
+    this.keyPressOnNumberField(event, this.editingOptions[id].price?.toString());
   }
 }

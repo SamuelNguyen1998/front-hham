@@ -13,6 +13,7 @@ export class UserProfileComponent implements OnInit {
   user: User = { ...this.auth.user };
   message = '';
   deactivated = false;
+  passwordChanged = '';
 
   constructor(public auth: AuthService,
               private userService: UserService,
@@ -27,6 +28,18 @@ export class UserProfileComponent implements OnInit {
       response => {
         this.message = 'The user was updated successfully!';
         this.auth.user = { ...this.user };
+      },
+      error => console.log(error)
+    );
+  }
+
+  changePassword(): void {
+    const data: User = { ...this.auth.user };
+    data.password = this.user.password;
+    this.userService.update(data).subscribe(
+      response => {
+        this.message = 'The user was updated successfully!';
+        this.auth.user = { ...data };
       },
       error => console.log(error)
     );

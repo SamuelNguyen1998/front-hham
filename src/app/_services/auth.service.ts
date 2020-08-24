@@ -64,7 +64,7 @@ export class AuthService {
   login(loginRequest: LoginRequest): Promise<void> {
     const endpoint = `${ Constants.BACKEND_SERVER }/auth/login`;
     return this.http
-      .post(endpoint, loginRequest, Constants.DEFAULT_HTTP_OPTIONS)
+      .post(endpoint, loginRequest)
       .toPromise()
       .then((response: any) => {
           this.m_session = response.session;
@@ -73,6 +73,9 @@ export class AuthService {
           const storage = loginRequest.keepSignedIn ? localStorage : sessionStorage;
           storage.setItem('session', JSON.stringify(this.m_session));
           storage.setItem('user', JSON.stringify(this.user));
+          setTimeout(() => {
+            this.logout();
+          }, new Date(this.m_session.expiredOn).getTime() - Date.now());
         }
       );
   }

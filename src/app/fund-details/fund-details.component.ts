@@ -25,11 +25,14 @@ export class FundDetailsComponent implements OnInit {
   members: User[];
   jobTitles: JobTitle[];
   transaction: Transaction;
-  transactions: Transaction[];
+  transactions: Transaction[] = [];
   errorMessage = '';
   sum = 0;
   type = 1;
   checkboxRemind: number[] = [];
+
+  admins: User[];
+
 
 
   constructor(public auth: AuthService,
@@ -53,6 +56,8 @@ export class FundDetailsComponent implements OnInit {
         this.loadMembers();
         this.loadTransaction();
         this.checkboxRemind = [];
+        this.loadAdmins();
+       
       },
       errorResponse => {
         this.router.navigate([ '/404' ]);
@@ -71,6 +76,7 @@ export class FundDetailsComponent implements OnInit {
     this.projectService.getMembers(this.currentProject.id).subscribe(
       response => this.members = response.data,
       errorResponse => this.errorMessage = errorResponse.error.message,
+
     );
 
   }
@@ -78,7 +84,9 @@ export class FundDetailsComponent implements OnInit {
   loadTransaction(): void {
     this.transactionService.getTransaction(this.currentProject.id).subscribe(
       response => this.transactions = response.data,
-      errorResponse => this.errorMessage = errorResponse.error.messsage
+  //    this.transactions[2].memo = this.transactions[2].memo.toString();
+      
+      errorResponse => this.errorMessage = errorResponse.error.messsage,
     );
   }
 
@@ -133,6 +141,21 @@ export class FundDetailsComponent implements OnInit {
       // this.checkboxRemind[i] = 0;
     }
     this.loadProject();
+  }
+
+  userIsProjectAdmin(id: number): boolean {
+    return this.admins?.some(admin => admin.id === id);
+  }
+
+  currentUserIsProjectAdmin(): boolean {
+    return this.userIsProjectAdmin(this.auth.user.id);
+  }
+
+  loadAdmins(): void {
+    this.projectService.getAdmins(this.currentProject.id).subscribe(
+      response => this.admins = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
+    );
   }
 
 }
