@@ -12,6 +12,7 @@ import { UserService } from '../_services/user.service';
 export class UserProfileComponent implements OnInit {
   user: User = { ...this.auth.user };
   message = '';
+  deactivated = false;
 
   constructor(public auth: AuthService,
               private userService: UserService,
@@ -22,9 +23,22 @@ export class UserProfileComponent implements OnInit {
   }
 
   updateUser(): void {
-    this.userService.update(this.auth.user).subscribe(
-      response => this.message = 'The user was updated successfully!',
+    this.userService.update(this.user).subscribe(
+      response => {
+        this.message = 'The user was updated successfully!';
+        this.auth.user = { ...this.user };
+      },
       error => console.log(error)
+    );
+  }
+
+  deactivate(): void {
+    this.userService.deactivate(this.user.id).subscribe(
+      response => {
+        this.message = `Successfully deactivated user ${ response.data.username }`;
+        this.deactivated = true;
+        this.auth.logout();
+      }
     );
   }
 }

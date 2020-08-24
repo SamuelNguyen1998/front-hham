@@ -20,8 +20,8 @@ export class AuthService {
     token: "",
     userId: 0
   };
-  private m_user: User;
   // tslint:enable
+  user: User;
   private source = new BehaviorSubject<boolean>(this.m_loggedIn);
   public loginStateChange$ = this.source.asObservable();
 
@@ -43,7 +43,7 @@ export class AuthService {
     session.expiredOn = new Date(session.expiredOn);
     if (session.expiredOn > Date.now()) {
       this.m_session = session;
-      this.m_user = JSON.parse(AuthService.getStorageItem('user'));
+      this.user = JSON.parse(AuthService.getStorageItem('user'));
       this.loggedIn = true;
     }
   }
@@ -61,10 +61,6 @@ export class AuthService {
     return this.m_session.token;
   }
 
-  get user(): User {
-    return this.m_user;
-  }
-
   login(loginRequest: LoginRequest): Promise<void> {
     const endpoint = `${ Constants.BACKEND_SERVER }/auth/login`;
     return this.http
@@ -72,11 +68,11 @@ export class AuthService {
       .toPromise()
       .then((response: any) => {
           this.m_session = response.session;
-          this.m_user = response.user;
+          this.user = response.user;
           this.loggedIn = true;
           const storage = loginRequest.keepSignedIn ? localStorage : sessionStorage;
           storage.setItem('session', JSON.stringify(this.m_session));
-          storage.setItem('user', JSON.stringify(this.m_user));
+          storage.setItem('user', JSON.stringify(this.user));
         }
       );
   }
@@ -84,7 +80,7 @@ export class AuthService {
   logout(): void {
     this.loggedIn = undefined;
     this.m_session = undefined;
-    this.m_user = undefined;
+    this.user = undefined;
     localStorage.clear();
     sessionStorage.clear();
   }
