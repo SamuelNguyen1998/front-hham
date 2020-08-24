@@ -104,6 +104,6 @@ export class CreateAccountComponent implements OnInit {
   }
 
   emailIsValid(): boolean {
-    return /^[-\w.]+@[-\w.]+$/.test(this.user.email);
+    return /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$|^(?![\s\S])/.test(this.user.email);
   }
 }
