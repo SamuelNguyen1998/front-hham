@@ -2,32 +2,32 @@
   <div *ngIf="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
   <div *ngIf="successMessage" class="alert alert-success" role="alert">{{ successMessage }}</div>
 
-  <div class="row">
-    <h1 *ngIf="!isInActivityEditMode" class="col-md-8 pb-3">{{ activity.name }}</h1>
-    <form *ngIf="isInActivityEditMode" class="col-md-8">
+  <form class="row">
+    <h1 *ngIf="!isActivityEditing" class="col-md-8 pb-3">{{ activity.name }}</h1>
+    <div *ngIf="isActivityEditing" class="col-md-8">
       <input [(ngModel)]="newActivity.name" class="form-control" name="name" type="text">
-    </form>
+    </div>
 
     <div class="col-md-4 text-right" *ngIf="currentUserCanEdit()">
       <button (click)="enterActivityEditMode()"
-              *ngIf="!isActivityLocked() && !isInActivityEditMode"
+              *ngIf="!isActivityLocked() && !isActivityEditing"
               class="btn btn-info height-limited-button mr-2"
               type="button">
         <i class="fas fa-pen"></i> Edit
       </button>
       <button (click)="saveActivityEdit()"
-              *ngIf="isInActivityEditMode"
+              *ngIf="isActivityEditing"
               class="btn btn-primary height-limited-button mr-2">
         <i class="fas fa-save"></i> Save
       </button>
       <button (click)="cancelActivityEdit()"
-              *ngIf="isInActivityEditMode"
+              *ngIf="isActivityEditing"
               class="btn btn-secondary height-limited-button mr-2">
         <i class="fas fa-times-circle"></i> Cancel
       </button>
 
       <button (click)="sendNotificationEmails()"
-              *ngIf="!isActivityLocked()"
+              *ngIf="!isActivityEditing && !isActivityLocked()"
               class="btn btn-secondary mr-2"
               title="Send notification emails">
         <i class="fas fa-mail-bulk"></i> Notify
@@ -47,29 +47,29 @@
       </button>
 
       <button (click)="lockActivity()"
-              *ngIf="!isInActivityEditMode && !isActivityLocked()"
+              *ngIf="!isActivityEditing && !isActivityLocked()"
               class="btn btn-primary height-limited-button mr-2"
               title="Stop receiving voting on this activity"
               type="button">
         <i class="fas fa-lock"></i> Lock
       </button>
       <button (click)="unlockActivity()"
-              *ngIf="!isInActivityEditMode && isActivityLocked()"
+              *ngIf="!isActivityEditing && isActivityLocked()"
               class="btn btn-secondary height-limited-button mr-2"
               title="Resume voting on this activity"
               type="button">
         <i class="fas fa-lock-open"></i> Unlock
       </button>
     </div>
-  </div>
+  </form>
 
   <div class="text-muted">Created on {{ activity.createdOn | date: 'medium' }}</div>
   <div *ngIf="activity.lockedOn" class="text-muted">
     Locked voting on {{ activity.lockedOn | date: 'medium' }}
   </div>
 
-  <p *ngIf="!isInActivityEditMode" class="description py-3">{{ activity.description }}</p>
-  <textarea *ngIf="isInActivityEditMode"
+  <p *ngIf="!isActivityEditing" class="description py-3">{{ activity.description }}</p>
+  <textarea *ngIf="isActivityEditing"
             [(ngModel)]="newActivity.description"
             class="form-control" id="description" name="description"
             rows="10">

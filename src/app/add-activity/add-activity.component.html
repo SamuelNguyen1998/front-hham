@@ -7,14 +7,14 @@
 
       <div class="form-group">
         <label class="required-field" for="name">Name:</label>
-        <input (focusout)="touched = true"
+        <input (focusout)="touched.name = true"
                [(ngModel)]="activity.name"
-               [class.is-invalid]="touched && !nameIsValid()"
-               [class.is-valid]="touched && nameIsValid()"
+               [class.is-invalid]="touched.name && !nameIsValid()"
+               [class.is-valid]="touched.name && nameIsValid()"
                class="form-control" id="name" name="name"
                required type="text">
       </div>
-      <div *ngIf="touched && !nameIsValid()" class="alert alert-danger" role="alert">
+      <div *ngIf="touched.name && !nameIsValid()" class="alert alert-danger" role="alert">
         Activity name is required
       </div>
 
@@ -29,6 +29,9 @@
       <div class="form-group">
         <label class="required-field" for="projects">Project:</label>
         <select [(ngModel)]="activity.projectId"
+                (focusout)="touched.project = true"
+                [class.is-invalid]="touched.project && !isProjectIdValid()"
+                [class.is-valid]="touched.project && isProjectIdValid()"
                 id="projects" name="projects" class="form-control">
           <option *ngFor="let project of projects"
                   value="{{ project.id }}"
@@ -37,9 +40,12 @@
           </option>
         </select>
       </div>
+      <div *ngIf="touched.project && !isProjectIdValid()" class="alert alert-danger" role="alert">
+        You have to choose a project to hold this activity.
+      </div>
 
       <div class="text-center">
-        <button (click)="create()" class="btn btn-success m-1" type="button">
+        <button (click)="create($event)" class="btn btn-success m-1" type="submit">
           <i class="fas fa-plus"></i> Create
         </button>
         <button (click)="reset()" class="btn btn-secondary m-1" type="button">

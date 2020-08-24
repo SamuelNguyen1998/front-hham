@@ -18,7 +18,7 @@ export class AddActivityComponent implements OnInit {
     projectId: null,
   };
   errorMessage = '';
-  touched = false;
+  touched = { name: false, project: false };
   projects: Project[];
 
   constructor(private activityService: ActivityService,
@@ -32,10 +32,22 @@ export class AddActivityComponent implements OnInit {
     this.loadProjects();
   }
 
-  create(): void {
+  isNameValid(): boolean {
+    return this.activity.name?.length > 0;
+  }
+
+  isProjectIdValid(): boolean {
+    return !!this.activity.projectId;
+  }
+
+  create(event: Event): void {
+    if (!this.isNameValid() || !this.isProjectIdValid()) {
+      this.touched = { name: true, project: true };
+      event.preventDefault();
+      return;
+    }
     this.activityService.create(this.activity).subscribe(
       response => {
-        // TODO: Flash success message
         this.router.navigate([ `/activities/${ response.data.id }` ]);
       },
       errorResponse => this.errorMessage = errorResponse.error.message
@@ -47,7 +59,7 @@ export class AddActivityComponent implements OnInit {
   }
 
   reset(): void {
-    this.touched = false;
+    this.touched = { project: false, name: false };
     this.activity = { name: '', description: '' };
   }
 
