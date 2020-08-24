@@ -80,7 +80,7 @@
             </div>
             <div class="col-md-3 text-right" title="System admin cannot be demoted">
               <button (click)="removeAdmin(admin.id)"
-                      *ngIf="currentUserIsProjectAdmin()"
+                      *ngIf="auth.user.admin"
                       [disabled]="admin.admin"
                       class="btn btn-danger m-2"
                       type="button">

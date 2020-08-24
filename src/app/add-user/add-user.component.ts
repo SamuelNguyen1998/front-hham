@@ -19,7 +19,8 @@ export class AddUserComponent implements OnInit {
   }
 
   isValidEmail(): boolean {
-    return /^[-\w.]+@[-\w.]+$/.test(this.email);
+    return 
+    /(^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$|^(?![\s\S]))/.test(this.email);
   }
 
   submit(): void {

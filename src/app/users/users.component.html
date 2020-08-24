@@ -26,40 +26,42 @@
   <!-- Messages -->
   <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
   <!-- Data -->
-  <form>
-    <table class="table table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Username</th>
-          <th scope="col">Display name</th>
-          <th scope="col">Email</th>
-          <th scope="col">Job title</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of visibleUsers">
-          <td>{{ user.username }}</td>
-          <td>{{ user.displayName }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.jobTitle ? user.jobTitle.name : "Not available" }}</td>
-          <td>
-            <button (click)="beginEdit(user.id)" class="btn btn-info m-1" data-backdrop="static"
-              data-target="#editUserDialog" data-toggle="modal" type="button">
-              <i class="fas fa-pen"></i> Edit
-            </button>
-            <div class="d-inline-block" data-toggle="tooltip" tabindex="0"
-              title="Account of the system admin cannot be deactivated">
-              <button (click)="confirmDeactivate(user.id)" [disabled]="user.admin" class="btn btn-danger m-1"
-                data-target="#deactivateUserConfirmDialog" data-toggle="modal" type="button">
-                <i class="fas fa-lock"></i> Deactivate
+  <div class="col-sm">
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Display name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Job title</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of visibleUsers">
+            <td>{{ user.username }}</td>
+            <td>{{ user.displayName }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.jobTitle ? user.jobTitle.name : "Not available" }}</td>
+            <td>
+              <button (click)="beginEdit(user.id)" class="btn btn-info m-1" data-backdrop="static"
+                data-target="#editUserDialog" data-toggle="modal" type="button">
+                <i class="fas fa-pen"></i> Edit
               </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </form>
+              <div class="d-inline-block" data-toggle="tooltip" tabindex="0"
+                title="Account of the system admin cannot be deactivated">
+                <button (click)="confirmDeactivate(user.id)" [disabled]="user.admin" class="btn btn-danger m-1"
+                  data-target="#deactivateUserConfirmDialog" data-toggle="modal" type="button">
+                  <i class="fas fa-lock"></i> Deactivate
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <!-- Dialogs -->
