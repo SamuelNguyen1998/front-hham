@@ -1,3 +1,9 @@
 th {
   width: 100px;
 }
+
+pre.a{
+  white-space: nowrap;
+  font-size: .7rem;
+  margin: 1;
+}
