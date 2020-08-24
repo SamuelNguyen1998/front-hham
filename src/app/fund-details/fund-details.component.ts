@@ -31,6 +31,8 @@ export class FundDetailsComponent implements OnInit {
   type = 1;
   checkboxRemind: number[] = [];
 
+  admins: User[];
+
 
 
   constructor(public auth: AuthService,
@@ -54,6 +56,7 @@ export class FundDetailsComponent implements OnInit {
         this.loadMembers();
         this.loadTransaction();
         this.checkboxRemind = [];
+        this.loadAdmins();
        
       },
       errorResponse => {
@@ -138,6 +141,21 @@ export class FundDetailsComponent implements OnInit {
       // this.checkboxRemind[i] = 0;
     }
     this.loadProject();
+  }
+
+  userIsProjectAdmin(id: number): boolean {
+    return this.admins?.some(admin => admin.id === id);
+  }
+
+  currentUserIsProjectAdmin(): boolean {
+    return this.userIsProjectAdmin(this.auth.user.id);
+  }
+
+  loadAdmins(): void {
+    this.projectService.getAdmins(this.currentProject.id).subscribe(
+      response => this.admins = response.data,
+      errorResponse => this.errorMessage = errorResponse.error.message,
+    );
   }
 
 }
