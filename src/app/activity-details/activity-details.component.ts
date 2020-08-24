@@ -262,9 +262,26 @@ export class ActivityDetailsComponent implements OnInit {
 
   vote(id: number): void {
     this.optionService.vote(id, this.auth.user.id, this.notes[id]).subscribe(
-      response => this.voteMadeInThisActivity = response.data,
+      response => {
+        this.voteMadeInThisActivity = response.data;
+        this.votes.push(response.data);
+      },
       errorResponse => this.errorMessage = errorResponse.error.message
     );
+  }
+
+  unvote(optionId: number): void {
+    this.optionService.unvote(this.auth.user.id, optionId).subscribe(
+      response => {
+        this.voteMadeInThisActivity = null;
+        this.votes = this.votes.filter(vote => vote.userId !== this.auth.user.id);
+      },
+      errorResponse => this.errorMessage = errorResponse.error.message
+    );
+  }
+
+  voted(optionId: number): boolean {
+    return this.voteMadeInThisActivity && this.voteMadeInThisActivity.optionId === optionId;
   }
 
   showAddOptionForm(): void {
@@ -352,10 +369,6 @@ export class ActivityDetailsComponent implements OnInit {
     );
   }
 
-  voted(optionId: number): boolean {
-    return this.voteMadeInThisActivity && this.voteMadeInThisActivity.optionId === optionId;
-  }
-
   isActivityLocked(): boolean {
     return this.activity.lockedOn !== null;
   }
@@ -384,13 +397,6 @@ export class ActivityDetailsComponent implements OnInit {
     return this.isOptionEditing(option.id) &&
       this.editTouched.name &&
       this.isDuplicatedOptionName(this.editingOptions[option.id]);
-  }
-
-  unvote(optionId: number): void {
-    this.optionService.unvote(this.auth.user.id, optionId).subscribe(
-      response => this.voteMadeInThisActivity = null,
-      errorResponse => this.errorMessage = errorResponse.error.message
-    );
   }
 
   isUrlEditInputValid(id: number): boolean {
