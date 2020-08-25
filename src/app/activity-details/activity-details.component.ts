@@ -218,7 +218,7 @@ export class ActivityDetailsComponent implements OnInit {
       response => {
         const index = this.options.findIndex(element => element.id === response.data.id);
         this.isInOptionEditMode = false;
-        // this.editTouched = { url: false, name: false, price: false };
+        this.editTouched = { url: false, name: false, price: false };
         if (!this.editingOptionsImageUrlEnabled[id]) {
           this.options[index] = response.data;
         } else {
