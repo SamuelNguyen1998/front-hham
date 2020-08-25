@@ -68,7 +68,7 @@ export class ActivityDetailsComponent implements OnInit {
               private imageService: ImageService,
               private route: ActivatedRoute,
               private router: Router,
-              private validate: DataValidatorService) {
+              public validate: DataValidatorService) {
   }
 
   ngOnInit(): void {
@@ -197,7 +197,6 @@ export class ActivityDetailsComponent implements OnInit {
     this.isActivityEditing = false;
   }
 
-
   beginEditOption(id: number): void {
     this.isInOptionEditMode = true;
     this.idOfTheOptionEditing = id;
@@ -219,6 +218,7 @@ export class ActivityDetailsComponent implements OnInit {
       response => {
         const index = this.options.findIndex(element => element.id === response.data.id);
         this.isInOptionEditMode = false;
+        // this.editTouched = { url: false, name: false, price: false };
         if (!this.editingOptionsImageUrlEnabled[id]) {
           this.options[index] = response.data;
         } else {
@@ -325,6 +325,8 @@ export class ActivityDetailsComponent implements OnInit {
         this.isAddOptionFormVisible = false;
         this.successMessage = 'New option created successfully';
         if (this.newOptionImageUrl === '') {
+          // Don't know why price touched is set to true
+          this.editTouched = { name: false, url: false, price: false };
           this.options.push(response.data);
         } else {
           this.imageService.postForOption(response.data.id, this.newOptionImageUrl).subscribe(

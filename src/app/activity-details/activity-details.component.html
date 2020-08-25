@@ -291,8 +291,8 @@
         <div class="card-body">
           <label for="newOptionImageUrl">Image URL (optional)</label>
           <input [(ngModel)]="newOptionImageUrl"
-                 [class.is-invalid]="newOptionImageUrl !== '' && !isValidUrl(newOptionImageUrl)"
-                 [class.is-valid]="newOptionImageUrl !== '' && isValidUrl(newOptionImageUrl)"
+                 [class.is-invalid]="newOptionImageUrl !== '' && !validate.url(newOptionImageUrl)"
+                 [class.is-valid]="newOptionImageUrl !== '' && validate.url(newOptionImageUrl)"
                  class="form-control" id="newOptionImageUrl" name="newOptionImageUrl"
                  type="url">
         </div>
