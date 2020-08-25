@@ -4,7 +4,7 @@
       <h2> Name Fund:  {{currentProject?.name}}</h2>
     </div>
     <div class="text-right">
-      <h2> Current Balance: {{currentProject?.funds[0].amount}} VND</h2>
+      <h2> Current Balance: {{currentProject?.funds[0].amount | number}} VND</h2>
     </div>
   </div>
 
@@ -29,7 +29,7 @@
         <tr *ngFor="let member of members">
           <td>{{ member.displayName }} </td>
           <td>{{ member.jobTitle ? member.jobTitle.name : "Not found"}}</td>
-          <td>{{ member.jobTitle ? member.jobTitle.monthlyAmount : 0 }} VND</td>
+          <td>{{ (member.jobTitle ? member.jobTitle.monthlyAmount : 0) | number }} VND</td>
           <td> {{member?.transDtos[0]?.createdOn | date: 'mediumDate'}} </td>
           <td *ngIf="currentUserIsProjectAdmin()">
             <input type="checkbox" class="form-check-input" id={{member.id}}
@@ -46,7 +46,7 @@
     </div>
     <div class="text-right">
        <button (click)="remind()"
-              *ngIf="currentUserIsProjectAdmin()" 
+              *ngIf="currentUserIsProjectAdmin()"
               class="btn btn-primary mr-2"
               title="Send notification emails">
         <i class="fas fa-mail-bulk"></i> Remind
@@ -59,7 +59,7 @@
   </div>
 
   <div class="col-sm">
-    <div class="table-wrapper-scroll-y my-custom-scrollbar"> 
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -75,7 +75,7 @@
           <ng-container *ngIf="t.typeId === 1 && t.fundId === currentProject?.funds[0].id">
             <th>{{ t.username }}</th>
             <td>{{ t?.jobTitleDtos[0] ? t?.jobTitleDtos[0].name : "Not found" }}</td>
-            <td>{{ t.amount }} VND</td>
+            <td>{{ t.amount | number }} VND</td>
             <td>{{t.createdOn | date: 'medium'}}</td>
             <td>{{ t?.memo }}</td>
           </ng-container>
@@ -85,14 +85,14 @@
     </div>
   </div>
 
-  
+
 
   <div class="col-sm">
     <h2 class="badge badge-danger">HISTORY SPENDING</h2>
   </div>
 
   <div class="col-sm">
-    <div class="table-wrapper-scroll-y my-custom-scrollbar"> 
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
@@ -107,10 +107,10 @@
           <ng-container *ngIf="t.typeId === 2 && t.fundId === currentProject?.funds[0].id">
             <td>{{ t.activityName }}</td>
             <td>{{ t.createdOn | date: 'medium' }}</td>
-            <td>{{ t.amount }}</td>
+            <td>{{ t.amount | number }}</td>
             <td>
                 <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#memo" aria-expanded="false" aria-controls="memo">
-                  More Detail 
+                  More Detail
                 </button>
               <div class="collapse" id="memo">
                 <div class="card card-body">
@@ -124,8 +124,8 @@
           </ng-container>
         </tr>
       </tbody>
-    </table> 
-  </div>  
+    </table>
+  </div>
   </div>
 
 
@@ -141,7 +141,7 @@
       <div class="modal-body">
         Reminder email for funding has been sent to the following addresses:
         <ul>
-          <li *ngFor="let m of checkboxRemind">    
+          <li *ngFor="let m of checkboxRemind">
 
             <ng-container *ngFor="let member of members">
             <ng-container *ngIf="m === member.id">
