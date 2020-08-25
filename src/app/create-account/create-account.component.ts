@@ -94,14 +94,10 @@ export class CreateAccountComponent implements OnInit {
   }
 
   passwordIsEmpty(): boolean {
-    return this.validate.nonEmpty(this.user.password);
+    return !this.validate.nonEmpty(this.user.password);
   }
 
   passwordIsValid(): boolean {
     return this.user.password.length >= 8;
-  }
-
-  emailIsEmpty(): boolean {
-    return this.validate.nonEmpty(this.user.email);
   }
 }
