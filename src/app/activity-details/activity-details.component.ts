@@ -94,6 +94,11 @@ export class ActivityDetailsComponent implements OnInit {
       ?.filter(member => !member.admin);
   }
 
+  get VotesByOption(): Vote[]{
+    return this.votes
+    ?.filter(vote => this.options?.some(option => option.id === vote.optionId))
+  }
+
   getUserById(id: number): User {
     return this.members?.find(member => member.id === id);
   }

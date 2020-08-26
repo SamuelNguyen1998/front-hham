@@ -43,7 +43,9 @@
               type="button">
         <i class="fas fa-check"></i> Finish
       </button>
-      <button (click)="cancel()"
+      <button
+              data-target="#CancelActivityConfirmDialog"
+              data-toggle="modal"
               *ngIf="isActivityLocked()"
               class="btn btn-danger height-limited-button mr-2"
               type="button">
@@ -324,10 +326,36 @@
         <span *ngIf="vote.note !== ''">
           with the following note:
         </span>
+        
         <p class="noteInVote">{{ vote.note }}</p>
       </li>
     </ul>
   </div>
+
+  <!-- Dialogs -->
+  <div class="modal fade" id="CancelActivityConfirmDialog" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Cancel Activity</h4>
+        </div>
+
+        <div class="modal-body">
+          Do you want to cancel activity {{ activity.name }}?
+        </div>
+
+        <div class="modal-footer">
+          <button (click)="cancel()" class="btn btn-danger" data-dismiss="modal" type="button">
+            Cancel Activity
+          </button>
+          <button class="btn btn-secondary" data-dismiss="modal" type="button">
+            No, do not cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <div class="mt-5">
     <!-- Subtract 1 because system admin can't vote -->
