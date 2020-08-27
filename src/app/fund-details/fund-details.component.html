@@ -109,17 +109,9 @@
             <td>{{ t.createdOn | date: 'medium' }}</td>
             <td>{{ t.amount | number }}</td>
             <td>
-                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#memo" aria-expanded="false" aria-controls="memo">
-                  More Detail
-                </button>
-              <div class="collapse" id="memo">
-                <div class="card card-body">
-                 <span style="white-space: pre-line;">
-                    {{t.memo}}
-                  </span>
-                </div>
-              </div>
-
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                MORE DETAIL
+              </button>
             </td>
           </ng-container>
         </tr>
@@ -159,3 +151,29 @@
   </div>
 </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">HISTORY VOTES</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <tr *ngFor="let t of transactions">
+          <ng-container *ngIf="t.typeId === 2 && t.fundId === currentProject?.funds[0].id">
+            <span style="white-space: pre-line;">
+              {{t.memo}}
+            </span>
+          </ng-container>
+        </tr>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
