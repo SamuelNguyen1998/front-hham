@@ -1,10 +1,10 @@
 import { HTTP_INTERCEPTORS, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-
-import { Observable, } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 import { AuthService } from './auth.service';
 
 @Injectable()
@@ -27,7 +27,8 @@ export class AuthInterceptor implements HttpInterceptor {
           if (err.status !== 401) {
             return;
           }
-          this.router.navigate([ 'login' ]);
+          this.auth.destroySession();
+          this.router.navigate([ '/login' ]);
         }
       }
     ));

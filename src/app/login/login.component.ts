@@ -43,7 +43,10 @@ export class LoginComponent implements OnInit {
     }
     this.auth.login(this.loginRequest)
       .then(() => this.router.navigate([ this.returnUrl ]))
-      .catch(errorResponse => this.errorMessage = errorResponse.error.message);
+      .catch(errorResponse => {
+        console.log(errorResponse);
+        this.errorMessage = errorResponse.error.message;
+      });
   }
 
   usernameIsValid(): boolean {

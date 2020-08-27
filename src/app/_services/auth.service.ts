@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from "rxjs";
 
 import { Constants } from '../Constants';
 import { User } from "../_models/User";
 import { Session } from "../_models/Session";
 import { LoginRequest } from '../_models/LoginRequest';
-import { Project } from "../_models/Project";
-import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +80,14 @@ export class AuthService {
   }
 
   logout(): void {
+    const endpoint = `${ Constants.BACKEND_SERVER }/auth/logout`;
+    // The interceptor will attach the token automatically, no need to specify it here
+    this.http.post(endpoint, {}).subscribe();
+    // Need to destroy after POST so the token can be attached to logout request
+    this.destroySession();
+  }
+
+  destroySession(): void {
     this.loggedIn = undefined;
     this.m_session = undefined;
     this.user = undefined;
